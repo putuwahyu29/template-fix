@@ -1,3 +1,5 @@
+@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Monitoring Menu'])
+
 @include('admin.components.sidebar.item', [
         'menuId' => 'menu-ringkasan',
         'menuText' => 'Ringkasan',

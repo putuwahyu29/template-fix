@@ -10,13 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
-use App\Http\Controllers\RingkasanController;
-use App\Http\Controllers\RutinanController;
-use App\Http\Controllers\PengawasanController;
-use App\Http\Controllers\SusenasController;
-use App\Http\Controllers\SerutiController;
-use App\Http\Controllers\SakernasController;
-use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\RealtimetableController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,21 +44,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Route menu monitoring
-    Route::get('/ringkasan', [RingkasanController::class, 'index'])->name('ringkasan');
-    Route::get('/rutinan', [Rutinan1Controller::class, 'index'])->name('rutinan');
-    Route::get('/pengawasan', [PengawasanController::class, 'index'])->name('pengawasan');
-    Route::get('/susenas', [SusenasController::class, 'index'])->name('susenas');
-    Route::get('/seruti', [SerutiController::class, 'index'])->name('seruti');
-    Route::get('/sakernas', [SakernasController::class, 'index'])->name('sakernas');
-    Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
+    Route::prefix('/monitoring')
+        ->middleware('role:ROLE_ADMIN')
+        ->group(function () {
+    Route::get('ringkasan',     [MonitoringController::class, 'ringkasan'])      ->name('ringkasan');
+    Route::get('rutinan',       [MonitoringController::class, 'rutinan'])        ->name('rutinan');
+    Route::get('pengawasan',    [MonitoringController::class, 'pengawasan'])     ->name('pengawasan');
+    Route::get('susenas',       [MonitoringController::class, 'susenas'])        ->name('susenas');
+    Route::get('seruti',        [MonitoringController::class, 'seruti'])         ->name('seruti');
+    Route::get('sakernas',      [MonitoringController::class, 'sakernas'])       ->name('sakernas');
+    Route::get('tracking',      [MonitoringController::class, 'tracking'])       ->name('tracking');
+        });
 
     // Route menu Realtime Table
-    Route::get('/isian', [IsianController::class, 'index'])->name('isian');
-    Route::get('/pengawasans', [PengawasansController::class, 'index'])->name('pengawasans');
-    Route::get('/pengawasan1', [SusenasController::class, 'index'])->name('pengawasan1');
-    Route::get('/sampel2024', [SerutiController::class, 'index'])->name('sampel2024');
-    Route::get('/tbaru', [TbaruController::class, 'index'])->name('tbaru');
-    Route::get('/trackings', [TrackingsController::class, 'index'])->name('trackings');
+    Route::prefix('/realtimetable')
+        ->middleware('role:ROLE_ADMIN')
+        ->group(function () {
+    Route::get('/isian',        [RealtimetableController::class, 'isian'])          ->name('isian');
+    Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
+    Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
+    Route::get('/sampel2024',   [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
+    Route::get('/tbaru',        [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
+    Route::get('/trackings',    [RealtimetableController::class, 'trackings'])      ->name('trackings');
+        });
 
     //SAMPLE UI
     Route::prefix('/sample')
@@ -83,7 +86,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/operator-page',        [OperatorController::class, 'index'])   ->name('operator-page')     ->middleware('role:ROLE_OPERATOR');
     Route::get('/supervisor-page',      [SupervisorController::class, 'index']) ->name('supervisor-page')   ->middleware('role:ROLE_SUPERVISOR');
     Route::get('/user-page',            [UserController::class, 'userOnlyPage'])->name('user-page')         ->middleware('role:ROLE_USER');
-    Route::get('/pengawasan',           [PengawasanController::class, 'index']) ->name('pengawasan')        ->middleware('role:ROLE_ADMIN');
 
     // Only users with the 'ROLE_ADMIN' can access this route group
     Route::prefix('/admin')
@@ -94,7 +96,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/user',                     [UserController::class, 'index'])->name('admin.user.index');
             Route::get('/user/add/new',             [UserController::class, 'create'])->name('admin.user.add');
             Route::post('/user/add/new',            [UserController::class, 'store'])->name('admin.user.store');
-
             Route::get('/user/detail/{id}',         [UserController::class, 'detail'])->name('admin.user.detail');
             Route::put('/user/edit/{id}',           [UserController::class, 'update'])->name('admin.user.update');
             Route::get('/user/edit/{id}',           [UserController::class, 'edit'])->name('admin.user.edit');

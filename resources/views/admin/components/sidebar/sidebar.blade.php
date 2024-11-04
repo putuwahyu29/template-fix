@@ -37,10 +37,9 @@
         @include('admin.components.sidebar.operator-only-menu')
         @include('admin.components.sidebar.user-only-menu')
 
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Monitoring Menu'])
+   
         @include('admin.components.sidebar.monitoring-menu')
 
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Realtime Table Menu'])
         @include('admin.components.sidebar.realtime-table-menu')
 
         {{-- =============================================== --}}

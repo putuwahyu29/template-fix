@@ -36,8 +36,8 @@
 <!-- / Layout wrapper -->
 
 <div class="buy-now no-print">
-    <a href="#" onclick="alert('You can Change me as You Wish! \n like Upgrade to Pro or something')"
-        class="btn btn-danger btn-buy-now">I Love this Boilerplate!</a>
+    <a href="#" onclick="alert('Ini contoh alert')"
+        class="btn btn-danger btn-buy-now">Contoh alert</a>
 </div>
 
 @include('admin.components.footer.end-footer')

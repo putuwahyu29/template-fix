@@ -1,3 +1,5 @@
+@include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Realtime Table Menu'])
+
 @include('admin.components.sidebar.item', [
         'menuId' => 'menu-isian',
         'menuText' => 'Isian',
