@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengawasan1;
+use App\Models\tbaru;
 use Illuminate\Http\Request;
-
+use App\Models\Tracking; 
+use App\Models\sample2024; 
+use App\Models\Pengawasan; 
 
 /**
      * ################################################
@@ -52,12 +56,19 @@ class RealtimetableController extends Controller
      *  show sample page for pengawasans
      * =============================================
      */
-    public function pengawasans(Request $request){
+    public function pengawasans(Request $request)
+    {
+        $query = Pengawasan::query();
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Pengawasan' => null]);
-
-        return view('admin.pages.realtimetable.pengawasans', compact('breadcrumbs'));
-
+        if ($request->filled('nama_pengawas')) {
+            $query->where('nama_pengawas', 'LIKE', '%' . $request->input('nama_pengawas') . '%');
+        }
+    
+        if ($request->filled('petugas')) {
+            $query->where('Petugas', 'LIKE', '%' . $request->input('petugas') . '%');
+        }
+        $pengawasan = $query->paginate(perPage: 5); 
+        return view('admin.pages.realtimetable.pengawasans', compact(var_name: 'pengawasan'));
     }
 
     /**
@@ -65,12 +76,19 @@ class RealtimetableController extends Controller
      * show sample page for pengawasan1
      * =============================================
      */
-    public function pengawasan1(Request $request){
+    public function pengawasan1(Request $request)
+    {
+        $query = Pengawasan1::query();
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Pengawasan 1' => null]);
-
-        return view('admin.pages.realtimetable.pengawasan1', compact('breadcrumbs'));
-
+        if ($request->filled('nama')) {
+            $query->where('nama', 'LIKE', '%' . $request->input('nama') . '%');
+        }
+    
+        if ($request->filled('peserta')) {
+            $query->where('peserta', 'LIKE', '%' . $request->input('peserta') . '%');
+        }
+        $pengawasan1 = $query->paginate(perPage: 5); 
+        return view('admin.pages.realtimetable.pengawasan1', compact(var_name: 'pengawasan1'));
     }
 
     /**
@@ -78,12 +96,19 @@ class RealtimetableController extends Controller
      *  show sample page for sampel2024
      * =============================================
      */
-    public function sampel2024(Request $request){
+    public function sampel2024(Request $request)
+    {
+        $query = sample2024::query();
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Sampel 2024' => null]);
-
-        return view('admin.pages.realtimetable.sampel2024', compact('breadcrumbs'));
-
+        if ($request->filled('nama_petugas')) {
+            $query->where('nama_petugas', 'LIKE', '%' . $request->input('nama_petugas') . '%');
+        }
+    
+        if ($request->filled('survei')) {
+            $query->where('nama_survei', 'LIKE', '%' . $request->input('survei') . '%');
+        }
+        $sampel2024 = $query->paginate(perPage: 5); 
+        return view('admin.pages.realtimetable.sampel2024', compact(var_name: 'sampel2024'));
     }
 
     /**
@@ -91,12 +116,19 @@ class RealtimetableController extends Controller
      *  show sample page for tbaru
      * =============================================
      */
-    public function tbaru(Request $request){
+    public function tbaru(Request $request)
+    {
+        $query = tbaru::query();
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tbaru' => null]);
-
-        return view('admin.pages.realtimetable.tbaru', compact('breadcrumbs'));
-
+        if ($request->filled('survei')) {
+            $query->where('nama_survei', 'LIKE', '%' . $request->input('survei') . '%');
+        }
+    
+        if ($request->filled('surveyor')) {
+            $query->where('namapetugas', 'LIKE', '%' . $request->input('surveyor') . '%');
+        }
+        $tbaru = $query->paginate(perPage: 5); 
+        return view('admin.pages.realtimetable.tbaru', compact(var_name: 'tbaru'));
     }
 
     /**
@@ -104,12 +136,19 @@ class RealtimetableController extends Controller
      *      show sample page for trackings
      * =============================================
      */
-    public function trackings(Request $request){
+    public function trackings(Request $request)
+    {
+        $query = Tracking::query();
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
-
-        return view('admin.pages.realtimetable.trackings', compact('breadcrumbs'));
-
+        if ($request->filled('survei')) {
+            $query->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
+        }
+    
+        if ($request->filled('surveyor')) {
+            $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
+        }
+        $trackings = $query->paginate(perPage: 5); 
+        return view('admin.pages.realtimetable.trackings', compact(var_name: 'trackings'));
     }
 
 

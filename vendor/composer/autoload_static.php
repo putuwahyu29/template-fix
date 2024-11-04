@@ -365,8 +365,8 @@ class ComposerStaticInit7ded249bf72c1d351ca21da517f17ae4
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -562,6 +562,8 @@ class ComposerStaticInit7ded249bf72c1d351ca21da517f17ae4
         'App\\Http\\Controllers\\DemoController' => __DIR__ . '/../..' . '/app/Http/Controllers/DemoController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\OperatorController' => __DIR__ . '/../..' . '/app/Http/Controllers/OperatorController.php',
+        'App\\Http\\Controllers\\Pengawasan1Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Pengawasan1Controller.php',
+        'App\\Http\\Controllers\\PengawasanController' => __DIR__ . '/../..' . '/app/Http/Controllers/PengawasanController.php',
         'App\\Http\\Controllers\\SampleController' => __DIR__ . '/../..' . '/app/Http/Controllers/SampleController.php',
         'App\\Http\\Controllers\\SupervisorController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupervisorController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',

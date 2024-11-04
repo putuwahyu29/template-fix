@@ -118,3 +118,12 @@ a.action-icon{
     text-align: center;
     margin-top: 1rem;
 }
+
+.pagination .page-link {
+    border-radius: 50%; /* Membuat tombol menjadi bulat */
+    width: 40px;        /* Menentukan lebar tombol */
+    height: 40px;       /* Menentukan tinggi tombol */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

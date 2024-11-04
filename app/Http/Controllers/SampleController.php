@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Tracking; 
 
 /**
      * ################################################
@@ -79,13 +79,20 @@ class SampleController extends Controller
      *  show sample page for blank pages
      * =============================================
      */
-    public function blank(Request $request){
-
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Blank' => null]);
-
-        return view('admin.pages.sample.blank', compact('breadcrumbs'));
-
-    }
+    public function blank(Request $request)
+        {
+            $query = Tracking::query();
+    
+            if ($request->filled('survei')) {
+                $query->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
+            }
+        
+            if ($request->filled('surveyor')) {
+                $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
+            }
+            $trackings = $query->paginate(perPage: 5); 
+            return view('admin.pages.sample.blank', compact(var_name: 'trackings'));
+        }
 
     /**
      * =============================================
