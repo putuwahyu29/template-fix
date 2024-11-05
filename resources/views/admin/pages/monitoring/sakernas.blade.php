@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'UI Sample Blank')
+@section('page-title', 'Sakernas')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')

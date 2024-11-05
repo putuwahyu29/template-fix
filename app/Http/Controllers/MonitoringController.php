@@ -122,7 +122,7 @@ class MonitoringController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
 
-        return view('admin.pages.monitoring.sakernas', compact('breadcrumbs'));
+        return view('admin.pages.monitoring.tracking', compact('breadcrumbs'));
 
     }
 

@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'UI Sample Blank')
+@section('page-title', 'Isian')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -11,7 +11,7 @@
 
         {{-- MAIN PARTS --}}
 
-
+       
 
     </div>
 
