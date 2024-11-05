@@ -7,6 +7,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
 
         {{-- FOR BREADCRUMBS --}}
+        @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
         {{-- MAIN PARTS --}}
         <div class="card">
@@ -36,7 +37,7 @@
                     <tbody class="table-border-bottom-0"></tbody>
                     @foreach ($sampel2024 as $data)
                     <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>{{ $data->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->nama_petugas }}</td>
                         <td>{{ $data->nama_user }}</td>
                         <td>{{ $data->nama_survei }}</td>
