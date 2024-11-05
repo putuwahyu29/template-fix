@@ -121,7 +121,7 @@ class MonitoringController extends Controller
     public function tracking(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
-
+    
         return view('admin.pages.monitoring.tracking', compact('breadcrumbs'));
 
     }

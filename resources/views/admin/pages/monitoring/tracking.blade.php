@@ -11,24 +11,19 @@
 
         {{-- MAIN PARTS --}}
 
-        <!DOCTYPE html>
-    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Website Pemetaan data Geografis</title>
-
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        <div class="col-12 col-sm-8 col-md-12">
+                <div class="card h-100">
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
             crossorigin=""/>
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
-    </head>
-    <body>
+    
+    
         <div id="map" style="height: 98vh;"></div>
-    </body>
+    
     <script>
         var map = L.map('map').setView([-1.5, 123], 5);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -47,7 +42,22 @@
             .bindPopup('Testing Marker 3')
             .addTo(map);
     </script>
-    </html>
+                    <div class="card-body">
+                        <h5 class="card-title">Cari Petugas</h5>
+                        <form action="{{ route('trackings') }}" method="GET" class="d-flex align-items-center">
+                    <div class="form-group me-2 my-1 mx-2">
+                        <input type="text" name="survei" id="survei" class="form-control" placeholder="Nama Survei" value="{{ request('survei') }}">
+                    </div>
+                    <div class="form-group me-2 my-1">
+                        <input type="text" name="surveyor" id="surveyor" class="form-control" placeholder="Username Petugas" value="{{ request('surveyor') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+                    </div>
+                </div>
+        </div>
+        
+    
 
     </div>
 
