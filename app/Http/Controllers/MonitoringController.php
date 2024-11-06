@@ -122,22 +122,18 @@ class MonitoringController extends Controller
     public function tracking(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
-        $query = Trackingmaps::query();
+        $query = Trackingmaps::query()
+    ->when($request->filled('survei'), function ($q) use ($request) {
+        $q->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
+    })
+    ->when($request->filled('surveyor'), function ($q) use ($request) {
+        $q->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
+    })
+    ->selectRaw("*, SUBSTRING_INDEX(Coordinates, ',', 1) AS latitude, SUBSTRING_INDEX(Coordinates, ',', -1) AS longitude");
 
-        if ($request->filled('survei')) {
-            $query->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
-        }
     
-        if ($request->filled('surveyor')) {
-            $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
-        }
-        
-        $locations = $query->get();
-        foreach ($locations as $location) {
-            $coords = explode(',', $location->Coordinates);
-            $location->latitude = $coords[0];
-            $location->longitude = $coords[1];
-        }
+// Retrieve the results
+$locations = $query->get();
         return view('admin.pages.monitoring.tracking', compact('breadcrumbs'),['locations' => $locations]);
 
     }
