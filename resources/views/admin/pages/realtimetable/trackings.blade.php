@@ -35,9 +35,9 @@
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0"></tbody>
-                    @foreach ($trackings as $tracking)
+                    @foreach ($trackings as $index => $tracking)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $trackings->firstItem() + $index }}</td> <!-- Nomor urut berkelanjutan -->
                         <td><span class="badge bg-label-primary me-1">{{ $tracking->Waktu_Unique }}</span></td>
                         <td>{{ $tracking->Nama_Survei }}</td>
                         <td>{{ $tracking->Username_Surveyor }}</td>

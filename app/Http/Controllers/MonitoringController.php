@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Trackingmaps; 
 
 
 /**
@@ -121,8 +122,23 @@ class MonitoringController extends Controller
     public function tracking(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
+        $query = Trackingmaps::query();
+
+        if ($request->filled('survei')) {
+            $query->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
+        }
     
-        return view('admin.pages.monitoring.tracking', compact('breadcrumbs'));
+        if ($request->filled('surveyor')) {
+            $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
+        }
+        
+        $locations = $query->get();
+        foreach ($locations as $location) {
+            $coords = explode(',', $location->Coordinates);
+            $location->latitude = $coords[0];
+            $location->longitude = $coords[1];
+        }
+        return view('admin.pages.monitoring.tracking', compact('breadcrumbs'),['locations' => $locations]);
 
     }
 

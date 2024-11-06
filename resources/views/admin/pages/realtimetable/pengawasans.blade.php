@@ -40,9 +40,9 @@
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0"></tbody>
-                    @foreach ($pengawasan as $data)
+                    @foreach ($pengawasan as $index => $data)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $pengawasan->firstItem() + $index }}</td>
                         <td>{{ $data->Nama_Pengawas }}</td>
                         <td>{{ $data->Tanggal }}</td>
                         <td><span class="badge bg-label-primary me-1">{{ $data->Jam_Mulai }}</span></td>

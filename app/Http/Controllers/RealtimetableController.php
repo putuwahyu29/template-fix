@@ -69,7 +69,7 @@ class RealtimetableController extends Controller
         if ($request->filled('petugas')) {
             $query->where('Petugas', 'LIKE', '%' . $request->input('petugas') . '%');
         }
-        $pengawasan = $query->paginate(perPage: 5); 
+        $pengawasan = $query->paginate(perPage: 10); 
         return view('admin.pages.realtimetable.pengawasans', compact('pengawasan','breadcrumbs'));
     }
 
@@ -90,7 +90,7 @@ class RealtimetableController extends Controller
         if ($request->filled('peserta')) {
             $query->where('peserta', 'LIKE', '%' . $request->input('peserta') . '%');
         }
-        $pengawasan1 = $query->paginate(perPage: 5); 
+        $pengawasan1 = $query->paginate(perPage: 10); 
         return view('admin.pages.realtimetable.pengawasan1', compact('pengawasan1','breadcrumbs'));
     }
 
@@ -111,7 +111,7 @@ class RealtimetableController extends Controller
         if ($request->filled('survei')) {
             $query->where('nama_survei', 'LIKE', '%' . $request->input('survei') . '%');
         }
-        $sampel2024 = $query->paginate(perPage: 5); 
+        $sampel2024 = $query->paginate(perPage: 10); 
         return view('admin.pages.realtimetable.sampel2024', compact('sampel2024','breadcrumbs'));
     }
 
@@ -132,7 +132,7 @@ class RealtimetableController extends Controller
         if ($request->filled('surveyor')) {
             $query->where('namapetugas', 'LIKE', '%' . $request->input('surveyor') . '%');
         }
-        $tbaru = $query->paginate(perPage: 5); 
+        $tbaru = $query->paginate(perPage: 10); 
         return view('admin.pages.realtimetable.tbaru', compact('tbaru','breadcrumbs'));
     }
 
@@ -153,7 +153,7 @@ class RealtimetableController extends Controller
         if ($request->filled('surveyor')) {
             $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
         }
-        $trackings = $query->paginate(perPage: 5); 
+        $trackings = $query->paginate(10); 
         return view('admin.pages.realtimetable.trackings', compact('trackings','breadcrumbs'));
     }
 

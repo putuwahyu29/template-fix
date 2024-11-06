@@ -35,9 +35,9 @@
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0"></tbody>
-                    @foreach ($sampel2024 as $data)
+                    @foreach ($sampel2024 as $index => $data)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $sampel2024->firstItem() + $index }}</td>
                         <td>{{ $data->nama_petugas }}</td>
                         <td>{{ $data->nama_user }}</td>
                         <td>{{ $data->nama_survei }}</td>

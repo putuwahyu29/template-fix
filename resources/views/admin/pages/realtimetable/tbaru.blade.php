@@ -35,9 +35,9 @@
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0"></tbody>
-                    @foreach ($tbaru as $data)
+                    @foreach ($tbaru as $index => $data)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $tbaru->firstItem() + $index }}</td>
                         <td><span class="badge bg-label-primary me-1">{{ $data->waktu_unique }}</span></td>
                         <td>{{ $data->nama_survei }}</td>
                         <td>{{ $data->namapetugas }}</td>
