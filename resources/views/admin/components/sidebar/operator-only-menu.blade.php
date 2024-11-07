@@ -7,7 +7,7 @@
       'menuId' => 'menu-operator-pages',
       'menuText' => 'Operator',
       'menuUrl' => route('operator-page'),
-      'menuIcon' => 'bx bx-train',
+      'menuIcon' => 'bx bx-laptop',
       'subMenuData' => null,
   ])
 @endif

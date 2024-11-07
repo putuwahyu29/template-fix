@@ -7,7 +7,7 @@
         'menuId' => 'menu-operator-pages',
         'menuText' => 'Supervisor',
         'menuUrl' => route('supervisor-page'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuIcon' => 'bx bx-user-voice',
         'subMenuData' => null,
     ])
 @endif

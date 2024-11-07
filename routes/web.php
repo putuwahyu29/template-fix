@@ -60,7 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/realtimetable')
         ->middleware('role:ROLE_ADMIN')
         ->group(function () {
-    Route::get('/isian',        [RealtimetableController::class, 'isian'])          ->name('isian');
+    Route::get('/master_shp',   [RealtimetableController::class, 'master_shp'])     ->name('master_shp');
+    Route::get('/master_shpb',   [RealtimetableController::class, 'master_shpb'])     ->name('master_shpb');
+    Route::get('/petugas',      [RealtimetableController::class, 'petugas'])        ->name('petugas');
     Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
     Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
     Route::get('/sampel2024',   [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');

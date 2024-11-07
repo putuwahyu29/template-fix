@@ -1,10 +1,26 @@
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Realtime Table Menu'])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-isian',
-        'menuText' => 'Isian',
-        'menuUrl' => route('isian'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuId' => 'master_shp',
+        'menuText' => 'Master SHP',
+        'menuUrl' => route('master_shp'),
+        'menuIcon' => 'bx bx-food-menu',
+        'subMenuData' => null,
+    ])
+
+@include('admin.components.sidebar.item', [
+        'menuId' => 'master_shpb',
+        'menuText' => 'Master SHPB',
+        'menuUrl' => route('master_shpb'),
+        'menuIcon' => 'bx bx-food-menu',
+        'subMenuData' => null,
+    ])
+
+@include('admin.components.sidebar.item', [
+        'menuId' => 'menu-petugas',
+        'menuText' => 'Daftar Petugas',
+        'menuUrl' => route('petugas'),
+        'menuIcon' => 'bx bx-list-ul', 
         'subMenuData' => null,
     ])
 
@@ -12,7 +28,7 @@
         'menuId' => 'menu-pengawasans',
         'menuText' => 'Pengawasan',
         'menuUrl' => route('pengawasans'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuIcon' => 'bx bxs-binoculars',
         'subMenuData' => null,
     ])
 
@@ -20,7 +36,7 @@
         'menuId' => 'menu-pengawasan1',
         'menuText' => 'Pengawasan 1',
         'menuUrl' => route('pengawasan1'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuIcon' => 'bx bxs-binoculars',
         'subMenuData' => null,
     ])
 
@@ -28,7 +44,7 @@
         'menuId' => 'menu-sampel2024',
         'menuText' => 'Sampel 2024',
         'menuUrl' => route('sampel2024'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuIcon' => 'bx bx-notepad',
         'subMenuData' => null,
     ])
 
@@ -44,6 +60,6 @@
         'menuId' => 'menu-trackings',
         'menuText' => 'Tracking',
         'menuUrl' => route('trackings'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuIcon' => 'bx bx-map-pin',
         'subMenuData' => null,
     ])

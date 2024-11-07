@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Tracking; 
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
+use App\Models\Petugas; 
 
 /**
      * ################################################
@@ -43,12 +44,20 @@ class RealtimetableController extends Controller
      *      show sample page for isian
      * =============================================
      */
-    public function isian(Request $request){
+    public function petugas(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Isian' => null]);
-
-        return view('admin.pages.realtimetable.isian', compact('breadcrumbs'));
-
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
+       
+        $query = Petugas::query();
+        if ($request->filled('petugas')) {
+            $query->where('Nama_Petugas', 'LIKE', '%' . $request->input('petugas') . '%');
+        }
+    
+        if ($request->filled('pengawas')) {
+            $query->where('Pengawas', 'LIKE', '%' . $request->input('pengawas') . '%');
+        }
+        $petugas = $query->paginate(perPage: 10); 
+        return view('admin.pages.realtimetable.petugas', compact('petugas','breadcrumbs'));
     }
 
     /**
