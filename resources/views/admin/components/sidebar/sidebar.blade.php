@@ -6,7 +6,7 @@
             <span class="app-brand-logo demo">
                 <img src="{{asset('assets/img/logo/logo.png')}}" style="width: 45px">
             </span>
-            <span class="fw-bold ms-2"><strong>SiMovie Web Dashboard</strong></span>
+            <span class="fw-bold ms-2"><strong>Jenggala Web Monitoring</strong></span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

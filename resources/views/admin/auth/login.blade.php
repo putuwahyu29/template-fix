@@ -17,8 +17,8 @@
 
                         @include('admin.auth.logo')
                         <center>
-                        <h4 class="mb-2">SiMovie Web Dashboard</h4>
-                        <p class="mb-4">Sistem Evaluasi dan Monitoring Survei</p>
+                        <h4 class="mb-2">Jenggala</h4>
+                        <p class="mb-4">Jejak Pengawasan Petugas Lapangan</p>
                         </center>
                         <!-- Notification element -->
                         @if ($errors->any() || session('loginError'))

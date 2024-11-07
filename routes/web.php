@@ -58,10 +58,10 @@ Route::middleware('auth')->group(function () {
 
     // Route menu Realtime Table
     Route::prefix('/realtimetable')
-        ->middleware('role:ROLE_ADMIN')
+        ->middleware('role:ROLE_USER')
         ->group(function () {
-    Route::get('/master_shp',   [RealtimetableController::class, 'master_shp'])     ->name('master_shp');
-    Route::get('/master_shpb',   [RealtimetableController::class, 'master_shpb'])     ->name('master_shpb');
+    Route::get('/mastershp',    [RealtimetableController::class, 'mastershp'])       ->name('mastershp');
+    Route::get('/mastershpb',   [RealtimetableController::class, 'mastershpb'])      ->name('mastershpb');
     Route::get('/petugas',      [RealtimetableController::class, 'petugas'])        ->name('petugas');
     Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
     Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');

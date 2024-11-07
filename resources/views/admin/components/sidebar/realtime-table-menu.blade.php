@@ -1,17 +1,17 @@
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Realtime Table Menu'])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'master_shp',
+        'menuId' => 'menu-mastershp',
         'menuText' => 'Master SHP',
-        'menuUrl' => route('master_shp'),
+        'menuUrl' => route('mastershp'),
         'menuIcon' => 'bx bx-food-menu',
         'subMenuData' => null,
     ])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'master_shpb',
+        'menuId' => 'menu-mastershpb',
         'menuText' => 'Master SHPB',
-        'menuUrl' => route('master_shpb'),
+        'menuUrl' => route('mastershpb'),
         'menuIcon' => 'bx bx-food-menu',
         'subMenuData' => null,
     ])

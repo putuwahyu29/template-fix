@@ -9,7 +9,7 @@
 
     {{-- TITLE AND META CODES --}}
 
-    <title>@yield('page-title', 'SiMovie Web Dashboard')</title>
+    <title>@yield('page-title', 'Jenggala Web Monitoring')</title>
 
     <meta name="description" content="@yield('meta-description')" />
     <meta name="keyword" content="@yield('meta-keyword')" />

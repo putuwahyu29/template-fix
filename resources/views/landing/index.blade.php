@@ -26,7 +26,7 @@
         <img src="{{asset('assets/img/logo/logo.png')}}" style="width: 45px">
         </a>
             &nbsp;
-            <a class="navbar-brand" href="/"><h3>SiMovie Web</h3></a>
+            <a class="navbar-brand" href="/"><h3>JENGGALA WEB MONITORING</h3></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

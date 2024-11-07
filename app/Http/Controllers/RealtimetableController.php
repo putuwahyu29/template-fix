@@ -41,6 +41,30 @@ class RealtimetableController extends Controller
 
     /**
      * =============================================
+     *      show sample page for master_shp
+     * =============================================
+     */
+    public function mastershp(Request $request){
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHP' => null]);
+
+        return view('admin.pages.realtimetable.mastershp', compact('breadcrumbs'));
+    }
+
+    /**
+     * =============================================
+     *      show sample page for master_shpb
+     * =============================================
+     */
+    public function mastershpb(Request $request){
+
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHPB' => null]);
+
+        return view('admin.pages.realtimetable.mastershpb', compact('breadcrumbs'));
+    }
+
+    /**
+     * =============================================
      *      show sample page for isian
      * =============================================
      */
