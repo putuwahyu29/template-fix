@@ -80,7 +80,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Add' => null]);
-
+        
         $roles = $this->roleMasterService->getAllRoles();
 
         return view('admin.pages.user.add', compact('breadcrumbs', 'roles'));
@@ -92,7 +92,7 @@ class UserController extends Controller
      * =============================================
      */
     public function store(UserAddRequest $request)
-    {
+    {   
         $validatedData = $request->validated();
         if($this->userService->checkUserExist($validatedData["email"])){
             throw ValidationException::withMessages([

@@ -9,6 +9,7 @@ use App\Models\Tracking;
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
 use App\Models\Petugas; 
+use App\Models\mastershp; 
 
 /**
      * ################################################
@@ -48,7 +49,24 @@ class RealtimetableController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHP' => null]);
 
-        return view('admin.pages.realtimetable.mastershp', compact('breadcrumbs'));
+        $query = mastershp::query();
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('nama_perusahaan', 'LIKE', '%' . $search . '%')
+                  ->orWhere('alamat_perusahaan', 'LIKE', '%' . $search . '%')
+                  ->orWhere('kode_kabkot', 'LIKE', '%' . $search . '%')
+                  ->orWhere('kode_kecamatan', 'LIKE', '%' . $search . '%')
+                  ->orWhere('kode_keldes', 'LIKE', '%' . $search . '%')
+                  ->orWhere('no_telepon', 'LIKE', '%' . $search . '%')
+                  ->orWhere('kategori_usaha', 'LIKE', '%' . $search . '%')
+                  ->orWhere('kode_kbli', 'LIKE', '%' . $search . '%')
+                  ->orWhere('komoditas_utama', 'LIKE', '%' . $search . '%')
+                  ->orWhere('status', 'LIKE', '%' . $search . '%')
+                  ->orWhere('catatan', 'LIKE', '%' . $search . '%');
+            // Tambahkan `orWhere` untuk kolom lainnya yang ingin dicari
+        }
+        $mastershp = $query->paginate(perPage: 10); 
+        return view('admin.pages.realtimetable.mastershp', compact('mastershp','breadcrumbs'));
     }
 
     /**
@@ -56,10 +74,9 @@ class RealtimetableController extends Controller
      *      show sample page for master_shpb
      * =============================================
      */
-    public function mastershpb(Request $request){
-
+    public function mastershpb(Request $request)
+    {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHPB' => null]);
-
         return view('admin.pages.realtimetable.mastershpb', compact('breadcrumbs'));
     }
 

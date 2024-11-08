@@ -1,18 +1,18 @@
 @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Monitoring Menu'])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-ringkasan',
-        'menuText' => 'Ringkasan',
-        'menuUrl' => route('ringkasan'),
-        'menuIcon' => 'bx bx-bar-chart-square',
+        'menuId' => 'menu-shp',
+        'menuText' => 'SHP',
+        'menuUrl' => route('shp'),
+        'menuIcon' => 'bx bx-briefcase-alt',
         'subMenuData' => null,
     ])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-rutinan',
-        'menuText' => 'SHP SHPB',
-        'menuUrl' => route('rutinan'),
-        'menuIcon' => 'bx bx-briefcase-alt',
+        'menuId' => 'menu-shpb',
+        'menuText' => 'SHPB',
+        'menuUrl' => route('shpb'),
+        'menuIcon' => 'bx bx-bar-chart-square',
         'subMenuData' => null,
     ])
 

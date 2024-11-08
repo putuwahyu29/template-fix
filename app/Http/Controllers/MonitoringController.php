@@ -40,24 +40,24 @@ class MonitoringController extends Controller
      *      show sample page for ringkasan
      * =============================================
      */
-    public function ringkasan(Request $request){
+    public function shpb(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Ringkasan' => null]);
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['SHPB' => null]);
 
-        return view('admin.pages.monitoring.ringkasan', compact('breadcrumbs'));
+        return view('admin.pages.monitoring.shpb', compact('breadcrumbs'));
 
     }
 
     /**
      * =============================================
-     *  show sample page for rutinan
+     *  show sample page for shp
      * =============================================
      */
-    public function rutinan(Request $request){
+    public function shp(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Rutinan' => null]);
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['SHP' => null]);
 
-        return view('admin.pages.monitoring.rutinan', compact('breadcrumbs'));
+        return view('admin.pages.monitoring.shp', compact('breadcrumbs'));
 
     }
 

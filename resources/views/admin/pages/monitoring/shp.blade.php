@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Ringkasan')
+@section('page-title', 'shp')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -10,6 +10,7 @@
         @include('admin.components.breadcrumb.simple', $breadcrumbs)
 
         {{-- MAIN PARTS --}}
+
 
 
     </div>

@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/monitoring')
         ->middleware('role:ROLE_ADMIN')
         ->group(function () {
-    Route::get('ringkasan',     [MonitoringController::class, 'ringkasan'])      ->name('ringkasan');
-    Route::get('rutinan',       [MonitoringController::class, 'rutinan'])        ->name('rutinan');
+    Route::get('shp_b',         [MonitoringController::class, 'shpb'])          ->name('shpb');
+    Route::get('SHP',           [MonitoringController::class, 'shp'])            ->name('shp');
     Route::get('pengawasan',    [MonitoringController::class, 'pengawasan'])     ->name('pengawasan');
     Route::get('susenas',       [MonitoringController::class, 'susenas'])        ->name('susenas');
     Route::get('seruti',        [MonitoringController::class, 'seruti'])         ->name('seruti');
@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/realtimetable')
         ->middleware('role:ROLE_USER')
         ->group(function () {
-    Route::get('/mastershp',    [RealtimetableController::class, 'mastershp'])       ->name('mastershp');
-    Route::get('/mastershpb',   [RealtimetableController::class, 'mastershpb'])      ->name('mastershpb');
+    Route::get('/mastershp',    [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
+    Route::get('/master-shpb',   [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
     Route::get('/petugas',      [RealtimetableController::class, 'petugas'])        ->name('petugas');
     Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
     Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');

@@ -66,6 +66,7 @@ class UserService
     {
         DB::beginTransaction();
         try {
+            $validatedData['password'] = bcrypt($validatedData['password']);
             $user = $this->userRepository->createUser($validatedData);
             $this->userRepository->syncRoles($user, $validatedData['roles']);
             DB::commit();
