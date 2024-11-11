@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/monitoring')
         ->middleware('role:ROLE_ADMIN')
         ->group(function () {
-    Route::get('shp_b',         [MonitoringController::class, 'shpb'])          ->name('shpb');
+    Route::get('shp_b',         [MonitoringController::class, 'shpb'])           ->name('shpb');
     Route::get('SHP',           [MonitoringController::class, 'shp'])            ->name('shp');
     Route::get('pengawasan',    [MonitoringController::class, 'pengawasan'])     ->name('pengawasan');
     Route::get('susenas',       [MonitoringController::class, 'susenas'])        ->name('susenas');
@@ -60,14 +60,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/realtimetable')
         ->middleware('role:ROLE_USER')
         ->group(function () {
-    Route::get('/mastershp',    [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
-    Route::get('/master-shpb',  [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
-    Route::get('/petugas',      [RealtimetableController::class, 'petugas'])        ->name('petugas');
-    Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
-    Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
-    Route::get('/sampel2024',   [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
-    Route::get('/tbaru',        [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
-    Route::get('/trackings',    [RealtimetableController::class, 'trackings'])      ->name('trackings');
+    Route::get('/mastershp',            [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
+    Route::get('/master-shpb',          [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
+    Route::get('/daftarpetugas',        [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas');
+    Route::get('/pengawasans',          [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
+    Route::get('/pengawasan1',          [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
+    Route::get('/sampel2024',           [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
+    Route::get('/tbaru',                [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
+    Route::get('/trackings',            [RealtimetableController::class, 'trackings'])      ->name('trackings');
         });
 
     //SAMPLE UI

@@ -13,7 +13,7 @@
         <div class="card">
             <h2 class="card-header">Daftar Petugas</h2>
             <div class="col-12 col-sm-8 col-md-10">
-                <form action="{{ route('petugas') }}" method="GET" class="d-flex align-items-center">
+                <form action="{{ route('daftarpetugas') }}" method="GET" class="d-flex align-items-center">
                     <div class="form-group me-2 my-1 mx-2">
                     <input type="text" name="petugas" id="petugas" class="form-control" placeholder="Nama Petugas" value="{{ request('petugas') }}">
                     </div>
@@ -29,27 +29,36 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Petugas</th>
+                        <th>Domisili</th>
+                        <th>Kode Petugas</th>
                         <th>Username</th>
                         <th>Password</th>
-                        <th>Telepon</th>
                         <th>Pengawas</th>
+                        <th>E-mail</th>
+                        <th>Alamat</th>
+                        <th>Telepon</th>
+                        
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0"></tbody>
-                    @foreach ($petugas as $index => $data)
+                    @foreach ($daftarpetugas as $index => $data)
                     <tr>
-                        <td>{{ $petugas->firstItem() + $index }}</td> <!-- Nomor urut berkelanjutan -->
-                        <td>{{ $data->Nama_Petugas }}</td>
-                        <td>{{ $data->username }}</td>
-                        <td>{{ $data->Password }}</td>
-                        <td>{{ $data->no_petugas }}</td>
-                        <td>{{ $data->Pengawas }}</td>
+                        <td>{{ $daftarpetugas->firstItem() + $index }}</td> <!-- Nomor urut berkelanjutan -->
+                        <td>{{ $data->Nama_Petugas ?? '-' }}</td>
+                        <td>{{ $data->datakabkot->kabkot_name ?? '-' }}</td>
+                        <td>{{ $data->kode_petugas ?? '-'}}</td>
+                        <td>{{ $data->loginpetugas->Username ?? '-' }}</td>
+                        <td>{{ $data->loginpetugas->Password ?? '-' }}</td>
+                        <td>{{ $data->Pengawas ?? '-' }}</td>
+                        <td>{{ $data->email_petugas ?? '-' }}</td>
+                        <td>{{ $data->alamat_petugas ?? '-' }}</td>
+                        <td>{{ $data->no_petugas ?? '-'}}</td>
                     </tr>
                     @endforeach
                     </tbody>
                 </table>
                 <div class="my-4 mx-3">
-                  {{$petugas -> withQueryString()-> links('pagination::bootstrap-5')}}
+                  {{$daftarpetugas -> withQueryString()-> links('pagination::bootstrap-5')}}
                 </div>
             </div>
         </div>

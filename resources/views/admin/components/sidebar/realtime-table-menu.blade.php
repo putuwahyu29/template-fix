@@ -17,9 +17,9 @@
     ])
 
 @include('admin.components.sidebar.item', [
-        'menuId' => 'menu-petugas',
+        'menuId' => 'menu-daftarpetugas',
         'menuText' => 'Daftar Petugas',
-        'menuUrl' => route('petugas'),
+        'menuUrl' => route('daftarpetugas'),
         'menuIcon' => 'bx bx-list-ul', 
         'subMenuData' => null,
     ])

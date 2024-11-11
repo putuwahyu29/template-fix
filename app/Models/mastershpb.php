@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class mastershp extends Model
+class mastershpb extends Model
 {
     use HasFactory;
 
-    protected $table = 'responden_shp';
+    protected $table = 'responden_shpb';
 
     public function datakabkot()
 {
@@ -26,14 +26,9 @@ class mastershp extends Model
     return $this->belongsTo(datakeldes::class, 'kode_keldes', 'kode_keldes');
 }
 
-    public function kategoriKBLI()
+    public function kategoriSHPB()
 {
-    return $this->belongsTo(kategoriKBLI::class, 'kode_kbli', 'kode_kbli');
-}
-
-    public function KategoriLapanganUsaha()
-{
-    return $this->belongsTo(KategoriLapanganUsaha::class, 'kode_usaha', 'kode_usaha');
+    return $this->belongsTo(kategoriSHPB::class, 'kode_kategori', 'kode_kategori');
 }
 
     public function statuspendataan()

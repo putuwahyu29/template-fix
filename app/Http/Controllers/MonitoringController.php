@@ -66,11 +66,11 @@ class MonitoringController extends Controller
                     $query->where('kode_kabkot', 'LIKE', '%' . $request->input('kode_kabkot') . '%');
                 }
             
-                if ($request->filled('status')) {
-                    $query->where('status', 'LIKE', '%' . $request->input('status') . '%');
+                if ($request->filled('kode_status')) {
+                    $query->where('kode_status', 'LIKE', '%' . $request->input('kode_status') . '%');
                 }
                 $data = $query->get()
-                    ->groupBy('status')
+                    ->groupBy('kode_status')
                     ->map(function ($item){
                         return count($item);
                     });

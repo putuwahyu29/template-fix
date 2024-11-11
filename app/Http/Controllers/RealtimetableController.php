@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Tracking; 
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
-use App\Models\Petugas; 
+use App\Models\daftarpetugas; 
 use App\Models\mastershp;
+use App\Models\mastershpb;
 
 /**
      * ################################################
@@ -55,7 +56,7 @@ class RealtimetableController extends Controller
             $columns = [
                 'nama_perusahaan', 'alamat_perusahaan', 'kode_kabkot', 'kdkec',
                 'kode_keldes', 'no_telepon', 'kategori_usaha', 'kode_kbli',
-                'komoditas_utama', 'status', 'catatan'
+                'komoditas_utama', 'kode_status', 'catatan'
             ];
         
             $query->where(function ($q) use ($columns, $search) {
@@ -76,28 +77,51 @@ class RealtimetableController extends Controller
     public function mastershpb(Request $request)
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHPB' => null]);
-        return view('admin.pages.realtimetable.mastershpb', compact('breadcrumbs'));
+
+        $query = mastershpb::query();
+        if ($request->filled('search')) {
+            $search = '%' . $request->input('search') . '%';
+            $columns = [
+                'nama_perusahaan', 'alamat_perusahaan', 'kode_kabkot', 'kode_kecamatan',
+                'kode_keldes', 'no_telepon', 'kode_kategori', 'kode_status', 'catatan'
+            ];
+        
+            $query->where(function ($q) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'LIKE', $search);
+                }
+            });
+        }
+        $mastershpb = $query->paginate(perPage: 10); 
+
+        return view('admin.pages.realtimetable.mastershpb', compact('mastershpb', 'breadcrumbs'));
     }
 
     /**
      * =============================================
-     *      show sample page for isian
+     *      show sample page for daftarpetugas
      * =============================================
      */
-    public function petugas(Request $request){
+    public function daftarpetugas(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
        
-        $query = Petugas::query();
-        if ($request->filled('petugas')) {
-            $query->where('Nama_Petugas', 'LIKE', '%' . $request->input('petugas') . '%');
+        $query = daftarpetugas::query();
+        if ($request->filled('search')) {
+            $search = '%' . $request->input('search') . '%';
+            $columns = [
+                'Nama_Petugas', 'kode_kabkot', 'kode_petugas', 'Username', 'Password',
+                'Pengawas', 'email_petugas', 'alamat_petugas', 'no_petugas'
+            ];
+        
+            $query->where(function ($q) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'LIKE', $search);
+                }
+            });
         }
-    
-        if ($request->filled('pengawas')) {
-            $query->where('Pengawas', 'LIKE', '%' . $request->input('pengawas') . '%');
-        }
-        $petugas = $query->paginate(perPage: 10); 
-        return view('admin.pages.realtimetable.petugas', compact('petugas','breadcrumbs'));
+        $daftarpetugas = $query->paginate(perPage: 10); 
+        return view('admin.pages.realtimetable.daftarpetugas', compact('daftarpetugas','breadcrumbs'));
     }
 
     /**

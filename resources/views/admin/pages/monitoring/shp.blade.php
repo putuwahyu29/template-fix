@@ -35,13 +35,11 @@
                     <canvas id="myChart" width="400" height="200"></canvas>
                 </div>
         </div>
-@endsection
 
-@section('footer-code')
-{{-- Tambahkan Chart.js --}}
+        {{-- Tambahkan Chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
+    <script>
         // Data chart dari PHP ke JavaScript
         const chartData = @json($result);
 
@@ -73,5 +71,10 @@
             }
         });
     </script>
+    </div>
+
+@endsection
+
+@section('footer-code')
 
 @endsection
