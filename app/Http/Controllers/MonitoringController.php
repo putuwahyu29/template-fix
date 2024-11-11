@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Trackingmaps; 
+use App\Models\mastershp;
 
 
 /**
@@ -57,9 +58,36 @@ class MonitoringController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['SHP' => null]);
 
-        return view('admin.pages.monitoring.shp', compact('breadcrumbs'));
+            {
+                // Ambil data yang diperlukan untuk visualisasi
+                $query = mastershp::query();
+    
+                if ($request->filled('kode_kabkot')) {
+                    $query->where('kode_kabkot', 'LIKE', '%' . $request->input('kode_kabkot') . '%');
+                }
+            
+                if ($request->filled('status')) {
+                    $query->where('status', 'LIKE', '%' . $request->input('status') . '%');
+                }
+                $data = $query->get()
+                    ->groupBy('status')
+                    ->map(function ($item){
+                        return count($item);
+                    });
+                $result = $data->map(function ($total, $status) {
+                    return [
+                        'status' => $status,
+                        'total' => $total
+                    ];
+                })->values();
+                //dd($result);
+                
+                // Kirim data ke view
+                return view('admin.pages.monitoring.shp', compact('result','breadcrumbs'));
+            }
+    
+        }
 
-    }
 
     /**
      * =============================================
