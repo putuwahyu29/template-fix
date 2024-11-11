@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class mastershp extends Model
+class profilpetugas extends Model
 {
     use HasFactory;
-
-    protected $table = 'responden_shp';
+    
+    protected $table = 'profil_petugas';
 }

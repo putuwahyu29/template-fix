@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:ROLE_USER')
         ->group(function () {
     Route::get('/mastershp',    [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
-    Route::get('/master-shpb',   [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
+    Route::get('/master-shpb',  [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
     Route::get('/petugas',      [RealtimetableController::class, 'petugas'])        ->name('petugas');
     Route::get('/pengawasans',  [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
     Route::get('/pengawasan1',  [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
