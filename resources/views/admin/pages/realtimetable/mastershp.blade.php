@@ -50,14 +50,14 @@
                         <td>{{ $mastershp->firstItem() + $index }}</td>
                         <td>{{ $data->nama_perusahaan }}</td>
                         <td>{{ $data->alamat_perusahaan }}</td>
-                        <td>{{ $data->kode_kabkot }}</td>
-                        <td>{{ $data->kode_kecamatan }}</td>
-                        <td>{{ $data->kode_keldes }}</td>
+                        <td>{{ $data->datakabkot->kabkot_name ?? '-' }}</td>
+                        <td>{{ $data->kode_kecamatan ?? '-'}}</td>
+                        <td>{{ $data->kode_keldes ?? '-' }}</td>
                         <td>{{ $data->no_telepon }}</td>
-                        <td>{{ $data->kategori_usaha }}</td>
-                        <td>{{ $data->kode_kbli }}</td>
+                        <td>{{ $data->kategori_usaha ?? '-' }}</td>
+                        <td>{{ $data->kategoriKBLI->kelompok_kbli ?? '-' }}</td>
                         <td>{{ $data->komoditas_utama }}</td>
-                        <td>{{ $data->status }}</td>
+                        <td>{{ $data->status ?? '-' }}</td>
                         <td>{{ $data->catatan }}</td>
                     </tr>
                     @endforeach

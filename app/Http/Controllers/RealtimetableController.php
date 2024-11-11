@@ -9,7 +9,7 @@ use App\Models\Tracking;
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
 use App\Models\Petugas; 
-use App\Models\mastershp; 
+use App\Models\mastershp;
 
 /**
      * ################################################
@@ -51,19 +51,18 @@ class RealtimetableController extends Controller
 
         $query = mastershp::query();
         if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('nama_perusahaan', 'LIKE', '%' . $search . '%')
-                  ->orWhere('alamat_perusahaan', 'LIKE', '%' . $search . '%')
-                  ->orWhere('kode_kabkot', 'LIKE', '%' . $search . '%')
-                  ->orWhere('kode_kecamatan', 'LIKE', '%' . $search . '%')
-                  ->orWhere('kode_keldes', 'LIKE', '%' . $search . '%')
-                  ->orWhere('no_telepon', 'LIKE', '%' . $search . '%')
-                  ->orWhere('kategori_usaha', 'LIKE', '%' . $search . '%')
-                  ->orWhere('kode_kbli', 'LIKE', '%' . $search . '%')
-                  ->orWhere('komoditas_utama', 'LIKE', '%' . $search . '%')
-                  ->orWhere('status', 'LIKE', '%' . $search . '%')
-                  ->orWhere('catatan', 'LIKE', '%' . $search . '%');
-            // Tambahkan `orWhere` untuk kolom lainnya yang ingin dicari
+            $search = '%' . $request->input('search') . '%';
+            $columns = [
+                'nama_perusahaan', 'alamat_perusahaan', 'kode_kabkot', 'kdkec',
+                'kode_keldes', 'no_telepon', 'kategori_usaha', 'kode_kbli',
+                'komoditas_utama', 'status', 'catatan'
+            ];
+        
+            $query->where(function ($q) use ($columns, $search) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'LIKE', $search);
+                }
+            });
         }
         $mastershp = $query->paginate(perPage: 10); 
         return view('admin.pages.realtimetable.mastershp', compact('mastershp','breadcrumbs'));
