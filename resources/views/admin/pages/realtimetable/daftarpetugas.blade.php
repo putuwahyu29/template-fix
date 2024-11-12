@@ -47,8 +47,8 @@
                         <td>{{ $data->Nama_Petugas ?? '-' }}</td>
                         <td>{{ $data->datakabkot->kabkot_name ?? '-' }}</td>
                         <td>{{ $data->kode_petugas ?? '-'}}</td>
-                        <td>{{ $data->loginpetugas->Username ?? '-' }}</td>
-                        <td>{{ $data->loginpetugas->Password ?? '-' }}</td>
+                        <td>{{ $data->loginpetugas->username ?? '-' }}</td>
+                        <td>{{ $data->loginpetugas->password ?? '-' }}</td>
                         <td>{{ $data->Pengawas ?? '-' }}</td>
                         <td>{{ $data->email_petugas ?? '-' }}</td>
                         <td>{{ $data->alamat_petugas ?? '-' }}</td>

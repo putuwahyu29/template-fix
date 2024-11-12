@@ -17,7 +17,6 @@ class daftarpetugas extends Model
 
     public function loginpetugas()
 {
-    return $this->belongsTo(loginpetugas::class, 'id', 'id');
+    return $this->belongsTo(loginpetugas::class, 'email_petugas', 'email_petugas');
 }
-
 }

@@ -10,8 +10,4 @@ class loginpetugas extends Model
     use HasFactory;
     protected $table = 'login_petugas';
 
-    public function profilpetugas()
-    {
-        return $this->hasOne(daftarpetugas::class, 'id', 'id');
-    }
 }
