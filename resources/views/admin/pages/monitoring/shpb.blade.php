@@ -33,8 +33,7 @@
                 </div>
                 <canvas id="statusChart"></canvas>
             </div>
-            </div>
-
+</div>
             <div class="col-md-8 col-lg-5 mb-3">
                 <div class="card h-100">
     <div>
