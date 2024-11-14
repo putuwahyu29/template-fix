@@ -49,13 +49,14 @@ class MonitoringController extends Controller
     // Hitung jumlah total responden
     $totalResponden = mastershpb::count();
 
+    $kode_kabkot = $request->input('kode_kabkot', null);
     // Buat query dengan filter berdasarkan kode_kabkot
     $query = mastershpb::with('statuspendataan')
         ->selectRaw('kode_status, COUNT(*) as count')
         ->groupBy('kode_status');
 
-    if ($request->filled('kode_kabkot')) {
-        $query->where('kode_kabkot', 'LIKE', '%' . $request->input('kode_kabkot') . '%');
+    if ($kode_kabkot) {
+        $query->where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%');
     }
 
     // Eksekusi query
@@ -76,9 +77,9 @@ class MonitoringController extends Controller
         ->selectRaw('kode_kategori, COUNT(*) as count')
         ->groupBy('kode_kategori');
 
-    if ($request->filled('kode_kategori')) {
-        $query->where('kode_kategori', 'LIKE', '%' . $request->input('kode_kategori') . '%');
-    }
+        if ($kode_kabkot) {
+            $query2->where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%');
+        }
 
     // Eksekusi query
     $data2 = $query2->get();
@@ -93,7 +94,7 @@ class MonitoringController extends Controller
     // Hitung total responden berdasarkan keempat status
     $totalRespondenPerStatus = $data->sum('count');
 
-    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'totalResponden', 'totalRespondenPerStatus', 'breadcrumbs'));
+    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus', 'breadcrumbs'));
 }
 
 

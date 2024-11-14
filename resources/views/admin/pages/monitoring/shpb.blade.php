@@ -13,39 +13,33 @@
 
     <!-- Tambahkan di file Blade (contoh: resources/views/charts/piechart.blade.php) -->
     <h1>Monitoring SHPB</h1>
-    <div class="row mb-5">
-            <div class="col-md-8 col-lg-6 mb-3">
-                <div class="card h-100">
-    <p>Total Responden: {{ $totalResponden }}</p>
-    <p>Total Responden Per Status: {{ $totalRespondenPerStatus }}</p>
-
-    <div>
-        <h3>Pie Chart Berdasarkan Status Pendataan</h3>
-        <div class="my-3">
-                <form action="{{ route('shpb') }}" method="GET" class="d-flex align-items-center">
-                    <div class="form-group me-2 my-1">
-                        <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" placeholder="Kode Kabupaten/Kota" value="{{ request('kode_kabkot') }}">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        <canvas id="statusChart"></canvas>
+    <div class="col-md-6 col-lg-5 mb-3">
+        <div class="card h-100">
+            <p>Total Responden: {{ $totalResponden }}</p>
+            <p>Total Responden Per Status: {{ $totalRespondenPerStatus }}</p>
+        </div>
     </div>
-    </div></div></div>
-
     <div class="row mb-5">
-            <div class="col-md-8 col-lg-6 mb-3">
+            <div class="col-md-6 col-lg-5 mb-3">
+                <div class="card h-100">
+                <h3>Pie Chart Berdasarkan Status Pendataan</h3>
+                <div class="my-3">
+                    <form action="{{ route('shpb') }}" method="GET" class="d-flex align-items-center">
+                        <div class="form-group me-2 my-1">
+                            <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" placeholder="Kode Kabupaten/Kota" value="{{ request('kode_kabkot') }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+                <canvas id="statusChart"></canvas>
+            </div>
+            </div>
+
+            <div class="col-md-8 col-lg-5 mb-3">
                 <div class="card h-100">
     <div>
         <h3>Pie Chart Berdasarkan Kategori SHPB</h3>
-        <div class="my-3">
-                <form action="{{ route('shpb') }}" method="GET" class="d-flex align-items-center">
-                    <div class="form-group me-2 my-1">
-                        <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" placeholder="Kode Kabupaten/Kota" value="{{ request('kode_kabkot') }}">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
+
         <canvas id="kategoriChart"></canvas>
     </div>
     </div></div></div>
