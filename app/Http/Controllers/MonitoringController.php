@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Trackingmaps; 
 use App\Models\mastershp;
 use App\Models\mastershpb;
+use App\Models\KategoriLapanganUsaha;
 
 
 /**
@@ -131,7 +132,37 @@ $chartData = [
 // Hitung total responden berdasarkan keempat status
 $totalRespondenPerStatus = $data->sum('count');
 
-            return view('admin.pages.monitoring.shp', compact('chartData','totalResponden', 'totalRespondenPerStatus','breadcrumbs'));
+// Membuat query untuk bar chart berdasarkan kategori lapangan usaha
+$query2 = mastershp::with('KategoriLapanganUsaha')
+->selectRaw('kode_usaha, COUNT(*) as count')
+->groupBy('kode_usaha');
+
+if ($request->filled('kode_kabkot')) {
+$query2->where('kode_kabkot', 'LIKE', '%' . $request->input('kode_kabkot') . '%');
+}
+
+// Eksekusi query untuk bar chart
+$data2 = $query2->get();
+
+// Mengubah data menjadi format untuk bar chart
+$labels2 = $data2->pluck('KategoriLapanganUsaha.lapanganusaha_name')->toArray();
+$counts2 = $data2->pluck('count')->toArray();
+
+// Warna-warna untuk 17 kategori
+$colors2 = [
+'#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#A133FF', '#FF8633',
+'#33FFDA', '#FF338B', '#FFDB33', '#4CFF33', '#33A7FF', '#D433FF',
+'#FF334B', '#FFB533', '#33FF86', '#AC33FF', '#FF3370'
+];
+return view('admin.pages.monitoring.shp', compact(
+    'chartData',
+    'totalResponden',
+    'totalRespondenPerStatus',
+    'labels2',
+    'counts2',
+    'colors2',
+    'breadcrumbs'
+));
         }
     
         }
