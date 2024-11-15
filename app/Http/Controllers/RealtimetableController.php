@@ -105,7 +105,7 @@ class RealtimetableController extends Controller
     public function daftarpetugas(Request $request){
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
-       
+
         $query = daftarpetugas::query();
         if ($request->filled('search')) {
             $search = '%' . $request->input('search') . '%';

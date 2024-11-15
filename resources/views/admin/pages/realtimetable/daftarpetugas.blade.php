@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Isian')
+@section('page-title', 'Daftar Petugas')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -24,7 +24,7 @@
                 </form>
              </div>
             <div class="table-responsive text-nowrap">
-                <table class="table">
+                <table class="table table-striped table-hover align-middle">
                     <thead>
                     <tr>
                         <th>No</th>
