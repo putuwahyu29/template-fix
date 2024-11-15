@@ -13,37 +13,57 @@
 
     <!-- Tambahkan di file Blade (contoh: resources/views/charts/piechart.blade.php) -->
     <h1>Monitoring SHPB</h1>
-    <div class="col-md-6 col-lg-5 mb-3">
-        <div class="card h-100">
-            <p>Total Responden: {{ $totalResponden }}</p>
-            <p>Total Responden Per Status: {{ $totalRespondenPerStatus }}</p>
+    <div class="row g-2">
+        <div class="col-md-6 col-lg-6 mb-2">
+            <div class="card align-items-center" style="height: 150px">
+                        <h5 class="bg-label-primary my-2 mt-3 mx-2 text-center">| Total Responden |</h5>
+                        <h1>{{ $totalResponden }}</h1>
+                        <form action="{{ route('shpb') }}" method="GET" class="d-flex align-items-center">
+                            <div class="form-group col-md-10 me-2">
+                                <select name="kode_kabkot" id="kode_kabkot" class="form-control">
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    @foreach($datakabkot as $kabkot)
+                                        <option value="{{ $kabkot->kode_kabkot }}" 
+                                            {{ $req_kabkot && $req_kabkot->kode_kabkot == $kabkot->kode_kabkot ? 'selected' : '' }}>
+                                            {{ $kabkot->kabkot_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-2">
+            <div class="card align-items-center " style="height: 150px">
+                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
+                    <h1 class="mx-2 mb-5">{{ $totalRespondenPerStatus }}</h1>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-2">
+            <div class="card align-items-center" style="height: 150px">
+                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
+                    <h1 class="mx-2 mb-5">{{ $totalRespondenStatus1 }}</h1>
+            </div>
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row g-2">
             <div class="col-md-6 col-lg-5 mb-3">
-                <div class="card h-100">
-                <h3>Pie Chart Berdasarkan Status Pendataan</h3>
-                <div class="my-3">
-                    <form action="{{ route('shpb') }}" method="GET" class="d-flex align-items-center">
-                        <div class="form-group me-2 my-1">
-                            <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" placeholder="Kode Kabupaten/Kota" value="{{ request('kode_kabkot') }}">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </form>
+                <div class="card h-100 text-center">
+                    <h4 class="mt-3">Persentase Responden Berdasarkan Status Pendataan</h4>
+                    <canvas id="statusChart" width="100" height="20" class="mx-4 me-4"></canvas>
                 </div>
-                <canvas id="statusChart"></canvas>
             </div>
-</div>
-            <div class="col-md-8 col-lg-5 mb-3">
-                <div class="card h-100">
-    <div>
-        <h3>Pie Chart Berdasarkan Kategori SHPB</h3>
-
-        <canvas id="kategoriChart"></canvas>
+            <div class="col-md-6 col-lg-7 mb-3">
+                <div class="card h-100 text-center">
+                    <h4 class="mt-3">Jumlah Responden Berdasarkan Kategori SHPB</h4>
+                    <canvas id="kategoriChart" width="100" height="60" class="mx-4 me-4"></canvas>
+                </div>
+            </div>
     </div>
-    </div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
         // Pie Chart Berdasarkan Status Pendataan
         var ctx1 = document.getElementById('statusChart').getContext('2d');
@@ -53,22 +73,52 @@
                 labels: {!! json_encode($chartData['labels']) !!},
                 datasets: [{
                     data: {!! json_encode($chartData['data']) !!},
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0']
+                    backgroundColor: ['#3A1078','#4942E4', '#8696FE', '#C4B0FF']
                 }]
+            },
+            options: {
+            plugins: {
+                legend: {
+                    display: false // Menghilangkan legenda di luar
+                },
+                datalabels: {
+                    color: ['#fff','#000', '#000', '#000'],
+                    formatter: (value, context) => {
+                        // Menghitung total data
+                        let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                        // Menghitung persentase
+                        let percentage = ((value / total) * 100).toFixed(0);
+                        return `${percentage}% ${context.chart.data.labels[context.dataIndex]}`; // Menampilkan label dan persentase
+                    },
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    }
+                }
             }
-        });
+        },
+        plugins: [ChartDataLabels]
+    });
 
         // Pie Chart Berdasarkan Kategori SHPB
         var ctx2 = document.getElementById('kategoriChart').getContext('2d');
         var kategoriChart = new Chart(ctx2, {
-            type: 'pie',
+            type: 'bar',
             data: {
                 labels: {!! json_encode($chartData2['labels2']) !!},
                 datasets: [{
                     data: {!! json_encode($chartData2['data2']) !!},
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0']
                 }]
-            }
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Menghilangkan legenda di luar
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
         });
     </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\datakabkot;
 use Illuminate\Http\Request;
 use App\Models\Trackingmaps; 
 use App\Models\mastershp;
@@ -44,7 +45,7 @@ class MonitoringController extends Controller
      * =============================================
      */
     public function shpb(Request $request)
-{
+{   
     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['SHPB' => null]);
 
     // Hitung jumlah total responden
@@ -52,7 +53,7 @@ class MonitoringController extends Controller
 
     $kode_kabkot = $request->input('kode_kabkot', null);
     // Buat query dengan filter berdasarkan kode_kabkot
-    $query = mastershpb::with('statuspendataan')
+    $query = mastershpb::with('statuspendataan','datakabkot')
         ->selectRaw('kode_status, COUNT(*) as count')
         ->groupBy('kode_status');
 
@@ -62,6 +63,11 @@ class MonitoringController extends Controller
 
     // Eksekusi query
     $data = $query->get();
+
+    // Ambil data kabkot dari request
+    $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+
+    $datakabkot = datakabkot::all();
 
     // Mengubah data menjadi format yang cocok untuk chart
     $chartData = [
@@ -94,8 +100,9 @@ class MonitoringController extends Controller
 
     // Hitung total responden berdasarkan keempat status
     $totalRespondenPerStatus = $data->sum('count');
+    $totalRespondenStatus1 = $data->where('kode_status', 1)->sum('count');
 
-    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus', 'breadcrumbs'));
+    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus1' , 'breadcrumbs', 'req_kabkot','datakabkot'));
 }
 
 

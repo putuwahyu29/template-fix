@@ -38,7 +38,7 @@
     </div>
 
     <div class="row mb-5">
-        <div class="col-md-8 col-lg-6 mb-3">
+        <div class="col-md-8 col-lg-12 mb-3">
             <div class="card h-100">
                 <div>
                     <h3>Bar Chart Berdasarkan Kategori Lapangan Usaha</h3>
