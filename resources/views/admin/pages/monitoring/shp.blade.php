@@ -60,6 +60,12 @@
                     <canvas id="kategoriChart" width="100" height="60" class="mx-4 me-4"></canvas>
                 </div>
             </div>
+            <div class="col-md-6 col-lg-12 mb-3">
+                <div class="card h-100 text-center">
+                    <h4 class="mt-3">Jumlah Responden Berdasarkan Kategori KBLI</h4>
+                    <canvas id="kbliChart" width="100" height="60" class="mx-4 me-4"></canvas>
+                </div>
+            </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -100,7 +106,7 @@
         plugins: [ChartDataLabels]
     });
 
-        // Pie Chart Berdasarkan Kategori SHPB
+        // Bar Chart Berdasarkan Kategori Lapangan Usaha
         var ctx2 = document.getElementById('kategoriChart').getContext('2d');
         var kategoriChart = new Chart(ctx2, {
             type: 'bar',
@@ -109,6 +115,32 @@
                 datasets: [{
                     data: {!! json_encode($chartData2['data2']) !!},
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0','#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0','#FFCE46']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Menghilangkan legenda di luar
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Bar Chart Berdasarkan Kategori Lapangan Usaha
+        var ctx3 = document.getElementById('kbliChart').getContext('2d');
+        var kbliChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($chartData3['labels3']) !!},
+                datasets: [{
+                    data: {!! json_encode($chartData3['data3']) !!},
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0','#FF6384', 
+                        '#36A2EB', '#FFCE56', '#8DD6E0','#FFCE46', '#36A2EB', 
+                        '#FFCE56', '#8DD6E0', '#FF6384', '#36A2EB', '#FFCE56', 
+                        '#8DD6E0','#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0',
+                        '#FFCE46', '#36A2EB', '#FFCE56', '#8DD6E0','#FF6384']
                 }]
             },
             options: {

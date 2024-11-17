@@ -8,6 +8,7 @@ use App\Models\Trackingmaps;
 use App\Models\mastershp;
 use App\Models\mastershpb;
 use App\Models\KategoriLapanganUsaha;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -143,7 +144,7 @@ class MonitoringController extends Controller
         'data' => $data->pluck('count')->toArray()
     ];
 
-    // Buat query dengan filter berdasarkan kategorishpb
+    // Buat query dengan filter berdasarkan kategorilapanganusaha
     $query2 = mastershp::with('KategoriLapanganUsaha')
         ->selectRaw('kode_usaha, COUNT(*) as count')
         ->groupBy('kode_usaha');
@@ -162,11 +163,34 @@ class MonitoringController extends Controller
         'data2' => $data2->pluck('count')->toArray()
     ];
 
+    // Buat query dengan join dan gabungan dua kolom
+    $query3 = DB::table('responden_shp')
+        ->join('kategori_kbli', 'responden_shp.kode_kbli', '=', 'kategori_kbli.kode_kbli')
+        ->selectRaw('CONCAT(kategori_kbli.cat_kbli, " - ", kategori_kbli.catname_kbli) as combined_kbli, COUNT(responden_shp.kode_kbli) as count')
+        ->groupBy('kategori_kbli.cat_kbli', 'kategori_kbli.catname_kbli'); // Harus grup berdasarkan kedua kolom
+
+    // Tambahkan filter kode_kabkot jika diperlukan
+    if ($kode_kabkot) {
+    $query3->where('responden_shp.kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%');
+    }
+
+    // Eksekusi query
+    $data3 = $query3->get();
+
+    // Sesuaikan pemetaan data untuk chart
+    $chartData3 = [
+        'labels3' => $data3->pluck('combined_kbli')->map(function ($label3) {
+            return $label3 ?? '-'; // Tampilkan '-' jika null
+        })->toArray(),
+        'data3' => $data3->pluck('count')->toArray()
+        ];
+
+
     // Hitung total responden berdasarkan keempat status
     $totalRespondenPerStatus = $data->sum('count');
     $totalRespondenStatus1 = $data->where('kode_status', 1)->sum('count');
 
-    return view('admin.pages.monitoring.shp', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus1' , 'breadcrumbs', 'req_kabkot','datakabkot'));
+    return view('admin.pages.monitoring.shp', compact('chartData', 'chartData2', 'chartData3', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus1' , 'breadcrumbs', 'req_kabkot','datakabkot'));
         }
     
         }
