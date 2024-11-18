@@ -12,6 +12,7 @@
         {{-- MAIN PARTS --}}
         <div class="card">
             <h2 class="card-header">Daftar Petugas</h2>
+            
             <div class="col-12 col-sm-8 col-md-10">
                 <form action="{{ route('daftarpetugas') }}" method="GET" class="d-flex align-items-center">
                     <div class="form-group me-2 my-1 mx-2">
@@ -22,6 +23,12 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
+                <div class="p-2">
+                    <a class="btn btn-primary" href="{{route('daftarpetugas.add')}}">
+                        <span class="tf-icons bx bx-plus"></span>
+                         Tambah Petugas
+                    </a>
+                </div>
              </div>
             <div class="table-responsive text-nowrap">
                 <table class="table table-striped table-hover align-middle">
@@ -60,12 +67,12 @@
                                         <i class='bx bx-search'></i>
                                     </a>
                                 &nbsp;
-                                    <a class="action-icon" href="#"
+                                    <a class="action-icon" href="{{ route('daftarpetugas.edit', ['id' => $data->id]) }}"
                                         title="edit">
                                         <i class='bx bx-pencil'></i>
                                     </a>
                                 &nbsp;
-                                    <a class="action-icon" href="#"
+                                    <a class="action-icon" href="{{ route('daftarpetugas.delete', ['id' => $data->id]) }}"
                                         title="delete">
                                         <i class='bx bx-trash'></i>
                                     </a>
