@@ -22,19 +22,23 @@
         </div>
         <div class="form-group">
             <label for="kode_kabkot">Kode Kabkot</label>
-            <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" value="{{ $petugas->kode_kabkot }}" required>
+            <input type="text" name="kode_kabkot" id="kode_kabkot" class="form-control" value="{{ $petugas->kode_kabkot }}" readonly>
         </div>
         <div class="form-group">
             <label for="kode_petugas">Kode Petugas</label>
-            <input type="text" name="kode_petugas" id="kode_petugas" class="form-control" value="{{ $petugas->kode_petugas }}" required>
+            <input type="text" name="kode_petugas" id="kode_petugas" class="form-control" value="{{ $petugas->kode_petugas }}" readonly>
         </div>
         <div class="form-group">
             <label for="Username">Username</label>
-            <input type="text" name="Username" id="Username" class="form-control" value="{{ $petugas->Username }}" required>
+            <input type="text" name="Username" id="Username" class="form-control" value="{{ $petugas->loginpetugas->username }}" required>
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" name="Password" id="Password" class="form-control" value="{{ $petugas->loginpetugas->password }}" required>
         </div>
         <div class="form-group">
             <label for="Pengawas">Pengawas</label>
-            <input type="text" name="Pengawas" id="Pengawas" class="form-control" value="{{ $petugas->Pengawas }}" required>
+            <input type="text" name="Pengawas" id="Pengawas" class="form-control" value="{{ $petugas->Pengawas }}" readonly>
         </div>
         <div class="form-group">
             <label for="email_petugas">Email</label>
@@ -42,7 +46,7 @@
         </div>
         <div class="form-group">
             <label for="alamat_petugas">Alamat</label>
-            <input type="text" name="alamat_petugas" id="alamat_petugas" class="form-control" value="{{ $petugas->alamat_petugas }}">
+            <input type="text" name="alamat_petugas" id="alamat_petugas" class="form-control" value="{{ $petugas->alamat_petugas }}" required>
         </div>
         <div class="form-group">
             <label for="no_petugas">Nomor Telepon</label>

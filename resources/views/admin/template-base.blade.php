@@ -1,4 +1,5 @@
 @include('admin.components.header.header')
+
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
@@ -17,12 +18,12 @@
                 <!-- Content -->
 
                 @yield('main-content')
-
+                
                 <!-- / Content -->
 
                 @include('admin.components.footer.footer')
                 <!-- / Footer -->
-
+                
                 <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
@@ -39,5 +40,6 @@
     <a href="#" onclick="alert('Ini contoh alert')"
         class="btn btn-danger btn-buy-now">Contoh alert</a>
 </div>
+
 
 @include('admin.components.footer.end-footer')

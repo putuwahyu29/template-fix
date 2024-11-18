@@ -1,6 +1,6 @@
 @extends('admin.template-base', ['searchNavbar' => false])
 
-@section('page-title', 'Ringkasan Petugas')
+@section('page-title', 'Hapus Petugas')
 
 {{-- MAIN CONTENT PART --}}
 @section('main-content')
@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between">
 
                 <div class="bd-highlight">
-                    <h3 class="card-header">Detail Petugas id : {{ $petugas->id }}</h3>
+                    <h3 class="card-header">Hapus Petugas id : {{ $petugas->id }}</h3>
                 </div>
 
             </div>
@@ -87,10 +87,7 @@
             <div class="m-4">
                 <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
                         class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
-                <a class="btn btn-primary me-2" href="{{ route('daftarpetugas.edit', ['id' => $petugas->id]) }}"
-                    title="update this user">
-                    <i class='tf-icons bx bx-pencil me-2'></i>Edit</a>
-                <a class="btn btn-danger me-2" href="{{ route('daftarpetugas.edit', ['id' => $petugas->id]) }}"
+                <a class="btn btn-danger me-2" href="#"
                     title="delete user">
                     <i class='tf-icons bx bx-trash me-2'></i>Delete</a>
             </div>

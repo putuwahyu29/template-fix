@@ -12,6 +12,7 @@ use App\Models\daftarpetugas;
 use App\Models\mastershp;
 use App\Models\mastershpb;
 use App\Helpers\AlertHelper;
+use App\Models\datakabkot;
 
 /**
      * ################################################
@@ -178,7 +179,7 @@ class RealtimetableController extends Controller
         return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas', 'breadcrumbs'));
     }
     
-    public function addPetugas($id)
+    public function addPetugas(Request $request)
     {
         $breadcrumbs = [
             'Realtime Table' => route('admin.user.index'),
@@ -186,7 +187,12 @@ class RealtimetableController extends Controller
             'Tambah Petugas' => null,
         ];
 
-        return view('admin.pages.realtimetable.daftarpetugas.add', compact('petugas','breadcrumbs'));
+        // Ambil data kabkot dari request
+    $kode_kabkot = $request->input('kode_kabkot', null);
+    $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+    $datakabkot = datakabkot::all();
+
+        return view('admin.pages.realtimetable.daftarpetugas.add', compact('breadcrumbs','datakabkot','req_kabkot','kode_kabkot'));
     }
     
     public function storePetugas(Request $request)
@@ -261,7 +267,7 @@ class RealtimetableController extends Controller
             ? AlertHelper::createAlert('success', 'Petugas berhasil dihapus.')
             : AlertHelper::createAlert('danger', 'Gagal menghapus petugas.');
     
-        return redirect()->route('admin.pages.daftarpetugas', ['action' => 'index'])->with('alerts', [$alert]);
+        return redirect()->route('admin.pages.daftarpetugas.index', ['action' => 'index'])->with('alerts', [$alert]);
     }
     
 
@@ -402,13 +408,17 @@ class RealtimetableController extends Controller
     return view('admin.pages.realtimetable.daftarpetugas.detail', compact('breadcrumbs', 'petugas'));
 }
 
-    public function confirmdeletePetugas(Request $request, $breadcrumbs)
+    public function condelPetugas($id)
 {
-    $breadcrumbs['Hapus Petugas'] = null;
+    $breadcrumbs = [
+        'Realtime Table' => route('admin.user.index'),
+        'Daftar Petugas' => route('daftarpetugas'),
+        'Hapus Petugas' => null,
+    ];
 
-    $petugas = daftarpetugas::findOrFail($request->input('id'));
+    $petugas = daftarpetugas::findOrFail($id);
 
-    return view('admin.pages.realtimetable.delete-confirm', compact('petugas', 'breadcrumbs'));
+    return view('admin.pages.realtimetable.daftarpetugas.delete', compact('breadcrumbs','petugas'));
 }
 
 }

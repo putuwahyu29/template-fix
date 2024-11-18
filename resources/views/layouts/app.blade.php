@@ -30,6 +30,33 @@
             <main>
                 {{ $slot }}
             </main>
+
+            
+
+            <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("theme") || "light";
+            const savedLayout = localStorage.getItem("layout") || "default";
+
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.documentElement.setAttribute("data-layout", savedLayout);
+        });
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem("theme", theme);
+        }
+
+        function setLayout(layout) {
+            document.documentElement.setAttribute("data-layout", layout);
+            localStorage.setItem("layout", layout);
+        }
+
+        function closeCustomizer() {
+            document.querySelector('.theme-customizer').style.display = 'none';
+        }
+    </script>
+
         </div>
     </body>
 </html>

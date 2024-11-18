@@ -23,10 +23,15 @@
 
                     <div class="mb-3">
                         <label for="kode_kabkot" class="form-label">Kode Kabupaten/Kota</label>
-                        <input type="text" class="form-control @error('kode_kabkot') is-invalid @enderror" id="kode_kabkot" name="kode_kabkot" value="{{ old('kode_kabkot') }}" required>
-                        @error('kode_kabkot')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <select name="kode_kabkot" id="kode_kabkot" class="form-control">
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    @foreach($datakabkot as $kabkot)
+                                        <option value="{{ $kabkot->kode_kabkot }}" 
+                                            {{ $req_kabkot && $req_kabkot->kode_kabkot == $kabkot->kode_kabkot ? 'selected' : '' }}>
+                                            {{ $kabkot->kabkot_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                     </div>
 
                     <div class="mb-3">
@@ -84,10 +89,21 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+                    <a onclick="goBack()" class="btn btn-outline-secondary me-2"><i
+                        class="tf-icons bx bx-left-arrow-alt me-2"></i>Back</a>
                     <button type="submit" class="btn btn-primary">Tambah Petugas</button>
                 </form>
             </div>
         </div>
 </div>
+@endsection
+
+@section('footer-code')
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
 @endsection
