@@ -13,8 +13,8 @@
 
 <!-- Tambahkan di file Blade (contoh: resources/views/charts/piechart.blade.php) -->
 <h1>Monitoring SHP</h1>
-    <div class="row g-2">
-        <div class="col-md-6 col-lg-6 mb-2">
+    <div class="row g-3 mb-2">
+        <div class="col-md-6 col-lg-8 mb-2">
             <div class="card align-items-center" style="height: 150px">
                         <h5 class="bg-label-primary my-2 mt-3 mx-2 text-center">| Total Responden |</h5>
                         <h1>{{ $totalResponden }}</h1>
@@ -34,30 +34,30 @@
                         </form>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3 mb-2">
+        <div class="col-md-6 col-lg-2 mb-2">
             <div class="card align-items-center " style="height: 150px">
-                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
+                    <h6 class="my-2 mx-2 mt-4 mx-2 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h6>
                     <h1 class="mx-2 mb-5">{{ $totalRespondenPerStatus }}</h1>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3 mb-2">
+        <div class="col-md-6 col-lg-2 mb-2">
             <div class="card align-items-center" style="height: 150px">
-                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
+                    <h6 class="my-2 mx-2 mt-4 mx-2 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h6>
                     <h1 class="mx-2 mb-5">{{ $totalRespondenStatus1 }}</h1>
             </div>
         </div>
     </div>
-    <div class="row g-2">
-            <div class="col-md-6 col-lg-5 mb-3">
-                <div class="card h-100 text-center">
-                    <h4 class="mt-3">Persentase Responden Berdasarkan Status Pendataan</h4>
-                    <canvas id="statusChart" width="100" height="20" class="mx-4 me-4"></canvas>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-7 mb-3">
+    <div class="row g-3">
+            <div class="col-md-6 col-lg-8 mb-3">
                 <div class="card h-100 text-center">
                     <h4 class="mt-3">Jumlah Responden Berdasarkan Kategori Lapangan Usaha</h4>
                     <canvas id="kategoriChart" width="100" height="60" class="mx-4 me-4"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100 text-center">
+                    <h4 class="mt-3">Persentase Responden Berdasarkan Status Pendataan</h4>
+                    <canvas id="statusChart" width="100" height="20" class="mx-4 me-4"></canvas>
                 </div>
             </div>
             <div class="col-md-6 col-lg-12 mb-3">
@@ -79,7 +79,7 @@
                 labels: {!! json_encode($chartData['labels']) !!},
                 datasets: [{
                     data: {!! json_encode($chartData['data']) !!},
-                    backgroundColor: ['#3A1078','#4942E4', '#8696FE', '#C4B0FF']
+                    backgroundColor: ['#AED59D','#FF7676', '#F7C98F', '#E2DAD6']
                 }]
             },
             options: {
@@ -88,13 +88,13 @@
                     display: false // Menghilangkan legenda di luar
                 },
                 datalabels: {
-                    color: ['#fff','#000', '#000', '#000'],
+                    color: ['#576B80','#576B80', '#576B80', '#576B80'],
                     formatter: (value, context) => {
                         // Menghitung total data
                         let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
                         // Menghitung persentase
                         let percentage = ((value / total) * 100).toFixed(0);
-                        return `${percentage}% ${context.chart.data.labels[context.dataIndex]}`; // Menampilkan label dan persentase
+                        return ${percentage}% ${context.chart.data.labels[context.dataIndex]}; // Menampilkan label dan persentase
                     },
                     font: {
                         weight: 'bold',

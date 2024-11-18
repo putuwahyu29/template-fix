@@ -121,8 +121,106 @@ class RealtimetableController extends Controller
             });
         }
         $daftarpetugas = $query->paginate(perPage: 10); 
-        return view('admin.pages.realtimetable.daftarpetugas', compact('daftarpetugas','breadcrumbs'));
+        return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas','breadcrumbs'));
     }
+
+//     public function daftarpetugas(Request $request, $id = null)
+// {
+//     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
+//     $action = $request->input('action', 'index'); // Default action adalah 'index'
+
+//     switch ($action) {
+//         case 'index': // List data petugas
+//             $query = daftarpetugas::query();
+
+//             if ($request->filled('search')) {
+//                 $search = '%' . $request->input('search') . '%';
+//                 $columns = [
+//                     'Nama_Petugas', 'kode_kabkot', 'kode_petugas', 'Username', 'Password',
+//                     'Pengawas', 'email_petugas', 'alamat_petugas', 'no_petugas'
+//                 ];
+
+//                 $query->where(function ($q) use ($columns, $search) {
+//                     foreach ($columns as $column) {
+//                         $q->orWhere($column, 'LIKE', $search);
+//                     }
+//                 });
+//             }
+
+//             $daftarpetugas = $query->paginate(perPage: 10);
+
+//             return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas', 'breadcrumbs'));
+
+//         case 'create': // Tampilkan form tambah petugas
+//             $breadcrumbs['Tambah Petugas'] = null;
+
+//             return view('admin.pages.realtimetable.addpetugas', compact('breadcrumbs'));
+
+//         case 'store': // Proses simpan data petugas baru
+//             $validatedData = $request->validate([
+//                 'Nama_Petugas' => 'required|string|max:255',
+//                 'kode_kabkot' => 'required|string|max:20',
+//                 'kode_petugas' => 'required|string|max:20|unique:daftarpetugas',
+//                 'Username' => 'required|string|max:100|unique:daftarpetugas',
+//                 'Password' => 'required|string|min:6',
+//                 'Pengawas' => 'required|string|max:100',
+//                 'email_petugas' => 'required|email|max:255|unique:daftarpetugas',
+//                 'alamat_petugas' => 'nullable|string|max:255',
+//                 'no_petugas' => 'required|string|max:15'
+//             ]);
+
+//             $petugas = daftarpetugas::create($validatedData);
+
+//             $alert = $petugas
+//                 ? AlertHelper::createAlert('success', 'Petugas berhasil ditambahkan.')
+//                 : AlertHelper::createAlert('danger', 'Gagal menambahkan petugas.');
+
+//             return redirect()->route('admin.daftarpetugas', ['action' => 'index'])->with('alerts', [$alert]);
+
+//         case 'edit': // Tampilkan form edit data petugas
+//             $breadcrumbs['Edit Petugas'] = null;
+
+//             $petugas = daftarpetugas::findOrFail($request->input('id'));
+
+//             return view('admin.pages.realtimetable.editpetugas', compact('petugas', 'breadcrumbs'));
+
+//         case 'update': // Proses update data petugas
+//             $validatedData = $request->validate([
+//                 'Nama_Petugas' => 'required|string|max:255',
+//                 'kode_kabkot' => 'required|string|max:20',
+//                 'kode_petugas' => 'required|string|max:20|unique:daftarpetugas,kode_petugas,' . $request->input('id'),
+//                 'Username' => 'required|string|max:100|unique:daftarpetugas,Username,' . $request->input('id'),
+//                 'Password' => 'nullable|string|min:6',
+//                 'Pengawas' => 'required|string|max:100',
+//                 'email_petugas' => 'required|email|max:255|unique:daftarpetugas,email_petugas,' . $request->input('id'),
+//                 'alamat_petugas' => 'nullable|string|max:255',
+//                 'no_petugas' => 'required|string|max:15'
+//             ]);
+
+//             $petugas = daftarpetugas::findOrFail($request->input('id'));
+//             $updated = $petugas->update($validatedData);
+
+//             $alert = $updated
+//                 ? AlertHelper::createAlert('success', 'Data petugas berhasil diperbarui.')
+//                 : AlertHelper::createAlert('danger', 'Gagal memperbarui data petugas.');
+
+//             return redirect()->route('admin.daftarpetugas', ['action' => 'index'])->with('alerts', [$alert]);
+
+//         case 'delete': // Proses hapus data petugas
+//             $petugas = daftarpetugas::findOrFail($request->input('id'));
+//             $deleted = $petugas->delete();
+
+//             $alert = $deleted
+//                 ? AlertHelper::createAlert('success', 'Petugas berhasil dihapus.')
+//                 : AlertHelper::createAlert('danger', 'Gagal menghapus petugas.');
+
+//             return redirect()->route('admin.daftarpetugas', ['action' => 'index'])->with('alerts', [$alert]);
+
+//         default:
+//             return response()->json(['message' => 'Aksi tidak valid!'], 400);
+//     }
+// }
+
 
     /**
      * =============================================
@@ -226,9 +324,40 @@ class RealtimetableController extends Controller
         if ($request->filled('surveyor')) {
             $query->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
         }
+
+        if ($request->filled('date_range')) {
+            $dateRange = explode(' to ', $request->input('date_range')); // Misal: '2024-11-18 to 2024-11-21'
+            if (count($dateRange) === 2) {
+                $startDate = $dateRange[0];
+                $endDate = $dateRange[1];
+                $query->whereBetween('Waktu_Unique', [$startDate, $endDate]);
+            }
+        }
+        
         $trackings = $query->paginate(10); 
         return view('admin.pages.realtimetable.trackings', compact('trackings','breadcrumbs'));
     }
+
+    public function detailpetugas($id)
+{
+    // Ambil data petugas berdasarkan ID
+    $petugas = daftarpetugas::with(['datakabkot', 'loginpetugas'])->find($id);
+
+    // Jika data tidak ditemukan, tampilkan error 404
+    if (!$petugas) {
+        abort(404, 'Data petugas tidak ditemukan.');
+    }
+
+    // Breadcrumbs untuk halaman
+    $breadcrumbs = array_merge($this->mainBreadcrumbs, [
+        'Daftar Petugas' => route('daftarpetugas'),
+        'Detail Petugas' => null,
+    ]);
+
+    // Tampilkan halaman detail
+    return view('admin.pages.realtimetable.daftarpetugas.detail', compact('breadcrumbs', 'petugas'));
+}
+
 
 
 }

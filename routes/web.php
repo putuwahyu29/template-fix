@@ -60,16 +60,24 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/realtimetable')
         ->middleware('role:ROLE_USER')
         ->group(function () {
-    Route::get('/mastershp',            [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
-    Route::get('/master-shpb',          [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
-    Route::get('/daftarpetugas',        [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas');
-    Route::get('/pengawasans',          [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
-    Route::get('/pengawasan1',          [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
-    Route::get('/sampel2024',           [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
-    Route::get('/tbaru',                [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
-    Route::get('/trackings',            [RealtimetableController::class, 'trackings'])      ->name('trackings');
+    Route::get('/mastershp',                     [RealtimetableController::class, 'mastershp'])      ->name('mastershp');
+    Route::get('/master-shpb',                   [RealtimetableController::class, 'mastershpb'])     ->name('mastershpb');
+    Route::get('/daftarpetugas',                 [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas');
+    // Route::get('/daftarpetugas/add/new',         [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.add');
+    // Route::post('/daftarpetugas/add/new',        [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.store');
+    Route::get('/daftarpetugas/detail/{id}',     [RealtimetableController::class, 'detailpetugas'])  ->name('daftarpetugas.detail');
+    // Route::put('/daftarpetugas/edit/{id}',       [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.update');
+    // Route::get('/daftarpetugas/edit/{id}',       [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.edit');
+    // Route::get('/daftarpetugas/delete/{id}',     [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.delete');
+    // Route::delete('/daftarpetugas/delete/{id}',  [RealtimetableController::class, 'daftarpetugas'])  ->name('daftarpetugas.destroy');
+    Route::get('/pengawasans',                   [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
+    Route::get('/pengawasan1',                   [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
+    Route::get('/sampel2024',                    [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
+    Route::get('/tbaru',                         [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
+    Route::get('/trackings',                     [RealtimetableController::class, 'trackings'])      ->name('trackings');
         });
 
+    
     //SAMPLE UI
     Route::prefix('/sample')
         ->middleware('role:ROLE_USER')

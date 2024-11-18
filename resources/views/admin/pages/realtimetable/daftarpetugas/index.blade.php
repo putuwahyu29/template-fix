@@ -30,13 +30,14 @@
                         <th>No</th>
                         <th>Nama Petugas</th>
                         <th>Domisili</th>
-                        <th>Kode Petugas</th>
+                        <!-- <th>Kode Petugas</th>
                         <th>Username</th>
                         <th>Password</th>
                         <th>Pengawas</th>
                         <th>E-mail</th>
                         <th>Alamat</th>
-                        <th>Telepon</th>
+                        <th>Telepon</th>-->
+                        <th>Action</th> 
                         
                     </tr>
                     </thead>
@@ -46,13 +47,29 @@
                         <td>{{ $daftarpetugas->firstItem() + $index }}</td> <!-- Nomor urut berkelanjutan -->
                         <td>{{ $data->Nama_Petugas ?? '-' }}</td>
                         <td>{{ $data->datakabkot->kabkot_name ?? '-' }}</td>
-                        <td>{{ $data->kode_petugas ?? '-'}}</td>
+                        <!-- <td>{{ $data->kode_petugas ?? '-'}}</td>
                         <td>{{ $data->loginpetugas->username ?? '-' }}</td>
                         <td>{{ $data->loginpetugas->password ?? '-' }}</td>
                         <td>{{ $data->Pengawas ?? '-' }}</td>
                         <td>{{ $data->email_petugas ?? '-' }}</td>
                         <td>{{ $data->alamat_petugas ?? '-' }}</td>
-                        <td>{{ $data->no_petugas ?? '-'}}</td>
+                        <td>{{ $data->no_petugas ?? '-'}}</td> -->
+                        <td>
+                                    <a class="action-icon" href="{{ route('daftarpetugas.detail', ['id' => $data->id]) }}"
+                                        title="detail">
+                                        <i class='bx bx-search'></i>
+                                    </a>
+                                &nbsp;
+                                    <a class="action-icon" href="#"
+                                        title="edit">
+                                        <i class='bx bx-pencil'></i>
+                                    </a>
+                                &nbsp;
+                                    <a class="action-icon" href="#"
+                                        title="delete">
+                                        <i class='bx bx-trash'></i>
+                                    </a>
+                                </td>
                     </tr>
                     @endforeach
                     </tbody>
