@@ -14,18 +14,28 @@
         {{-- MAIN PARTS --}}
         <div class="card">
             <h2 class="card-header">Master SHPB</h2>
-            <div class="p-2">
-                    <a class="btn btn-primary" href="{{route('admin.user.add')}}">
-                        <span class="tf-icons bx bx-plus mx-30"></span>&nbsp;
-                         Add
-                    </a>
-                </div>
             <div class="col-12 col-sm-8 col-md-10">
                 <form action="{{ route('mastershpb') }}" method="GET" class="d-flex align-items-center">
                     <div class="form-group me-2 my-1 mx-2">
                         <input type="text" name="search" id="search" class="form-control" placeholder="Cari" value="{{ request('search') }}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary">Search</button> &emsp;
+                    <a class="btn btn-primary" href="{{route('admin.user.add')}}">
+                        <span class="tf-icons bx bx-plus mx-30"></span>&nbsp;
+                         Add
+                    </a>&emsp;
+                    <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Export
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="exportDropdown">
+        <li><a class="dropdown-item" href="#">Excel</a></li>
+        <li><a class="dropdown-item" href="#">CSV</a></li>
+        <li><a class="dropdown-item" href="#">PDF</a></li>
+        <li><button class="dropdown-item" onclick="window.print()">Print</button></li>
+        <li><button class="dropdown-item" onclick="copyTable()">Copy</button></li>
+    </ul>
+</div>
                 </form>
              </div>
             <div class="table-responsive text-nowrap">
