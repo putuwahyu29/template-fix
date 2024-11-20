@@ -99,9 +99,9 @@ class MonitoringController extends Controller
 
     // Hitung total responden berdasarkan keempat status
     $totalRespondenPerStatus = $data->sum('count');
-    $totalRespondenStatus1 = $data->where('kode_status', 1)->sum('count');
+    $totalRespondenStatus12 = $data->whereIn('kode_status', [1, 2])->sum('count');
 
-    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus1' , 'breadcrumbs', 'req_kabkot','datakabkot'));
+    return view('admin.pages.monitoring.shpb', compact('chartData', 'chartData2', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'breadcrumbs', 'req_kabkot','datakabkot'));
 }
 
 
@@ -188,9 +188,9 @@ class MonitoringController extends Controller
 
     // Hitung total responden berdasarkan keempat status
     $totalRespondenPerStatus = $data->sum('count');
-    $totalRespondenStatus1 = $data->where('kode_status', 1)->sum('count');
+    $totalRespondenStatus12 = $data->whereIn('kode_status', [1, 2])->sum('count');
 
-    return view('admin.pages.monitoring.shp', compact('chartData', 'chartData2', 'chartData3', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus1' , 'breadcrumbs', 'req_kabkot','datakabkot'));
+    return view('admin.pages.monitoring.shp', compact('chartData', 'chartData2', 'chartData3', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'breadcrumbs', 'req_kabkot','datakabkot'));
         }
     
         }

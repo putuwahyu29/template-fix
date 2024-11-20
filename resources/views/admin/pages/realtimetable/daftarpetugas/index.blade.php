@@ -22,13 +22,13 @@
                         <input type="text" name="pengawas" id="pengawas" class="form-control" placeholder="Pengawas" value="{{ request('pengawas') }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
-                </form>
                 <div class="p-2">
                     <a class="btn btn-primary" href="{{route('daftarpetugas.add')}}">
                         <span class="tf-icons bx bx-plus"></span>
                          Tambah Petugas
                     </a>
                 </div>
+                </form>
              </div>
             <div class="table-responsive text-nowrap">
                 <table class="table table-striped table-hover align-middle">

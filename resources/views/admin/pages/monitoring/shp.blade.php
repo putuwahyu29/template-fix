@@ -13,7 +13,7 @@
 
 <!-- Tambahkan di file Blade (contoh: resources/views/charts/piechart.blade.php) -->
 <h1>Monitoring SHP</h1>
-    <div class="row g-2">
+    <div class="row g-3 mb-2">
         <div class="col-md-6 col-lg-8 mb-2">
             <div class="card align-items-center" style="height: 150px">
                         <h5 class="bg-label-primary my-2 mt-3 mx-2 text-center">| Total Responden |</h5>
@@ -35,15 +35,15 @@
             </div>
         </div>
         <div class="col-md-6 col-lg-2 mb-2">
-            <div class="card align-items-center " style="height: 150px">
-                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
+            <div class="card align-items-center" style="height: 150px">
+                    <h6 class="my-2 mx-2 mt-4 mx-2 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h6>
                     <h1 class="mx-2 mb-5">{{ $totalRespondenPerStatus }}</h1>
             </div>
         </div>
         <div class="col-md-6 col-lg-2 mb-2">
             <div class="card align-items-center" style="height: 150px">
-                    <h5 class="bg-label-primary my-2 mx-2 mt-4 mx-2 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h5>
-                    <h1 class="mx-2 mb-5">{{ $totalRespondenStatus1 }}</h1>
+                    <h6 class="my-2 mx-2 mt-4 mx-2 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</h>
+                    <h1 class="mx-2 mb-5">{{ $totalRespondenStatus12 }}</h1>
             </div>
         </div>
     </div>
@@ -88,7 +88,7 @@
                     display: false // Menghilangkan legenda di luar
                 },
                 datalabels: {
-                    color: ['#fff','#000', '#000', '#000'],
+                    color: ['#576B80','#576B80', '#576B80', '#576B80'],
                     formatter: (value, context) => {
                         // Menghitung total data
                         let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
@@ -98,7 +98,7 @@
                     },
                     font: {
                         weight: 'bold',
-                        size: 14
+                        size: 12
                     }
                 }
             }
