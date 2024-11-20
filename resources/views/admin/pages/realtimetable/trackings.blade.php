@@ -24,7 +24,7 @@
                         <input type="text" name="surveyor" id="surveyor" class="form-control" placeholder="Username Petugas" value="{{ request('surveyor') }}">
                     </div>
                     <div class="form-group me-2 my-1">
-                    <input type="text" id="date_range" name="date_range" class="form-control" placeholder="Pilih tanggal" value="{{ request('date_range') }}">
+                    <input type="text" id="date_range" name="date_range" class="form-control" placeholder="Pilih tanggal" value="{{ request('date_range') }}" style="background-color: rgba(0, 0, 0, 0);">
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>

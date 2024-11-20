@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Tracking; 
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
-use App\Models\daftarpetugas; 
+use App\Models\daftarpetugas;
+use App\Models\loginpetugas; 
 use App\Models\mastershp;
 use App\Models\mastershpb;
 use App\Helpers\AlertHelper;
@@ -104,80 +105,28 @@ class RealtimetableController extends Controller
      *      show sample page for daftarpetugas
      * =============================================
      */
-    // public function daftarpetugas(Request $request){
+    public function daftarpetugas(Request $request){
 
-    //     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
-
-    //     $query = daftarpetugas::query();
-    //     if ($request->filled('search')) {
-    //         $search = '%' . $request->input('search') . '%';
-    //         $columns = [
-    //             'Nama_Petugas', 'kode_kabkot', 'kode_petugas', 'Username', 'Password',
-    //             'Pengawas', 'email_petugas', 'alamat_petugas', 'no_petugas'
-    //         ];
-        
-    //         $query->where(function ($q) use ($columns, $search) {
-    //             foreach ($columns as $column) {
-    //                 $q->orWhere($column, 'LIKE', $search);
-    //             }
-    //         });
-    //     }
-    //     $daftarpetugas = $query->paginate(perPage: 10); 
-    //     return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas','breadcrumbs'));
-    // }
-
-    public function daftarpetugas(Request $request)
-    {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
-        $action = $request->input('action', 'index'); // Default action adalah 'index'
-    
-        // Panggil metode berdasarkan nilai action
-        switch ($action) {
-            case 'index':
-                return $this->listPetugas($request, $breadcrumbs);
-    
-            case 'create':
-                return $this->addPetugas($breadcrumbs);
-    
-            case 'store':
-                return $this->storePetugas($request);
-    
-            case 'edit':
-                return $this->editPetugas($request, $breadcrumbs);
-    
-            case 'update':
-                return $this->updatePetugas($request);
-    
-            case 'delete':
-                return $this->deletePetugas($request);
-    
-            default:
-                return response()->json(['message' => 'Aksi tidak valid!'], 400);
-        }
-    }
-    
-    public function listPetugas(Request $request, $breadcrumbs)
-    {
+
         $query = daftarpetugas::query();
-    
         if ($request->filled('search')) {
             $search = '%' . $request->input('search') . '%';
             $columns = [
                 'Nama_Petugas', 'kode_kabkot', 'kode_petugas', 'Username', 'Password',
                 'Pengawas', 'email_petugas', 'alamat_petugas', 'no_petugas'
             ];
-    
+        
             $query->where(function ($q) use ($columns, $search) {
                 foreach ($columns as $column) {
                     $q->orWhere($column, 'LIKE', $search);
                 }
             });
         }
-    
-        $daftarpetugas = $query->paginate(perPage: 10);
-    
-        return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas', 'breadcrumbs'));
+        $daftarpetugas = $query->paginate(perPage: 10); 
+        return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas','breadcrumbs'));
     }
+
     
     public function addPetugas(Request $request)
     {
@@ -235,28 +184,60 @@ class RealtimetableController extends Controller
     }
     
     public function updatePetugas(Request $request)
-    {
-        $validatedData = $request->validate([
-            'Nama_Petugas' => 'required|string|max:255',
-            'kode_kabkot' => 'required|string|max:20',
-            'kode_petugas' => 'required|string|max:20|unique:daftarpetugas,kode_petugas,' . $request->input('id'),
-            'Username' => 'required|string|max:100|unique:daftarpetugas,Username,' . $request->input('id'),
-            'Password' => 'nullable|string|min:6',
-            'Pengawas' => 'required|string|max:100',
-            'email_petugas' => 'required|email|max:255|unique:daftarpetugas,email_petugas,' . $request->input('id'),
-            'alamat_petugas' => 'nullable|string|max:255',
-            'no_petugas' => 'required|string|max:15'
+{
+    // Validasi data
+    $validatedData = $request->validate([
+        'Nama_Petugas' => 'required|string|max:255',
+        'kode_kabkot' => 'required|int',
+        'kode_petugas' => 'required|string|max:11|unique:profil_petugas,kode_petugas,' . $request->input('id'),
+        'username' => 'required|string|max:255|unique:login_petugas,username,' . $request->input('id'),
+        'password' => 'nullable|string|min:6',
+        'Pengawas' => 'required|string|max:255',
+        'email_petugas' => 'required|email|max:255|unique:profil_petugas,email_petugas,' . $request->input('id'),
+        'alamat_petugas' => 'nullable|string|max:255',
+        'no_petugas' => 'required|string|max:255'
+    ]);
+
+    // Cari data di tabel profil_petugas
+    $petugas = daftarpetugas::with('loginpetugas')->findOrFail($request->input('id'));
+
+    // Update tabel profil_petugas
+    $petugasUpdated = $petugas->update([
+        'Nama_Petugas' => $validatedData['Nama_Petugas'],
+        'kode_kabkot' => $validatedData['kode_kabkot'],
+        'kode_petugas' => $validatedData['kode_petugas'],
+        'Pengawas' => $validatedData['Pengawas'],
+        'email_petugas' => $validatedData['email_petugas'],
+        'alamat_petugas' => $validatedData['alamat_petugas'],
+        'no_petugas' => $validatedData['no_petugas'],
+    ]);
+
+    // Update atau buat data di tabel login_petugas
+    if ($petugas->loginpetugas) {
+        $update = $petugas->loginpetugas->update([
+            'username' => $validatedData['username'],
+            'password' => $validatedData['password'] ? bcrypt($validatedData['password']) : $petugas->loginpetugas->password,
         ]);
-    
-        $petugas = daftarpetugas::findOrFail($request->input('id'));
-        $updated = $petugas->update($validatedData);
-    
-        $alert = $updated
-            ? AlertHelper::createAlert('success', 'Data petugas berhasil diperbarui.')
-            : AlertHelper::createAlert('danger', 'Gagal memperbarui data petugas.');
-    
-        return redirect()->route('admin.pages.daftarpetugas.index', ['action' => 'index'])->with('alerts', [$alert]);
+        \Log::info('LoginPetugas updated: ', ['result' => $update]);
+    } else {
+        $create = $petugas->loginpetugas()->create([
+            'username' => $validatedData['username'],
+            'password' => $validatedData['password'] ? bcrypt($validatedData['password']) : bcrypt('default_password'),
+            'email_petugas' => $validatedData['email_petugas'],
+        ]);
+        \Log::info('LoginPetugas created: ', ['result' => $create]);
     }
+    
+    
+
+    // Berikan feedback ke user
+    $alert = $petugasUpdated
+        ? AlertHelper::createAlert('success', 'Data petugas berhasil diperbarui.')
+        : AlertHelper::createAlert('danger', 'Gagal memperbarui data petugas.');
+
+        return redirect()->route('daftarpetugas')->with('alerts', [$alert]);;
+}
+
     
     public function deletePetugas(Request $request)
     {

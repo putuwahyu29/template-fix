@@ -27,8 +27,8 @@ class daftarpetugas extends Model
     return $this->belongsTo(datakabkot::class, 'kode_kabkot', 'kode_kabkot');
 }
 
-    public function loginpetugas()
+public function loginpetugas()
 {
-    return $this->belongsTo(loginpetugas::class, 'email_petugas', 'email_petugas');
+    return $this->hasone(loginpetugas::class, 'email_petugas', 'email_petugas');
 }
 }

@@ -15,6 +15,7 @@
     <h2>Edit Petugas</h2>
     <form action="{{ route('daftarpetugas.update',$petugas->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <input type="hidden" name="id" value="{{ $petugas->id }}">
         <div class="form-group">
             <label for="Nama_Petugas">Nama Petugas</label>
@@ -30,11 +31,11 @@
         </div>
         <div class="form-group">
             <label for="Username">Username</label>
-            <input type="text" name="Username" id="Username" class="form-control" value="{{ $petugas->loginpetugas->username }}" required>
+            <input type="text" name="username" id="username" class="form-control" value="{{ $petugas->loginpetugas->username }}" required>
         </div>
         <div class="form-group">
             <label for="Password">Password</label>
-            <input type="password" name="Password" id="Password" class="form-control" value="{{ $petugas->loginpetugas->password }}" required>
+            <input type="password" name="password" id="password" class="form-control" value="{{ old('password', $petugas->loginpetugas->password) }}">
         </div>
         <div class="form-group">
             <label for="Pengawas">Pengawas</label>
