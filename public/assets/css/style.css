@@ -127,3 +127,45 @@ a.action-icon{
     align-items: center;
     justify-content: center;
 }
+
+.progress-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.progress-bar-wrapper {
+    position: relative;
+    width: 80%;
+    height: 25px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 10px;
+    position: relative;
+    text-align: right; /* Teks mengikuti lebar bar */
+    padding-right: 10px; /* Beri jarak kecil antara teks dan ujung bar */
+    box-sizing: border-box;
+}
+
+.progress-label {
+    position: absolute;
+    right: 10px; /* Agar teks tidak menempel ke ujung bar */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap; /* Mencegah teks terpotong jika terlalu panjang */
+}
+
+.progress-indicators {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 5px;
+}
+

@@ -29,79 +29,14 @@
                             <button type="submit" class="btn btn-primary">Search</button>
                         </form>
             </div>
-            <div class="card my-4">
-                <h5 class="mt-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
+            <div class="card my-2">
+                <h5 class="mt-3 mx-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
                 <canvas id="statusChart" width="100" height="20" class="mx-4 me-4 my-2"></canvas>
             </div>
-        </div>
-        <!--/ Total Revenue -->
-        <div class="col-12 col-md-8 col-lg-8 order-3 order-md-2">
-            <div class="row">
-                <div class="col-4 mb-4">
-                    <div class="card">
-                        <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
-                            <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugas }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-4">
-                    <div class="card">
-                        <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
-                            <h1 class="card-title mb-2 my-3 text-center">{{ $totalRespondenPerStatus }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-4">
-                    <div class="card">
-                        <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
-                            <h1 class="card-title mb-2 my-3 text-center">{{$totalRespondenStatus12}}</h1>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- </div>
-<div class="row"> -->
-                <div class="col-12 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
-                                <div
-                                    class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                                    <div class="card-title">
-                                        <h5 class="text-nowrap mb-2">Progress Pendataan</h5>
-                                    </div>
-                                </div>
-                                <div id="profileReportChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <!-- Order Statistics -->
-        <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
-            <div class="card h-100">
+            <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between pb-0">
                     <div class="card-title mb-0">
-                        <h5 class="m-0 me-2">Order Statistics</h5>
-                        <small class="text-muted">42.82k Total Sales</small>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn p-0" type="button" id="orederStatistics"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="orederStatistics">
-                            <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                        </div>
+                        <h5 class="m-0 me-2 text-center">Progress Pendataan</h5>
                     </div>
                 </div>
                 <div class="card-body">
@@ -181,191 +116,66 @@
                 </div>
             </div>
         </div>
-        <!--/ Order Statistics -->
-
-        <!-- Expense Overview -->
-        <div class="col-md-6 col-lg-4 order-1 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item">
-                            <button type="button" class="nav-link active" role="tab"
-                                data-bs-toggle="tab" data-bs-target="#navs-tabs-line-card-income"
-                                aria-controls="navs-tabs-line-card-income" aria-selected="true">
-                                Income
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab">Expenses</button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab">Profit</button>
-                        </li>
-                    </ul>
+        <!--/ Total Revenue -->
+        <div class="col-12 col-md-8 col-lg-8 order-3 order-md-2">
+            <div class="row">
+                <div class="col-4 mb-4">
+                    <div class="card">
+                        <div class="card-body" style="height: 170px">
+                            <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugas }}</h1>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body px-0">
-                    <div class="tab-content p-0">
-                        <div class="tab-pane fade show active" id="navs-tabs-line-card-income"
-                            role="tabpanel">
-                            <div class="d-flex p-4 pt-3">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="{{ asset('assets/img/icons/unicons/wallet.png') }}"
-                                        alt="User" />
-                                </div>
-                                <div>
-                                    <small class="text-muted d-block">Total Balance</small>
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="mb-0 me-1">$459.10</h6>
-                                        <small class="text-success fw-semibold">
-                                            <i class="bx bx-chevron-up"></i>
-                                            42.9%
-                                        </small>
+                <div class="col-4 mb-4">
+                    <div class="card">
+                        <div class="card-body" style="height: 170px">
+                            <span class="d-block mb-1 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <h1 class="card-title mb-2 my-3 text-center">{{ $totalRespondenPerStatus }}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 mb-4">
+                    <div class="card">
+                        <div class="card-body" style="height: 170px">
+                            <span class="d-block mb-1 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <h1 class="card-title mb-2 my-3 text-center">{{$totalRespondenStatus12}}</h1>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="progress-container">
+                                <p>Progress Pendataan</p>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar" style="width: {{ $progress }}%;">
+                                        <span class="progress-label">{{ $progress }}%</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="incomeChart"></div>
-                            <div class="d-flex justify-content-center pt-4 gap-2">
-                                <div class="flex-shrink-0">
-                                    <div id="expensesOfWeek"></div>
-                                </div>
-                                <div>
-                                    <p class="mb-n1 mt-1">Expenses This Week</p>
-                                    <small class="text-muted">$39 less than last week</small>
+                                <div class="progress-indicators">
+                                    <span>0%</span>
+                                    <span>100%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!--/ Expense Overview -->
-
-        <!-- Transactions -->
-        <div class="col-md-6 col-lg-4 order-2 mb-4">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title m-0 me-2">Transactions</h5>
-                    <div class="dropdown">
-                        <button class="btn p-0" type="button" id="transactionID"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                            <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                        </div>
+                <div class="col-12 mb-4">
+                    <div class="card h-100 text-center">
+                        <h4 class="mt-3">Rasio Jumlah Petugas dengan Jumlah Responden</h4>
+                        <canvas id="kategoriChart" width="100" height="75" class="mx-4 me-4"></canvas>
                     </div>
                 </div>
-                <div class="card-body">
-                    <ul class="p-0 m-0">
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/paypal.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Paypal</small>
-                                    <h6 class="mb-0">Send money</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">+82.6</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/wallet.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Wallet</small>
-                                    <h6 class="mb-0">Mac'D</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">+270.69</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/chart.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Transfer</small>
-                                    <h6 class="mb-0">Refund</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">+637.91</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/cc-success.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Credit Card</small>
-                                    <h6 class="mb-0">Ordered Food</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">-838.71</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/wallet.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Wallet</small>
-                                    <h6 class="mb-0">Starbucks</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">+203.33</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <img src="{{ asset('assets/img/icons/unicons/cc-warning.png') }}"
-                                    alt="User" class="rounded" />
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <small class="text-muted d-block mb-1">Mastercard</small>
-                                    <h6 class="mb-0">Ordered Food</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                    <h6 class="mb-0">-92.45</h6>
-                                    <span class="text-muted">USD</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
-        <!--/ Transactions -->
+    </div>
+    <div class="row">
+        <!-- Order Statistics -->
+        <div class="col-lg-4 ">
+        </div>
+        <!--/ Order Statistics -->
     </div>
 </div>
 
@@ -407,5 +217,26 @@
         },
         plugins: [ChartDataLabels]
     });
+    // Pie Chart Berdasarkan Kategori SHPB
+    var ctx2 = document.getElementById('kategoriChart').getContext('2d');
+        var kategoriChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($chartData2['labels2']) !!},
+                datasets: [{
+                    data: {!! json_encode($chartData2['data2']) !!},
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Menghilangkan legenda di luar
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+        
     </script>
 @endsection
