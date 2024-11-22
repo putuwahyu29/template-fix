@@ -18,6 +18,17 @@
                     <div class="form-group me-2 my-1 mx-2">
                         <input type="text" name="search" id="search" class="form-control" placeholder="Cari" value="{{ request('search') }}">
                     </div>
+                    <div class="form-group me-2 my-1 mx-2">
+                    <select name="kode_kabkot" id="kode_kabkot" class="form-control">
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    @foreach($datakabkot as $kabkot)
+                                        <option value="{{ $kabkot->kode_kabkot }}" 
+                                            {{ $req_kabkot && $req_kabkot->kode_kabkot == $kabkot->kode_kabkot ? 'selected' : '' }}>
+                                            {{ $kabkot->kabkot_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                </div>
                     <button type="submit" class="btn btn-primary">Search</button> &emsp;
                     <a class="btn btn-primary" href="{{route('admin.user.add')}}">
                         <span class="tf-icons bx bx-plus mx-30"></span>&nbsp;

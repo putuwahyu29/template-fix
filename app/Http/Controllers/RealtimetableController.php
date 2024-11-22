@@ -53,12 +53,13 @@ class RealtimetableController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHP' => null]);
 
+        $kode_kabkot = $request->input('kode_kabkot', null);
         $query = mastershp::query();
         if ($request->filled('search')) {
             $search = '%' . $request->input('search') . '%';
             $columns = [
-                'nama_perusahaan', 'alamat_perusahaan', 'kode_kabkot', 'kdkec',
-                'kode_keldes', 'no_telepon', 'kategori_usaha', 'kode_kbli',
+                'nama_perusahaan', 'alamat_perusahaan', 'kode_kabkot', 'kode_kecamatan',
+                'kode_keldes', 'no_telepon', 'kode_usaha', 'kode_kbli',
                 'komoditas_utama', 'kode_status', 'catatan'
             ];
         
@@ -68,8 +69,17 @@ class RealtimetableController extends Controller
                 }
             });
         }
+
+        // Filter berdasarkan kode_kabkot
+        if ($kode_kabkot) {
+            $query->where('kode_kabkot', $kode_kabkot);
+        }
+        // Ambil data kabkot dari request
+        $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+
+        $datakabkot = datakabkot::all();
         $mastershp = $query->paginate(perPage: 10); 
-        return view('admin.pages.realtimetable.mastershp', compact('mastershp','breadcrumbs'));
+        return view('admin.pages.realtimetable.mastershp', compact('mastershp','breadcrumbs','kode_kabkot','req_kabkot','datakabkot'));
     }
 
     /**
@@ -81,6 +91,7 @@ class RealtimetableController extends Controller
     {
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Master SHPB' => null]);
 
+        $kode_kabkot = $request->input('kode_kabkot', null);
         $query = mastershpb::query();
         if ($request->filled('search')) {
             $search = '%' . $request->input('search') . '%';
@@ -95,9 +106,18 @@ class RealtimetableController extends Controller
                 }
             });
         }
+
+        // Filter berdasarkan kode_kabkot
+        if ($kode_kabkot) {
+            $query->where('kode_kabkot', $kode_kabkot);
+        }
+        // Ambil data kabkot dari request
+        $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+
+        $datakabkot = datakabkot::all();
         $mastershpb = $query->paginate(perPage: 10); 
 
-        return view('admin.pages.realtimetable.mastershpb', compact('mastershpb', 'breadcrumbs'));
+        return view('admin.pages.realtimetable.mastershpb', compact('mastershpb', 'breadcrumbs','kode_kabkot','req_kabkot','datakabkot'));
     }
 
     /**
@@ -109,6 +129,7 @@ class RealtimetableController extends Controller
 
         $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Daftar Petugas' => null]);
 
+        $kode_kabkot = $request->input('kode_kabkot', null);
         $query = daftarpetugas::query();
         if ($request->filled('search')) {
             $search = '%' . $request->input('search') . '%';
@@ -123,8 +144,17 @@ class RealtimetableController extends Controller
                 }
             });
         }
+
+        // Filter berdasarkan kode_kabkot
+        if ($kode_kabkot) {
+            $query->where('kode_kabkot', $kode_kabkot);
+        }
+        // Ambil data kabkot dari request
+        $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+
+        $datakabkot = datakabkot::all();
         $daftarpetugas = $query->paginate(perPage: 10); 
-        return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas','breadcrumbs'));
+        return view('admin.pages.realtimetable.daftarpetugas.index', compact('daftarpetugas','breadcrumbs','kode_kabkot','req_kabkot','datakabkot'));
     }
 
     
