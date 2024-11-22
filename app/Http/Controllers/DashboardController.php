@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\profilpetugas;
+use App\Models\plotingpetugas;
 use Illuminate\Http\Request;
 use App\Models\datakabkot;
 use App\Models\Trackingmaps; 
@@ -38,7 +40,14 @@ class DashboardController extends Controller
         
             // Eksekusi query
             $data = $query->get();
-        
+
+            // Total petugas dengan filter berdasarkan kode_kabkot
+            $totalPetugasSHP = profilpetugas::where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%')
+            ->whereHas('plotingpetugas', function ($query) {
+                $query->where('kode_kegiatan', 1001);
+            })->count();
+            
+            
             // Ambil data kabkot dari request
             $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
         
@@ -80,6 +89,23 @@ class DashboardController extends Controller
             ? round(($totalRespondenStatus12 / $totalRespondenPerStatus) * 100, 2) 
             : 0; // Pastikan tidak membagi dengan nol
 
-        return view('admin.pages.dashboard.index', compact('chartData', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'req_kabkot','datakabkot','totalPetugas','progress','chartData2'));
+            // Ambil data per kabupaten/kota
+            $RasioKabkot = datakabkot::with(['profilpetugas.plotingpetugas'])->get();
+
+            $chartData2 = $RasioKabkot->map(function ($kabkot) {
+                $totalPetugas = $kabkot->profilpetugas->count(); // Hitung total petugas di kabupaten/kota
+                $totalResponden = $kabkot->profilpetugas->reduce(function ($carry, $petugas) {
+                    return $carry + $petugas->plotingpetugas->count(); // Jumlah responden terkait petugas
+                }, 0);
+
+                $rasio = $totalPetugas > 0 ? $totalResponden / $totalPetugas * 100 : 0;
+
+                return [
+                    'nama_kabkot' => $kabkot->kabkot_name,
+                    'rasio' => round($rasio, 0), 
+                ];
+            });
+
+        return view('admin.pages.dashboard.index', compact('chartData', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'req_kabkot','datakabkot','totalPetugas','progress','totalPetugasSHP','chartData2'));
     }
 }

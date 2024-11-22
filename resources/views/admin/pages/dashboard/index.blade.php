@@ -17,7 +17,7 @@
                         <form action="{{ route('dashboard') }}" method="GET" class="d-flex align-items-center">
                             <div class="form-group mx-3 my-3">
                                 <select name="kode_kabkot" id="kode_kabkot" class="form-control">
-                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    <option value="">Semua Kabupaten/Kota</option>
                                     @foreach($datakabkot as $kabkot)
                                         <option value="{{ $kabkot->kode_kabkot }}" 
                                             {{ $req_kabkot && $req_kabkot->kode_kabkot == $kabkot->kode_kabkot ? 'selected' : '' }}>
@@ -123,7 +123,7 @@
                     <div class="card">
                         <div class="card-body" style="height: 170px">
                             <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
-                            <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugas }}</h1>
+                            <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugasSHP }}</h1>
                         </div>
                     </div>
                 </div>
@@ -164,8 +164,8 @@
                 </div>
                 <div class="col-12 mb-4">
                     <div class="card h-100 text-center">
-                        <h4 class="mt-3">Rasio Jumlah Petugas dengan Jumlah Responden</h4>
-                        <canvas id="kategoriChart" width="100" height="75" class="mx-4 me-4"></canvas>
+                        <h4 class="mt-3">Rasio Jumlah Responden dengan Jumlah Petugas</h4>
+                        <canvas id="rasioChart" width="100" height="70" class="mx-4 me-4"></canvas>
                     </div>
                 </div>
             </div>
@@ -217,26 +217,48 @@
         },
         plugins: [ChartDataLabels]
     });
-    // Pie Chart Berdasarkan Kategori SHPB
-    var ctx2 = document.getElementById('kategoriChart').getContext('2d');
-        var kategoriChart = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: {!! json_encode($chartData2['labels2']) !!},
-                datasets: [{
-                    data: {!! json_encode($chartData2['data2']) !!},
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8DD6E0']
-                }]
+    
+    // Data dari server
+    const chartData2 = @json($chartData2);
+
+    // Pisahkan nama kabupaten/kota dan rasio
+    const labels = chartData2.map(item => item.kabkot_name);
+    const data = chartData2.map(item => item.rasio);
+
+    // Data untuk Chart.js
+    const chartConfig = {
+        type: 'bar',
+        data: {
+            labels: labels, // Nama kabupaten/kota
+            datasets: [{
+                label: 'Rasio Responden terhadap Petugas',
+                data: data, // Data rasio
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+                tooltip: {
+                    enabled: true,
+                },
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Menghilangkan legenda di luar
-                    }
-                }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
             },
-            plugins: [ChartDataLabels]
-        });
-        
+        },
+    };
+
+    // Render chart
+    const ctx = document.getElementById('ratioChart').getContext('2d');
+    new Chart(ctx, chartConfig);
+
     </script>
 @endsection

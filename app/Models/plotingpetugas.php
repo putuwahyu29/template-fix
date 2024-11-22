@@ -10,4 +10,9 @@ class plotingpetugas extends Model
     use HasFactory;
     
     protected $table = 'ploting_petugas';
+
+    public function profilpetugas()
+{
+    return $this->belongsTo(profilpetugas::class, 'kode_petugas', 'kode_petugas');
+}
 }
