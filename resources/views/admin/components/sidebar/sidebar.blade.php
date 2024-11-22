@@ -44,38 +44,6 @@
 
         @include('admin.components.sidebar.menu-tambahan')
 
-        <!-- {{-- =============================================== --}}
-        {{-- ALL USER HAVE THIS MENU --}}
-        {{-- =============================================== --}}
-
-        {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Menu Tambahan'])
-
-        {{-- EXAMPLE MENU WITH SUB MENU --}}
-        @include('admin.components.sidebar.item', [
-            'menuId' => 'user-settings',
-            'menuText' => 'Settings',
-            'menuUrl' => '#',
-            'menuIcon' => 'bx bx-cog', //check here for the icons https://boxicons.com/cheatsheet
-            'subMenuData' => [
-                [
-                    'subMenuText' => 'User Configuration',
-                    'subMenuUrl' => route('user.setting.index'),
-                ],
-                [
-                    'subMenuText' => 'Profile',
-                    'subMenuUrl' => route('user.profile.index'),
-                ],
-
-                [
-                    'subMenuText' => 'Change Password',
-                    'subMenuUrl' => route('user.setting.changePassword'),
-                ],
-            ],
-        ]) -->
-
-        
-
         @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Demo'])
 
         {{-- EXAMPLE MENU WITHOUT SUBMENU --}}

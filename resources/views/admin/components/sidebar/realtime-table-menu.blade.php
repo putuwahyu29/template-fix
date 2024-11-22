@@ -32,7 +32,7 @@
         'subMenuData' => null,
     ])
 
-@include('admin.components.sidebar.item', [
+<!-- @include('admin.components.sidebar.item', [
         'menuId' => 'menu-pengawasan1',
         'menuText' => 'Pengawasan 1',
         'menuUrl' => route('pengawasan1'),
@@ -54,7 +54,7 @@
         'menuUrl' => route('tbaru'),
         'menuIcon' => 'bx bx-briefcase-alt',
         'subMenuData' => null,
-    ])
+    ]) -->
 
 @include('admin.components.sidebar.item', [
         'menuId' => 'menu-trackings',

@@ -40,50 +40,67 @@
                     // Data track diambil dari Laravel
                     var locations = @json($locations);
 
-                    // Iterasi data track dan gambar setiap lintasan
+                    // Iterasi semua data lokasi dan tampilkan di peta
                     locations.forEach(function(location) {
-                        if (location.latitude_start && location.longitude_start && location.latitude_stop && location.longitude_stop) {
-                            var pathCoordinates = [
-                                [parseFloat(location.latitude_start), parseFloat(location.longitude_start)], // Titik awal
-                                [parseFloat(location.latitude_stop), parseFloat(location.longitude_stop)]   // Titik akhir
-                            ];
+                        // Koordinat latitude dan longitude
+                        var lat = parseFloat(location.latitude);
+                        var lng = parseFloat(location.longitude);
 
-                            // Gambar polyline (garis lintasan)
-                            var polyline = L.polyline(pathCoordinates, {
-                                color: 'red', // Warna lintasan
-                                weight: 2,    // Ketebalan garis
-                                opacity: 1.0  // Transparansi
-                            }).addTo(map);
-
-                            // Tambahkan marker di titik awal
-                            L.marker(pathCoordinates[0]).addTo(map)
-                                .bindPopup(`
-                                    <b>Surveyor:</b> ${location.Username_Surveyor}<br>
-                                    <b>Nama Survei:</b> ${location.Nama_Survei}<br>
-                                    <b>Start Point</b>
-                                `)
-                                .openPopup();
-
-                            // Tambahkan marker di titik akhir
-                            L.marker(pathCoordinates[1]).addTo(map)
-                                .bindPopup(`
-                                    <b>Surveyor:</b> ${location.Username_Surveyor}<br>
-                                    <b>Nama Survei:</b> ${location.Nama_Survei}<br>
-                                    <b>End Point</b>
-                                `);
-                        }
+                    // Tambahkan marker di lokasi
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup(`
+                            <b>Track</b><br>
+                            Nama Survei: ${location.Nama_Survei}<br>
+                            Username Surveyor: ${location.Username_Surveyor}<br>
+                            Latitude: ${lat}<br>
+                            Longitude: ${lng}
+                        `);
                     });
 
-                    // Fit map agar mencakup semua lintasan
-                    if (locations.length > 0) {
-                        var bounds = locations.flatMap(function(location) {
-                            return [
-                                [parseFloat(location.latitude_start), parseFloat(location.longitude_start)],
-                                [parseFloat(location.latitude_stop), parseFloat(location.longitude_stop)]
-                            ];
-                        });
-                        map.fitBounds(bounds);
-                    }
+                    // // Iterasi data track dan gambar setiap lintasan
+                    // locations.forEach(function(location) {
+                    //     if (location.latitude_start && location.longitude_start && location.latitude_stop && location.longitude_stop) {
+                    //         var pathCoordinates = [
+                    //             [parseFloat(location.latitude_start), parseFloat(location.longitude_start)], // Titik awal
+                    //             [parseFloat(location.latitude_stop), parseFloat(location.longitude_stop)]   // Titik akhir
+                    //         ];
+
+                    //         // Gambar polyline (garis lintasan)
+                    //         var polyline = L.polyline(pathCoordinates, {
+                    //             color: 'red', // Warna lintasan
+                    //             weight: 2,    // Ketebalan garis
+                    //             opacity: 1.0  // Transparansi
+                    //         }).addTo(map);
+
+                    //         // Tambahkan marker di titik awal
+                    //         L.marker(pathCoordinates[0]).addTo(map)
+                    //             .bindPopup(`
+                    //                 <b>Surveyor:</b> ${location.Username_Surveyor}<br>
+                    //                 <b>Nama Survei:</b> ${location.Nama_Survei}<br>
+                    //                 <b>Start Point</b>
+                    //             `)
+                    //             .openPopup();
+
+                    //         // Tambahkan marker di titik akhir
+                    //         L.marker(pathCoordinates[1]).addTo(map)
+                    //             .bindPopup(`
+                    //                 <b>Surveyor:</b> ${location.Username_Surveyor}<br>
+                    //                 <b>Nama Survei:</b> ${location.Nama_Survei}<br>
+                    //                 <b>End Point</b>
+                    //             `);
+                    //     }
+                    // });
+
+                    // // Fit map agar mencakup semua lintasan
+                    // if (locations.length > 0) {
+                    //     var bounds = locations.flatMap(function(location) {
+                    //         return [
+                    //             [parseFloat(location.latitude_start), parseFloat(location.longitude_start)],
+                    //             [parseFloat(location.latitude_stop), parseFloat(location.longitude_stop)]
+                    //         ];
+                    //     });
+                    //     map.fitBounds(bounds);
+                    // }
                 });
             </script>
         </div>
@@ -106,3 +123,4 @@
     </div>
 </div>
 @endsection
+

@@ -47,7 +47,7 @@ class MenutambahanController extends Controller
      */
     public function plot(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Plot Pegawai' => null]);
+        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Plot Petugas' => null]);
 
         return view('admin.pages.tambahan.plot', compact('breadcrumbs'));
 
