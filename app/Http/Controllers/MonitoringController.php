@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\datakabkot;
 use Illuminate\Http\Request;
-use App\Models\Trackingmaps; 
+use App\Models\Trackingmaps;
+use App\Models\trackingpetugas; 
 use App\Models\mastershp;
 use App\Models\mastershpb;
 use App\Models\KategoriLapanganUsaha;
@@ -254,23 +255,26 @@ class MonitoringController extends Controller
      *      show sample page for tracking
      * =============================================
      */
-    public function tracking(Request $request){
+    public function tracking(Request $request)
+{
+    $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
-        $query = Trackingmaps::query()
-    ->when($request->filled('survei'), function ($q) use ($request) {
-        $q->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
-    })
-    ->when($request->filled('surveyor'), function ($q) use ($request) {
-        $q->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
-    })
-    ->selectRaw("*, SUBSTRING_INDEX(Coordinates, ',', 1) AS latitude, SUBSTRING_INDEX(Coordinates, ',', -1) AS longitude");
+    // Query data tracking
+    $query = trackingpetugas::query()
+        ->when($request->filled('survei'), function ($q) use ($request) {
+            $q->where('kode_kegiatan', 'LIKE', '%' . $request->input('survei') . '%');
+        })
+        ->when($request->filled('surveyor'), function ($q) use ($request) {
+            $q->where('kode_petugas', 'LIKE', '%' . $request->input('surveyor') . '%');
+        })
+        ->select(['latitude_start', 'longitude_start', 'latitude_stop', 'longitude_stop', 'kode_petugas', 'kode_kegiatan']);
 
-    
-// Retrieve the results
-$locations = $query->get();
-        return view('admin.pages.monitoring.tracking', compact('breadcrumbs'),['locations' => $locations]);
+    // Ambil data tracking
+    $locations = $query->get();
 
-    }
+    // Kirim data ke view
+    return view('admin.pages.monitoring.tracking', compact('breadcrumbs', 'locations'));
+}
+
 
 }

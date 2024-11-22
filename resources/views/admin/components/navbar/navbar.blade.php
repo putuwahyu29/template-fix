@@ -72,6 +72,14 @@
                             <span class="align-middle">Settings</span>
                         </a>
                     </li>
+
+                    {{-- ====== SETTING ======== --}}
+                    <li>
+                        <a class="dropdown-item" href="{{route('user.setting.changePassword')}}">
+                            <i class="bx bx-lock me-2"></i>
+                            <span class="align-middle">Change Password</span>
+                        </a>
+                    </li>
                     {{-- UNCOMMENT BELOW TO SEE ANOTHER SAMPLE OF SUBMENU WITH BADGE --}}
                     {{-- <li>
                         <a class="dropdown-item" href="#">

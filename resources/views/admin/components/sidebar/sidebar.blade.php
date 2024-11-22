@@ -42,12 +42,14 @@
 
         @include('admin.components.sidebar.realtime-table-menu')
 
-        {{-- =============================================== --}}
+        @include('admin.components.sidebar.menu-tambahan')
+
+        <!-- {{-- =============================================== --}}
         {{-- ALL USER HAVE THIS MENU --}}
         {{-- =============================================== --}}
 
         {{-- EXAMPLE MENU HEADER FOR GROUPING --}}
-        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'All Got These Menu'])
+        @include('admin.components.sidebar.menu-header', ['textMenuHeader' => 'Menu Tambahan'])
 
         {{-- EXAMPLE MENU WITH SUB MENU --}}
         @include('admin.components.sidebar.item', [
@@ -70,7 +72,7 @@
                     'subMenuUrl' => route('user.setting.changePassword'),
                 ],
             ],
-        ])
+        ]) -->
 
         
 

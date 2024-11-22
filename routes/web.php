@@ -12,6 +12,7 @@ use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\RealtimetableController;
+use App\Http\Controllers\MenutambahanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
     
     // Route menu monitoring
     Route::prefix('/monitoring')
-        ->middleware('role:ROLE_ADMIN')
+        ->middleware('role:ROLE_USER')
         ->group(function () {
     Route::get('shp_b',         [MonitoringController::class, 'shpb'])           ->name('shpb');
     Route::get('SHP',           [MonitoringController::class, 'shp'])            ->name('shp');
@@ -77,6 +78,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/trackings',                                [RealtimetableController::class, 'trackings'])      ->name('trackings');
         });
 
+    // Route menu Realtime Table
+    Route::prefix('/menu-tambahan')
+        ->middleware('role:ROLE_USER')
+        ->group(function () {
+    Route::get('/plot',                                   [MenutambahanController::class, 'plot'])          ->name('plot');
+    Route::get('/ringkasan',                              [MenutambahanController::class, 'ringkasan'])     ->name('ringkasan');
+});
     
     //SAMPLE UI
     Route::prefix('/sample')

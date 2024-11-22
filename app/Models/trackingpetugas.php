@@ -9,5 +9,5 @@ class trackingpetugas extends Model
 {
     use HasFactory;
     
-    protected $table = 'tracking_petugas';
+    protected $table = 'monitoring';
 }
