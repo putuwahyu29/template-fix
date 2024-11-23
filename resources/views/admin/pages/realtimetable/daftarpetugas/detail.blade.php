@@ -24,7 +24,7 @@
 
             <div class="row m-2">
 
-                <div class="col-md-8 col-xs-12">
+                <div class="col-md-4 col-lg-4 bg-dark text-light p-4">
                     <div class="table-responsive text-nowrap">
                         <table class="table table-hover">
                             <tbody>
@@ -78,6 +78,82 @@
 
                 </div>
 
+                <div class="col-md-8 col-lg-8 bg-dark text-light p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="bg-dark text-white">Projects List</h5>
+                <div class="d-flex">
+                    <select class="form-select me-2" style="width: 70px;">
+                        <option>7</option>
+                        <option>10</option>
+                        <option>15</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Search Project">
+                </div>
+            </div>
+
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col"><input type="checkbox"></th>
+                        <th scope="col">Kegiatan</th>
+                        <th scope="col">Pengawas</th>
+                        <th scope="col">Tim</th>
+                        <th scope="col">Progress</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <h5 class="bg-dark text-white">Ringkasan Progress</h5>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <div>#</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>#</td>
+                        <td>
+                            <div class="d-flex">
+                                <span class="text-muted">+4</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar" role="progressbar" style="width: #" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small>#%</small>
+                        </td>
+                        <td>
+    <div class="dropdown">
+        <button class="btn btn-link text-light dropdown-toggle" type="button" id="dropdownMenuButton=" data-bs-toggle="dropdown" aria-expanded="false">
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton=">
+            <li>
+                <a class="dropdown-item" href="#">Details</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="#">Archive</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <form action="#" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?');">
+                    @csrf
+                    @method('DELETE')
+                    <button class="dropdown-item text-danger" type="submit">Delete</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
             </div>
 
 
