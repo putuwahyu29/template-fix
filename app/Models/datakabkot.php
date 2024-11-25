@@ -15,4 +15,14 @@ class datakabkot extends Model
     {
         return $this->hasMany(profilpetugas::class, 'kode_kabkot', 'kode_kabkot');
     }
+
+    public function mastershp()
+    {
+        return $this->hasMany(mastershp::class, 'kode_kabkot', 'kode_kabkot');
+    }
+
+    public function plotingpetugas()
+    {
+        return $this->hasMany(plotingpetugas::class, 'kode_kabkot', 'kode_kabkot');
+    }
 }

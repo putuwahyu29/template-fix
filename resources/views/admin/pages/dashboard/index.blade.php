@@ -2,6 +2,8 @@
 
 @section('page-title', 'Dashboard')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 @section('main-content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -32,88 +34,6 @@
             <div class="card my-2">
                 <h5 class="mt-3 mx-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
                 <canvas id="statusChart" width="100" height="20" class="mx-4 me-4 my-2"></canvas>
-            </div>
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between pb-0">
-                    <div class="card-title mb-0">
-                        <h5 class="m-0 me-2 text-center">Progress Pendataan</h5>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="d-flex flex-column align-items-center gap-1">
-                            <h2 class="mb-2">8,258</h2>
-                            <span>Total Orders</span>
-                        </div>
-                        <div id="orderStatisticsChart"></div>
-                    </div>
-                    <ul class="p-0 m-0">
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-primary"><i
-                                        class="bx bx-mobile-alt"></i></span>
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Electronic</h6>
-                                    <small class="text-muted">Mobile, Earbuds, TV</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold">82.5k</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-success"><i
-                                        class="bx bx-closet"></i></span>
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Fashion</h6>
-                                    <small class="text-muted">T-shirt, Jeans, Shoes</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold">23.8k</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-info"><i
-                                        class="bx bx-home-alt"></i></span>
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Decor</h6>
-                                    <small class="text-muted">Fine Art, Dining</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold">849k</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-secondary"><i
-                                        class="bx bx-football"></i></span>
-                            </div>
-                            <div
-                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Sports</h6>
-                                    <small class="text-muted">Football, Cricket Kit</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold">99</small>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
         <!--/ Total Revenue -->
@@ -162,10 +82,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mb-4">
+                <div class="col-8 mb-4">
                     <div class="card h-100 text-center">
-                        <h4 class="mt-3">Rasio Jumlah Responden dengan Jumlah Petugas</h4>
-                        <canvas id="rasioChart" width="100" height="70" class="mx-4 me-4"></canvas>
+                        <p class="mt-3">Pencapaian Target Pendataan</p>
+                        <div class="mx-5" id="profileReportChart"></div>
+                    </div>
+                </div>
+                <div class="col-4 mb-4">
+                <div class="card">
+                        <div class="card-body" style="height: 215px">
+                            <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <h1 class="card-title mt-4 mb-2 text-center">6,45</h1>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,6 +110,7 @@
 <!--/ JS Charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // Pie Chart Berdasarkan Status Pendataan
         var ctx1 = document.getElementById('statusChart').getContext('2d');
@@ -218,47 +147,11 @@
         plugins: [ChartDataLabels]
     });
     
-    // Data dari server
-    const chartData2 = @json($chartData2);
-
-    // Pisahkan nama kabupaten/kota dan rasio
-    const labels = chartData2.map(item => item.kabkot_name);
-    const data = chartData2.map(item => item.rasio);
-
-    // Data untuk Chart.js
-    const chartConfig = {
-        type: 'bar',
-        data: {
-            labels: labels, // Nama kabupaten/kota
-            datasets: [{
-                label: 'Rasio Responden terhadap Petugas',
-                data: data, // Data rasio
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            }],
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: true,
-                },
-                tooltip: {
-                    enabled: true,
-                },
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                },
-            },
-        },
-    };
-
-    // Render chart
-    const ctx = document.getElementById('ratioChart').getContext('2d');
-    new Chart(ctx, chartConfig);
+    flatpickr("#date_range", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            locale: "id" // Mengatur locale Indonesia
+        });
 
     </script>
 @endsection

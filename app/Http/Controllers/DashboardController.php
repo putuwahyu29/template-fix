@@ -61,25 +61,6 @@ class DashboardController extends Controller
                 'data' => $data->pluck('count')->toArray()
             ];
 
-            // Buat query dengan filter berdasarkan kategorishpb
-            $query2 = mastershpb::with('kategoriSHPB')
-            ->selectRaw('kode_kategori, COUNT(*) as count')
-            ->groupBy('kode_kategori');
-
-            if ($kode_kabkot) {
-                $query2->where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%');
-            }
-
-            // Eksekusi query
-            $data2 = $query2->get();
-
-            $chartData2 = [
-                'labels2' => $data2->pluck('kategoriSHPB.kategori_name')->map(function ($label2) {
-                    return $label2 ?? '-'; // Tampilkan '-' jika null
-                })->toArray(),
-                'data2' => $data2->pluck('count')->toArray()
-            ];
-        
             // Hitung total responden berdasarkan keempat status
             $totalRespondenPerStatus = $data->sum('count');
             $totalRespondenStatus12 = $data->whereIn('kode_status', [1, 2])->sum('count');
@@ -89,23 +70,6 @@ class DashboardController extends Controller
             ? round(($totalRespondenStatus12 / $totalRespondenPerStatus) * 100, 2) 
             : 0; // Pastikan tidak membagi dengan nol
 
-            // Ambil data per kabupaten/kota
-            $RasioKabkot = datakabkot::with(['profilpetugas.plotingpetugas'])->get();
-
-            $chartData2 = $RasioKabkot->map(function ($kabkot) {
-                $totalPetugas = $kabkot->profilpetugas->count(); // Hitung total petugas di kabupaten/kota
-                $totalResponden = $kabkot->profilpetugas->reduce(function ($carry, $petugas) {
-                    return $carry + $petugas->plotingpetugas->count(); // Jumlah responden terkait petugas
-                }, 0);
-
-                $rasio = $totalPetugas > 0 ? $totalResponden / $totalPetugas * 100 : 0;
-
-                return [
-                    'nama_kabkot' => $kabkot->kabkot_name,
-                    'rasio' => round($rasio, 0), 
-                ];
-            });
-
-        return view('admin.pages.dashboard.index', compact('chartData', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'req_kabkot','datakabkot','totalPetugas','progress','totalPetugasSHP','chartData2'));
+        return view('admin.pages.dashboard.index', compact('chartData', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'req_kabkot','datakabkot','totalPetugas','progress','totalPetugasSHP'));
     }
 }
