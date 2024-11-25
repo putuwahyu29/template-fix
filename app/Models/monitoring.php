@@ -16,6 +16,11 @@ class monitoring extends Model
     return $this->belongsTo(profilpetugas::class, 'kode_petugas', 'kode_petugas');
 }
 
+    public function masterresponden()
+{
+    return $this->belongsTo(masterresponden::class, 'kode_responden', 'kode_responden');
+}
+
     public function statuspendataan()
 {
     return $this->belongsTo(profilpetugas::class, 'kode_status', 'kode_status');

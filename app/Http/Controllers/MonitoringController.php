@@ -7,6 +7,7 @@ use App\Models\masterkegiatan;
 use App\Models\profilpetugas;
 use Illuminate\Http\Request;
 use App\Models\Trackingmaps;
+use App\Models\monitoring;
 use App\Models\trackingpetugas; 
 use App\Models\mastershp;
 use App\Models\mastershpb;
@@ -282,52 +283,63 @@ public function tracking(Request $request)
 {
     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
 
-    // Ambil kode kegiatan dari request
+    // Ambil parameter filter dari request
     $kode_kegiatan = $request->input('kode_kegiatan', null);
-
-    // Query kegiatan
-    $masterkegiatan = masterkegiatan::all();
-
-    // Ambil kode kabkot dari request
     $kode_kabkot = $request->input('kode_kabkot', null);
-
-    // Query kabupaten/kota
-    $datakabkot = datakabkot::all();
-
-    // Ambil kode petugas dari request
     $kode_petugas = $request->input('kode_petugas', null);
 
-    // Query petugas
-    $profilpetugas = profilpetugas::when($kode_kabkot, function ($query) use ($kode_kabkot) {
-        return $query->where('kode_kabkot', $kode_kabkot); // Filter berdasarkan kode_kabkot
+    // Query data kegiatan dan kabkot
+    $masterkegiatan = MasterKegiatan::all();
+    $datakabkot = DataKabkot::all();
+
+    // Query data petugas
+    $profilpetugas = ProfilPetugas::when($kode_kabkot, function ($query) use ($kode_kabkot) {
+        $query->where('kode_kabkot', $kode_kabkot);
     })->get();
 
-    // Query tracking maps
-    $query = Trackingmaps::query()
-        ->when($request->filled('survei'), function ($q) use ($request) {
-            $q->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
-        })
-        ->when($request->filled('surveyor'), function ($q) use ($request) {
-            $q->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
-        })
-        ->when($kode_kabkot, function ($q) use ($kode_kabkot) {
-            $q->where('kode_kabkot', $kode_kabkot);
-        })
-        ->selectRaw("
-            Nama_Survei, 
-            Username_Surveyor, 
-            SUBSTRING_INDEX(Coordinates, ',', 1) AS latitude, 
-            SUBSTRING_INDEX(Coordinates, ',', -1) AS longitude
-        ");
+    // Query data monitoring dengan relasi profilpetugas
+    $locations = Monitoring::query()
 
-    // Eksekusi query
-    $locations = $query->get();
+    ->join('profil_petugas', 'monitoring.kode_petugas', '=', 'profil_petugas.kode_petugas') // Join ke profilpetugas
+    ->join('status_pendataan', 'monitoring.kode_status', '=', 'status_pendataan.kode_status') // Join ke tabel status_pendataan
+    ->join('master_responden', 'monitoring.kode_responden', '=', 'master_responden.kode_responden') // Join ke tabel master_responden
+
+    ->when($kode_kegiatan, function ($query) use ($kode_kegiatan) {
+        $query->where('monitoring.kode_kegiatan', $kode_kegiatan); // Filter berdasarkan kode_kegiatan
+    })
+    ->when($kode_kabkot, function ($query) use ($kode_kabkot) {
+        $query->where('profil_petugas.kode_kabkot', $kode_kabkot); // Filter berdasarkan kode_kabkot di tabel profilpetugas
+    })
+    ->when($kode_petugas, function ($query) use ($kode_petugas) {
+        $query->where('monitoring.kode_petugas', $kode_petugas); // Filter berdasarkan kode_petugas
+    })
+    ->select([
+        'monitoring.latitude_start',
+        'monitoring.longitude_start',
+        'monitoring.latitude_stop',
+        'monitoring.longitude_stop',
+        'monitoring.kode_petugas',
+        'monitoring.kode_kegiatan',
+        'monitoring.kode_status',
+        'profil_petugas.Nama_Petugas',
+        'status_pendataan.status_pendataan',
+        'master_responden.source_table',
+    ])
+    ->get();
 
     // Kirim data ke view
-    return view('admin.pages.monitoring.tracking', 
-    compact('breadcrumbs', 'masterkegiatan', 'kode_kegiatan','datakabkot', 
-    'kode_kabkot', 'locations','kode_petugas','profilpetugas'));
+    return view('admin.pages.monitoring.tracking', compact(
+        'breadcrumbs',
+        'masterkegiatan',
+        'datakabkot',
+        'profilpetugas',
+        'locations',
+        'kode_kegiatan',
+        'kode_kabkot',
+        'kode_petugas'
+    ));
 }
+
 
     public function filterPetugas(Request $request)
 {

@@ -41,7 +41,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group me-2 my-1">
+                    <div class="form-group me-2 my-1 mx-2">
                     <select name="kode_petugas" id="kode_petugas" class="form-control">
                             <option value="">Pilih Petugas</option>
                             @foreach($profilpetugas as $petugas)
@@ -102,53 +102,53 @@
 
             {{-- Map Script --}}
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Inisialisasi peta dengan lokasi default
-                    var map = L.map('map').setView([-7.2575, 112.7521], 12); // Default: Surabaya
+    document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi peta
+    var map = L.map('map').setView([-7.2575, 112.7521], 12);
 
-                    // Tambahkan tile layer OpenStreetMap
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
+    // Menambahkan tile layer OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-                    // Data lokasi dari Laravel
-                    var locations = @json($locations);
+    // Data lokasi dari server
+    var locations = @json($locations);
 
-                    // Periksa apakah ada data lokasi
-                    if (locations.length > 0) {
-                        var bounds = [];
+    locations.forEach(function(location) {
+        var latStart = parseFloat(location.latitude_start);
+        var lngStart = parseFloat(location.longitude_start);
+        var latStop = parseFloat(location.latitude_stop);
+        var lngStop = parseFloat(location.longitude_stop);
 
-                        // Tambahkan marker untuk setiap lokasi
-                        locations.forEach(function(location) {
-                            // Validasi latitude dan longitude
-                            if (location.latitude && location.longitude) {
-                                var lat = parseFloat(location.latitude);
-                                var lng = parseFloat(location.longitude);
+        // Menambahkan marker untuk titik awal
+        L.marker([latStart, lngStart]).addTo(map)
+            .bindPopup(`
+                <b>Start Point</b><br>
+                Nama Responden: ${location.Nama_Petugas || 'Tidak ditemukan'}<br>
+                Status: ${location.status_pendataan || 'Tidak ditemukan'}<br>
+                Latitude: ${latStart}<br>
+                Longitude: ${lngStart}
+            `);
 
-                                // Tambahkan marker
-                                var marker = L.marker([lat, lng]).addTo(map)
-                                    .bindPopup(`
-                                        <b>Track</b><br>
-                                        Nama Survei: ${location.Nama_Survei}<br>
-                                        Username Surveyor: ${location.Username_Surveyor}<br>
-                                        Latitude: ${lat}<br>
-                                        Longitude: ${lng}
-                                    `);
+        // Menambahkan marker untuk titik akhir
+        L.marker([latStop, lngStop]).addTo(map)
+            .bindPopup(`
+                <b>Stop Point</b><br>
+                Nama Responden: ${location.Nama_Petugas || 'Tidak ditemukan'}<br>
+                Status: ${location.status_pendataan || 'Tidak ditemukan'}<br>
+                Latitude: ${latStop}<br>
+                Longitude: ${lngStop}
+            `);
 
-                                // Masukkan koordinat ke bounds
-                                bounds.push([lat, lng]);
-                            }
-                        });
+        // Menambahkan garis lintasan (polyline)
+        var latlngs = [[latStart, lngStart], [latStop, lngStop]];
+        var polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
 
-                        // Sesuaikan tampilan peta agar mencakup semua marker
-                        if (bounds.length > 0) {
-                            map.fitBounds(bounds);
-                        }
-                    } else {
-                        // Jika tidak ada lokasi, tampilkan pesan di console
-                        console.warn('Tidak ada data lokasi untuk ditampilkan.');
-                    }
-                });
+        // Menyesuaikan peta agar mencakup semua marker
+        map.fitBounds(polyline.getBounds());
+    });
+});
+
             </script>
         </div>
     </div>

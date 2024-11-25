@@ -20,4 +20,9 @@ public function plotingpetugas()
 {
     return $this->belongsTo(plotingpetugas::class, 'kode_petugas', 'kode_petugas');
 }
+
+public function monitoring()
+{
+    return $this->hasMany(monitoring::class, 'kode_petugas', 'kode_petugas');
+}
 }

@@ -9,4 +9,9 @@ class statuspendataan extends Model
 {
     use HasFactory;
     protected $table = 'status_pendataan';
+
+    public function monitoring()
+{
+    return $this->hasMany(monitoring::class, 'kode_status', 'kode_status');
+}
 }

@@ -50,9 +50,9 @@ class DashboardController extends Controller
             
             // Ambil data kabkot dari request
             $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
-        
             $datakabkot = datakabkot::all();
         
+            
             // Mengubah data menjadi format yang cocok untuk chart
             $chartData = [
                 'labels' => $data->pluck('statuspendataan.status_pendataan')->map(function ($label) {
@@ -70,6 +70,10 @@ class DashboardController extends Controller
             ? round(($totalRespondenStatus12 / $totalRespondenPerStatus) * 100, 2) 
             : 0; // Pastikan tidak membagi dengan nol
 
-        return view('admin.pages.dashboard.index', compact('chartData', 'kode_kabkot', 'totalResponden', 'totalRespondenPerStatus','totalRespondenStatus12' , 'req_kabkot','datakabkot','totalPetugas','progress','totalPetugasSHP'));
+        return view('admin.pages.dashboard.index', 
+        compact('chartData', 'kode_kabkot', 'totalResponden', 
+        'totalRespondenPerStatus','totalRespondenStatus12' , 
+        'req_kabkot','datakabkot','totalPetugas','progress',
+        'totalPetugasSHP',));
     }
 }

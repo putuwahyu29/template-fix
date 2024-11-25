@@ -42,7 +42,7 @@
                 <div class="col-4 mb-4">
                     <div class="card">
                         <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
                             <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugasSHP }}</h1>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                 <div class="col-4 mb-4">
                     <div class="card">
                         <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <span class="d-block mb-1 text-center">Jumlah Responden {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
                             <h1 class="card-title mb-2 my-3 text-center">{{ $totalRespondenPerStatus }}</h1>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="col-4 mb-4">
                     <div class="card">
                         <div class="card-body" style="height: 170px">
-                            <span class="d-block mb-1 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
+                            <span class="d-block mb-1 text-center">Jumlah Selesai {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
                             <h1 class="card-title mb-2 my-3 text-center">{{$totalRespondenStatus12}}</h1>
                         </div>
                     </div>
@@ -91,8 +91,8 @@
                 <div class="col-4 mb-4">
                 <div class="card">
                         <div class="card-body" style="height: 215px">
-                            <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota' }}</span>
-                            <h1 class="card-title mt-4 mb-2 text-center">6,45</h1>
+                            <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
+                            <h1 class="card-title mt-4 mb-2 text-center">{{ number_format($totalRespondenPerStatus / $totalPetugasSHP, 2) }}</h1>
                         </div>
                     </div>
                 </div>
