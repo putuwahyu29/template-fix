@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::get('tracking',      [MonitoringController::class, 'tracking'])       ->name('tracking');
         });
 
+    Route::get('tracking/filterPetugas', [MonitoringController::class, 'filterPetugas'])->name('tracking.filterPetugas');
+
     // Route menu Realtime Table
     Route::prefix('/realtimetable')
         ->middleware('role:ROLE_USER')

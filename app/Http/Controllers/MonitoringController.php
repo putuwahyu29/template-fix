@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\datakabkot;
+use App\Models\masterkegiatan;
+use App\Models\profilpetugas;
 use Illuminate\Http\Request;
 use App\Models\Trackingmaps;
 use App\Models\trackingpetugas; 
@@ -211,44 +213,44 @@ class MonitoringController extends Controller
     }
 
 
-    /**
-     * =============================================
-     *  show sample page for susenas
-     * =============================================
-     */
-    public function susenas(Request $request){
+    // /**
+    //  * =============================================
+    //  *  show sample page for susenas
+    //  * =============================================
+    //  */
+    // public function susenas(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Susenas' => null]);
+    //     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Susenas' => null]);
 
-        return view('admin.pages.monitoring.susenas', compact('breadcrumbs'));
+    //     return view('admin.pages.monitoring.susenas', compact('breadcrumbs'));
 
-    }
+    // }
 
-    /**
-     * =============================================
-     *  show sample page for seruti
-     * =============================================
-     */
-    public function seruti(Request $request){
+    // /**
+    //  * =============================================
+    //  *  show sample page for seruti
+    //  * =============================================
+    //  */
+    // public function seruti(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Seruti' => null]);
+    //     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Seruti' => null]);
 
-        return view('admin.pages.monitoring.seruti', compact('breadcrumbs'));
+    //     return view('admin.pages.monitoring.seruti', compact('breadcrumbs'));
 
-    }
+    // }
 
-    /**
-     * =============================================
-     *      show sample page for sakernas
-     * =============================================
-     */
-    public function sakernas(Request $request){
+    // /**
+    //  * =============================================
+    //  *      show sample page for sakernas
+    //  * =============================================
+    //  */
+    // public function sakernas(Request $request){
 
-        $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Sakernas' => null]);
+    //     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Sakernas' => null]);
 
-        return view('admin.pages.monitoring.sakernas', compact('breadcrumbs'));
+    //     return view('admin.pages.monitoring.sakernas', compact('breadcrumbs'));
 
-    }
+    // }
 
     /**
      * =============================================
@@ -276,24 +278,66 @@ class MonitoringController extends Controller
 //     return view('admin.pages.monitoring.tracking', compact('breadcrumbs', 'locations'));
 // }
 
-public function tracking(Request $request){
-
+public function tracking(Request $request)
+{
     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
+
+    // Ambil kode kegiatan dari request
+    $kode_kegiatan = $request->input('kode_kegiatan', null);
+
+    // Query kegiatan
+    $masterkegiatan = masterkegiatan::all();
+
+    // Ambil kode kabkot dari request
+    $kode_kabkot = $request->input('kode_kabkot', null);
+
+    // Query kabupaten/kota
+    $datakabkot = datakabkot::all();
+
+    // Ambil kode petugas dari request
+    $kode_petugas = $request->input('kode_petugas', null);
+
+    // Query petugas
+    $profilpetugas = profilpetugas::when($kode_kabkot, function ($query) use ($kode_kabkot) {
+        return $query->where('kode_kabkot', $kode_kabkot); // Filter berdasarkan kode_kabkot
+    })->get();
+
+    // Query tracking maps
     $query = Trackingmaps::query()
-->when($request->filled('survei'), function ($q) use ($request) {
-    $q->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
-})
-->when($request->filled('surveyor'), function ($q) use ($request) {
-    $q->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
-})
-->selectRaw("*, 
+        ->when($request->filled('survei'), function ($q) use ($request) {
+            $q->where('Nama_Survei', 'LIKE', '%' . $request->input('survei') . '%');
+        })
+        ->when($request->filled('surveyor'), function ($q) use ($request) {
+            $q->where('Username_Surveyor', 'LIKE', '%' . $request->input('surveyor') . '%');
+        })
+        ->when($kode_kabkot, function ($q) use ($kode_kabkot) {
+            $q->where('kode_kabkot', $kode_kabkot);
+        })
+        ->selectRaw("
+            Nama_Survei, 
+            Username_Surveyor, 
             SUBSTRING_INDEX(Coordinates, ',', 1) AS latitude, 
-            SUBSTRING_INDEX(Coordinates, ',', -1) AS longitude");
+            SUBSTRING_INDEX(Coordinates, ',', -1) AS longitude
+        ");
 
-// Retrieve the results
-$locations = $query->get();
-    return view('admin.pages.monitoring.tracking', compact('breadcrumbs'),['locations' => $locations]);
+    // Eksekusi query
+    $locations = $query->get();
 
+    // Kirim data ke view
+    return view('admin.pages.monitoring.tracking', 
+    compact('breadcrumbs', 'masterkegiatan', 'kode_kegiatan','datakabkot', 
+    'kode_kabkot', 'locations','kode_petugas','profilpetugas'));
+}
+
+    public function filterPetugas(Request $request)
+{
+    $kode_kabkot = $request->input('kode_kabkot');
+
+    // Query petugas berdasarkan kode_kabkot
+    $profilpetugas = profilpetugas::where('kode_kabkot', $kode_kabkot)->get();
+
+    // Kembalikan data dalam format JSON
+    return response()->json($profilpetugas);
 }
 
 }

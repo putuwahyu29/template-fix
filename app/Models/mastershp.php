@@ -26,6 +26,11 @@ class mastershp extends Model
     return $this->belongsTo(datakeldes::class, 'kode_keldes', 'kode_keldes');
 }
 
+    public function masterresponden()
+{
+    return $this->belongsTo(masterresponden::class, 'kode_responden', 'kode_responden');
+}
+
     public function kategoriKBLI()
 {
     return $this->belongsTo(kategoriKBLI::class, 'kode_kbli', 'kode_kbli');

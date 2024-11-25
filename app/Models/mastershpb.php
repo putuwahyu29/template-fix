@@ -26,6 +26,11 @@ class mastershpb extends Model
     return $this->belongsTo(datakeldes::class, 'kode_keldes', 'kode_keldes');
 }
 
+    public function masterresponden()
+{
+    return $this->belongsTo(masterresponden::class, 'kode_responden', 'kode_responden');
+}
+
     public function kategoriSHPB()
 {
     return $this->belongsTo(kategoriSHPB::class, 'kode_kategori', 'kode_kategori');
