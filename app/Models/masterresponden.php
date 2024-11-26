@@ -18,11 +18,11 @@ class masterresponden extends Model
 
     public function mastershp()
 {
-    return $this->hasOne(mastershp::class, 'id', 'source_id');
+    return $this->hasOne(mastershp::class, 'kode_responden', 'kode_responden');
 }
 
     public function mastershpb()
 {
-    return $this->hasOne(mastershpb::class, 'id', 'source_id');
+    return $this->hasOne(mastershpb::class, 'kode_responden', 'kode_responden');
 }
 }

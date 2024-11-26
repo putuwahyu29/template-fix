@@ -97,7 +97,7 @@
                         <th scope="col"><input type="checkbox"></th>
                         <th scope="col">Kegiatan</th>
                         <th scope="col">Pengawas</th>
-                        <th scope="col">Tim</th>
+                        <th scope="col">Periode</th>
                         <th scope="col">Progress</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -113,10 +113,16 @@
                                 </div>
                             </div>
                         </td>
-                        <td>#</td>
-                        <td>
-                            <div class="d-flex">
-                                <span class="text-muted">+4</span>
+                        <td><div class="d-flex align-items-center">
+                                <div>
+                                    <div>#</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="d-flex align-items-center">
+                                <div>
+                                    <div>#</div>
+                                </div>
                             </div>
                         </td>
                         <td>
@@ -129,7 +135,7 @@
     <div class="dropdown">
         <button class="btn btn-link text-light dropdown-toggle" type="button" id="dropdownMenuButton=" data-bs-toggle="dropdown" aria-expanded="false">
         </button>
-        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton=">
+        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton=">
             <li>
                 <a class="dropdown-item" href="#">Details</a>
             </li>

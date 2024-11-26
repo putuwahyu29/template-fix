@@ -120,12 +120,19 @@
         var latStop = parseFloat(location.latitude_stop);
         var lngStop = parseFloat(location.longitude_stop);
 
+// Format total waktu
+const totalWaktuFormatted = formatTotalWaktu(location.total_waktu);
+
         // Menambahkan marker untuk titik awal
         L.marker([latStart, lngStart]).addTo(map)
             .bindPopup(`
                 <b>Start Point</b><br>
-                Nama Responden: ${location.Nama_Petugas || 'Tidak ditemukan'}<br>
+                Nama Responden: ${location.nama_perusahaan || 'Tidak ditemukan'}<br>
+                Jam Mulai: ${location.jam_mulai || 'Tidak ditemukan'}<br>
+                Jam Selesai: ${location.jam_selesai || 'Tidak ditemukan'}<br>
+                ${totalWaktuFormatted ? `Total Waktu: ${totalWaktuFormatted}<br>` : ''}
                 Status: ${location.status_pendataan || 'Tidak ditemukan'}<br>
+                Keterangan: ${location.keterangan}<br>
                 Latitude: ${latStart}<br>
                 Longitude: ${lngStart}
             `);
@@ -134,8 +141,12 @@
         L.marker([latStop, lngStop]).addTo(map)
             .bindPopup(`
                 <b>Stop Point</b><br>
-                Nama Responden: ${location.Nama_Petugas || 'Tidak ditemukan'}<br>
+                Nama Responden: ${location.nama_perusahaan || 'Tidak ditemukan'}<br>
+                Jam Mulai: ${location.jam_mulai || 'Tidak ditemukan'}<br>
+                Jam Selesai: ${location.jam_selesai || 'Tidak ditemukan'}<br>
+                ${totalWaktuFormatted ? `Total Waktu: ${totalWaktuFormatted}<br>` : ''}
                 Status: ${location.status_pendataan || 'Tidak ditemukan'}<br>
+                Keterangan: ${location.keterangan}<br>
                 Latitude: ${latStop}<br>
                 Longitude: ${lngStop}
             `);
@@ -149,7 +160,26 @@
     });
 });
 
+function formatTotalWaktu(totalWaktu) {
+    if (!totalWaktu) return ''; // Jika tidak ada data, kembalikan string kosong
+
+    const parts = totalWaktu.split(':'); // Pisahkan string menjadi [jam, menit, detik]
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    const seconds = parseInt(parts[2], 10);
+
+    // Buat array untuk menyimpan komponen waktu yang valid (tidak 0)
+    const formattedParts = [];
+    if (hours > 0) formattedParts.push(`${hours} jam`);
+    if (minutes > 0) formattedParts.push(`${minutes} menit`);
+    if (seconds > 0) formattedParts.push(`${seconds} detik`);
+
+    return formattedParts.join(' '); // Gabungkan bagian yang valid dengan spasi
+}
+
             </script>
+            
+            
         </div>
     </div>
 </div>

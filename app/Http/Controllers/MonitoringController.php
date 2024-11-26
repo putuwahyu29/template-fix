@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\datakabkot;
 use App\Models\masterkegiatan;
+use App\Models\masterresponden;
 use App\Models\profilpetugas;
 use Illuminate\Http\Request;
 use App\Models\Trackingmaps;
@@ -258,27 +259,6 @@ class MonitoringController extends Controller
      *      show sample page for tracking
      * =============================================
      */
-//     public function tracking(Request $request)
-// {
-//     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
-
-//     // Query data tracking
-//     $query = trackingpetugas::query()
-//         ->when($request->filled('survei'), function ($q) use ($request) {
-//             $q->where('kode_kegiatan', 'LIKE', '%' . $request->input('survei') . '%');
-//         })
-//         ->when($request->filled('surveyor'), function ($q) use ($request) {
-//             $q->where('kode_petugas', 'LIKE', '%' . $request->input('surveyor') . '%');
-//         })
-//         ->select(['latitude_start', 'longitude_start', 'latitude_stop', 'longitude_stop', 'kode_petugas', 'kode_kegiatan']);
-
-//     // Ambil data tracking
-//     $locations = $query->get();
-
-//     // Kirim data ke view
-//     return view('admin.pages.monitoring.tracking', compact('breadcrumbs', 'locations'));
-// }
-
 public function tracking(Request $request)
 {
     $breadcrumbs = array_merge($this->mainBreadcrumbs, ['Tracking' => null]);
@@ -299,33 +279,51 @@ public function tracking(Request $request)
 
     // Query data monitoring dengan relasi profilpetugas
     $locations = Monitoring::query()
+        ->join('profil_petugas', 'monitoring.kode_petugas', '=', 'profil_petugas.kode_petugas') // Join ke profilpetugas
+        ->join('status_pendataan', 'monitoring.kode_status', '=', 'status_pendataan.kode_status') // Join ke tabel status_pendataan
+        ->join('master_responden', 'monitoring.kode_responden', '=', 'master_responden.kode_responden') // Join ke tabel master_responden
+        ->when($kode_kegiatan, function ($query) use ($kode_kegiatan) {
+            $query->where('monitoring.kode_kegiatan', $kode_kegiatan); // Filter berdasarkan kode_kegiatan
+        })
+        ->when($kode_kabkot, function ($query) use ($kode_kabkot) {
+            $query->where('profil_petugas.kode_kabkot', $kode_kabkot); // Filter berdasarkan kode_kabkot
+        })
+        ->when($kode_petugas, function ($query) use ($kode_petugas) {
+            $query->where('monitoring.kode_petugas', $kode_petugas); // Filter berdasarkan kode_petugas
+        })
+        ->select([
+            'monitoring.latitude_start',
+            'monitoring.longitude_start',
+            'monitoring.latitude_stop',
+            'monitoring.longitude_stop',
+            'monitoring.kode_petugas',
+            'monitoring.kode_kegiatan',
+            'monitoring.jam_mulai',
+            'monitoring.jam_selesai',
+            'monitoring.total_waktu',
+            'monitoring.keterangan',
+            'monitoring.kode_status',
+            'profil_petugas.Nama_Petugas',
+            'status_pendataan.status_pendataan',
+            'master_responden.source_table',
+            'master_responden.kode_responden',
+        ])
+        ->with(['masterresponden.mastershp', 'masterresponden.mastershpb']) // Eager loading untuk menghindari query N+1
+        ->get();
 
-    ->join('profil_petugas', 'monitoring.kode_petugas', '=', 'profil_petugas.kode_petugas') // Join ke profilpetugas
-    ->join('status_pendataan', 'monitoring.kode_status', '=', 'status_pendataan.kode_status') // Join ke tabel status_pendataan
-    ->join('master_responden', 'monitoring.kode_responden', '=', 'master_responden.kode_responden') // Join ke tabel master_responden
+    // Tambahkan Nama_Perusahaan ke setiap data lokasi
+    foreach ($locations as $location) {
+        $masterResponden = $location->masterResponden;
 
-    ->when($kode_kegiatan, function ($query) use ($kode_kegiatan) {
-        $query->where('monitoring.kode_kegiatan', $kode_kegiatan); // Filter berdasarkan kode_kegiatan
-    })
-    ->when($kode_kabkot, function ($query) use ($kode_kabkot) {
-        $query->where('profil_petugas.kode_kabkot', $kode_kabkot); // Filter berdasarkan kode_kabkot di tabel profilpetugas
-    })
-    ->when($kode_petugas, function ($query) use ($kode_petugas) {
-        $query->where('monitoring.kode_petugas', $kode_petugas); // Filter berdasarkan kode_petugas
-    })
-    ->select([
-        'monitoring.latitude_start',
-        'monitoring.longitude_start',
-        'monitoring.latitude_stop',
-        'monitoring.longitude_stop',
-        'monitoring.kode_petugas',
-        'monitoring.kode_kegiatan',
-        'monitoring.kode_status',
-        'profil_petugas.Nama_Petugas',
-        'status_pendataan.status_pendataan',
-        'master_responden.source_table',
-    ])
-    ->get();
+        // Tentukan Nama_Perusahaan berdasarkan source_table
+        if ($masterResponden->source_table === 'responden_shp') {
+            $location->nama_perusahaan = $masterResponden->mastershp->nama_perusahaan ?? 'Tidak ditemukan';
+        } elseif ($masterResponden->source_table === 'responden_shpb') {
+            $location->nama_perusahaan = $masterResponden->mastershpb->nama_perusahaan ?? 'Tidak ditemukan';
+        } else {
+            $location->nama_perusahaan = 'Tidak ditemukan';
+        }
+    }
 
     // Kirim data ke view
     return view('admin.pages.monitoring.tracking', compact(
@@ -339,6 +337,7 @@ public function tracking(Request $request)
         'kode_petugas'
     ));
 }
+
 
 
     public function filterPetugas(Request $request)
