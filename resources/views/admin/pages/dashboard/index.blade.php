@@ -7,17 +7,8 @@
 @section('main-content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-        <div class="col-lg-12 mb-2 order-0">
-            <div class="card">
-                <h3 class = "my-3 text-center">Survei Harga Produsen (SHP)</h3>
-            </div>
-        </div>
-        <!-- Total Revenue -->
-        <div class="col-12 col-lg-4 order-2 order-md-3 order-lg-2 mb-4">
-            <div class="card">
                         <form action="{{ route('dashboard') }}" method="GET" class="d-flex align-items-center">
-                            <div class="form-group mx-3 my-3">
+                            <div class="form-group mx-2 my-3">
                                 <select name="kode_kabkot" id="kode_kabkot" class="form-control">
                                     <option value="">Semua Kabupaten/Kota</option>
                                     @foreach($datakabkot as $kabkot)
@@ -30,10 +21,23 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Search</button>
                         </form>
+    <div class="row">
+        <div class="col-lg-12 mb-2 order-0">
+            <div class="card">
+                <h3 class = "my-3 text-center">Survei Harga Produsen (SHP)</h3>
             </div>
+        </div>
+        <!-- Total Revenue -->
+        <div class="col-12 col-lg-4 order-2 order-md-3 order-lg-2 mb-4">
             <div class="card my-2">
                 <h5 class="mt-3 mx-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
-                <canvas id="statusChart" width="100" height="20" class="mx-4 me-4 my-2"></canvas>
+                <canvas id="statusChart" width="100" height="25" class="mx-4 me-4 my-5"></canvas>
+            </div>
+            <div class="card">
+                        <div class="card-body">
+                            <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
+                            <h1 class="card-title mt-2 mb-2 text-center">{{ number_format($totalRespondenPerStatus / $totalPetugasSHP, 2) }}</h1>
+                        </div>
             </div>
         </div>
         <!--/ Total Revenue -->
@@ -82,18 +86,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8 mb-4">
+                <div class="col-12 mb-4">
                     <div class="card h-100 text-center">
                         <p class="mt-3">Pencapaian Target Pendataan</p>
                         <div class="mx-5" id="profileReportChart"></div>
-                    </div>
-                </div>
-                <div class="col-4 mb-4">
-                <div class="card">
-                        <div class="card-body" style="height: 215px">
-                            <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
-                            <h1 class="card-title mt-4 mb-2 text-center">{{ number_format($totalRespondenPerStatus / $totalPetugasSHP, 2) }}</h1>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +108,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        // Pie Chart Berdasarkan Status Pendataan
+        // Pie Chart Berdasarkan Status Pendataan SHP
         var ctx1 = document.getElementById('statusChart').getContext('2d');
         var statusChart = new Chart(ctx1, {
             type: 'pie',
@@ -120,6 +116,41 @@
                 labels: {!! json_encode($chartData['labels']) !!},
                 datasets: [{
                     data: {!! json_encode($chartData['data']) !!},
+                    backgroundColor: ['#AED59D','#FF7676', '#F7C98F', '#E2DAD6']
+                }]
+            },
+            options: {
+            plugins: {
+                legend: {
+                    display: false // Menghilangkan legenda di luar
+                },
+                datalabels: {
+                    color: ['#576B80','#576B80', '#576B80', '#576B80'],
+                    formatter: (value, context) => {
+                        // Menghitung total data
+                        let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                        // Menghitung persentase
+                        let percentage = ((value / total) * 100).toFixed(0);
+                        return `${percentage}% ${context.chart.data.labels[context.dataIndex]}`; // Menampilkan label dan persentase
+                    },
+                    font: {
+                        weight: 'bold',
+                        size: 12
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+
+        // Pie Chart Berdasarkan Status Pendataan SHPB
+        var ctx1 = document.getElementById('statusChartshpb').getContext('2d');
+        var statusChartshpb = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: {!! json_encode($chartData2['labels']) !!},
+                datasets: [{
+                    data: {!! json_encode($chartData2['data']) !!},
                     backgroundColor: ['#AED59D','#FF7676', '#F7C98F', '#E2DAD6']
                 }]
             },

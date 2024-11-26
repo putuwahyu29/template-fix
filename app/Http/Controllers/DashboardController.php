@@ -23,11 +23,6 @@ class DashboardController extends Controller
      */
     public function index(Request $request){
         
-            // Hitung jumlah total responden
-            $totalResponden = mastershp::count();
-            // Hitung jumlah total petugas
-            $totalPetugas = daftarpetugas::count();
-        
             $kode_kabkot = $request->input('kode_kabkot', null);
             // Buat query dengan filter berdasarkan kode_kabkot
             $query = mastershp::with('statuspendataan','datakabkot')
@@ -48,11 +43,6 @@ class DashboardController extends Controller
             })->count();
             
             
-            // Ambil data kabkot dari request
-            $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
-            $datakabkot = datakabkot::all();
-        
-            
             // Mengubah data menjadi format yang cocok untuk chart
             $chartData = [
                 'labels' => $data->pluck('statuspendataan.status_pendataan')->map(function ($label) {
@@ -69,11 +59,52 @@ class DashboardController extends Controller
             $progress = $totalRespondenPerStatus > 0 
             ? round(($totalRespondenStatus12 / $totalRespondenPerStatus) * 100, 2) 
             : 0; // Pastikan tidak membagi dengan nol
+            
+            //$kode_kabkot = $request->input('kode_kabkot', null);
+            // Buat query dengan filter berdasarkan kode_kabkot
+            $query2 = mastershpb::with('statuspendataan','datakabkot')
+                ->selectRaw('kode_status, COUNT(*) as count')
+                ->groupBy('kode_status');
+        
+            if ($kode_kabkot) {
+                $query2->where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%');
+            }
+        
+            // Eksekusi query
+            $data2 = $query2->get();
+
+            // Total petugas dengan filter berdasarkan kode_kabkot
+            $totalPetugasSHPB = profilpetugas::where('kode_kabkot', 'LIKE', '%' . $kode_kabkot . '%')
+            ->whereHas('plotingpetugas', function ($query) {
+                $query->where('kode_kegiatan', 1002);
+            })->count();
+            
+            
+            // Mengubah data menjadi format yang cocok untuk chart
+            $chartData2 = [
+                'labels' => $data2->pluck('statuspendataan.status_pendataan')->map(function ($label) {
+                    return $label ?? '-'; // Tampilkan '-' jika null
+                })->toArray(),
+                'data' => $data2->pluck('count')->toArray()
+            ];
+
+            // Hitung total responden berdasarkan keempat status
+            $totalRespondenPerStatusshpb = $data2->sum('count');
+            $totalRespondenStatus12shpb = $data2->whereIn('kode_status', [1, 2])->sum('count');
+            
+            // Hitung persentase progress
+            $shpbprogress = $totalRespondenPerStatusshpb > 0 
+            ? round(($totalRespondenStatus12shpb / $totalRespondenPerStatusshpb) * 100, 2) 
+            : 0; // Pastikan tidak membagi dengan nol
+
+            // Ambil data kabkot dari request
+            $req_kabkot = datakabkot::where('kode_kabkot', $kode_kabkot)->first();
+            $datakabkot = datakabkot::all();
 
         return view('admin.pages.dashboard.index', 
-        compact('chartData', 'kode_kabkot', 'totalResponden', 
+        compact('chartData', 'kode_kabkot', 
         'totalRespondenPerStatus','totalRespondenStatus12' , 
-        'req_kabkot','datakabkot','totalPetugas','progress',
-        'totalPetugasSHP',));
+        'req_kabkot','datakabkot','progress',
+        'totalPetugasSHP','shpbprogress','totalRespondenPerStatusshpb','totalRespondenStatus12shpb','totalPetugasSHPB','chartData2'));
     }
 }
