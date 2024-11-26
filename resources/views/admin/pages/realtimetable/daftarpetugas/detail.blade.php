@@ -79,91 +79,112 @@
                 </div>
 
                 <div class="col-md-8 col-lg-8 bg-dark text-light p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="bg-dark text-white">Projects List</h5>
-                <div class="d-flex">
-                    <select class="form-select me-2" style="width: 70px;">
-                        <option>7</option>
-                        <option>10</option>
-                        <option>15</option>
-                    </select>
-                    <input type="text" class="form-control" placeholder="Search Project">
-                </div>
-            </div>
-
-            <table class="table table-dark table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col"><input type="checkbox"></th>
-                        <th scope="col">Kegiatan</th>
-                        <th scope="col">Pengawas</th>
-                        <th scope="col">Periode</th>
-                        <th scope="col">Progress</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <h5 class="bg-dark text-white">Ringkasan Progress</h5>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <div>#</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><div class="d-flex align-items-center">
-                                <div>
-                                    <div>#</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><div class="d-flex align-items-center">
-                                <div>
-                                    <div>#</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar" role="progressbar" style="width: #" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <small>#%</small>
-                        </td>
-                        <td>
-    <div class="dropdown">
-        <button class="btn btn-link text-light dropdown-toggle" type="button" id="dropdownMenuButton=" data-bs-toggle="dropdown" aria-expanded="false">
-        </button>
-        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton=">
-            <li>
-                <a class="dropdown-item" href="#">Details</a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#">Archive</a>
-            </li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li>
-                <form action="#" method="POST" onsubmit="return confirm('Are you sure you want to delete this survey?');">
-                    @csrf
-                    @method('DELETE')
-                    <button class="dropdown-item text-danger" type="submit">Delete</button>
-                </form>
-            </li>
-        </ul>
-    </div>
-</td>
-
-                    </tr>
-                </tbody>
-            </table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="bg-dark text-white">Projects List</h5>
+        <div class="d-flex">
+            <select class="form-select me-2" style="width: 70px;">
+                <option>7</option>
+                <option>10</option>
+                <option>15</option>
+            </select>
+            <input type="text" class="form-control" placeholder="Search Project">
         </div>
+    </div>
+
+    <h5 class="bg-dark text-white">Ringkasan Progress</h5>
+    <table class="table table-dark table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col"><input type="checkbox"></th>
+                <th scope="col">Kegiatan</th>
+                <th scope="col">PML</th>
+                <th scope="col">Periode</th>
+                <th scope="col">Progress</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Baris Utama -->
+            <tr class="main-row">
+                <td><input type="checkbox"></td>
+                <td>Kegiatan 1</td>
+                <td>{{ $petugas->Pengawas }}</td>
+                <td><select
+                    class="form-select bg-dark text-white"
+                    onchange="updateSubRowPeriod(this)">
+                    <option value="1">Tahun</option>
+                    <option value="2">Semester</option>
+                    <option value="3">Caturwulan</option>
+                    <option value="4">Triwulan</option>
+                    <option value="5">Bulanan</option>
+                    <option value="6">Dua Minggu</option>
+                    <option value="7">Minggu</option>
+                </select></td>
+                <td>
+                    <div class="progress" style="height: 10px; border: 1px solid white;">
+                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>50%</small>
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-light dropdown-toggle" type="button" onclick="toggleSubRow(this)">
+                        <i class="arrow-icon">&#9660;</i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Subrow (Hidden by Default) -->
+            <tr class="sub-row" style="display: none;">
+                <td colspan="6" class="bg-secondary">
+                    <strong>Detail Informasi:</strong>
+                    <table class="table table-dark table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">Responden</th>
+                <th scope="col">Periode</th>
+                <th scope="col">Tanggal Mencacah</th>
+                <th scope="col">Waktu Mencacah</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+                        <tr>
+                            <td>Responden A</td>
+                            <td class="subrow-period"></td>
+                            <td>25 Juni 2024</td>
+                            <td>1 Jam 16 Menit 43 Detik</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Responden B</td>
+                            <td class="subrow-period"></td>
+                            <td>25 Juni 2024</td>
+                            <td>1 Jam 16 Menit 43 Detik</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Responden C</td>
+                            <td class="subrow-period"></td>
+                            <td>25 Juni 2024</td>
+                            <td>1 Jam 16 Menit 43 Detik</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Responden D</td>
+                            <td class="subrow-period"></td>
+                            <td>25 Juni 2024</td>
+                            <td>1 Jam 16 Menit 43 Detik</td>
+                            <td>4</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
             </div>
-
-
-
 
             {{-- ROW FOR ADDITIONAL FUNCTIONALITY BUTTON --}}
             <div class="m-4">
@@ -179,6 +200,49 @@
 
         </div>
     </div>
+    /* Ikon dropdown */
+<style> .arrow-icon {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+</style>
+
+<script>
+    function toggleSubRow(button) {
+    // Cari elemen <tr> utama dan subrow berikutnya
+    const mainRow = button.closest('tr');
+    const subRow = mainRow.nextElementSibling;
+
+    // Toggle tampilkan/hidden subrow
+    if (subRow.style.display === 'none') {
+        subRow.style.display = 'table-row'; // Tampilkan subrow
+        button.querySelector('.arrow-icon').classList.add('rotate'); // Putar ikon
+    } else {
+        subRow.style.display = 'none'; // Sembunyikan subrow
+        button.querySelector('.arrow-icon').classList.remove('rotate'); // Kembalikan ikon
+    }
+}
+
+// Function to update the "Periode" in the subrow
+    function updateSubRowPeriod(selectElement) {
+        const mainRow = selectElement.closest('.main-row');
+        const subRow = mainRow.nextElementSibling;
+
+        // Get the value of the selected period
+        const selectedPeriod = selectElement.value;
+
+        // Update all subrow-period cells with the selected period
+        const periodCells = subRow.querySelectorAll('.subrow-period');
+        periodCells.forEach((cell) => {
+            cell.textContent = selectedPeriod;
+        });
+    }
+</script>
+
 
 @endsection
 
