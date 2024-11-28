@@ -72,6 +72,7 @@
                         <th>Kelurahan/Desa</th>
                         <th>Telepon</th>
                         <th>Kategori Pedagang</th>
+                        <th>Sumber Data</th>
                         <th>Status</th>
                         <th>Catatan</th>
                     </tr>
@@ -87,6 +88,11 @@
                         <td>{{ $data->datakeldes->keldes_name ?? '-' }}</td>
                         <td>{{ $data->no_telepon ?? '-'}}</td>
                         <td>{{ $data->KategoriSHPB->kategori_name ?? '-' }}</td>
+                        <td>@if($data->is_prelist == 1)
+                                Prelist
+                            @else
+                                Tambahan
+                            @endif</td>
                         <td>{{ $data->statuspendataan->status_pendataan ?? '-' }}</td>
                         <td>{{ $data->catatan ?? '-'}}</td>
                     </tr>

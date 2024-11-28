@@ -148,6 +148,7 @@
                 <th scope="col">Status</th>
             </tr>
         </thead>
+        <tbody>
                         <tr>
                             <td>Responden A</td>
                             <td class="subrow-period"></td>
@@ -155,6 +156,7 @@
                             <td>1 Jam 16 Menit 43 Detik</td>
                             <td>1</td>
                         </tr>
+                        </tbody>
                     </table>
                 </td>
             </tr>

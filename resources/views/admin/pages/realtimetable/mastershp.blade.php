@@ -75,6 +75,7 @@
                         <th>Kategori Usaha</th>
                         <th>Kode KBLI</th>
                         <th>Komoditas Utama</th>
+                        <th>Sumber Data</th>
                         <th>Status</th>
                         <th>Catatan</th>
                     </tr>
@@ -92,6 +93,11 @@
                         <td>{{ $data->KategoriLapanganUsaha->lapanganusaha_name ?? '-' }}</td>
                         <td>{{ $data->kategoriKBLI->kelompok_kbli ?? '-' }}</td>
                         <td>{{ $data->komoditas_utama }}</td>
+                        <td>@if($data->is_prelist == 1)
+                                Prelist
+                            @else
+                                Tambahan
+                            @endif</td>
                         <td>{{ $data->statuspendataan->status_pendataan ?? '-' }}</td>
                         <td>{{ $data->catatan }}</td>
                     </tr>
