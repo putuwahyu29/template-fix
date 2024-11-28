@@ -80,7 +80,7 @@
 
                 <div class="col-md-8 col-lg-8 bg-dark text-light p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="bg-dark text-white">Projects List</h5>
+        <h5 class="bg-dark text-white">Ringkasan Progress</h5>
         <div class="d-flex">
             <select class="form-select me-2" style="width: 70px;">
                 <option>7</option>
@@ -90,12 +90,10 @@
             <input type="text" class="form-control" placeholder="Search Project">
         </div>
     </div>
-
-    <h5 class="bg-dark text-white">Ringkasan Progress</h5>
     <table class="table table-dark table-hover align-middle">
         <thead>
             <tr>
-                <th scope="col"><input type="checkbox"></th>
+                <th scope="col">No.</th>
                 <th scope="col">Kegiatan</th>
                 <th scope="col">PML</th>
                 <th scope="col">Periode</th>
@@ -104,11 +102,12 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Baris Utama -->
+        @foreach ($kegiatan as $index => $item)
             <tr class="main-row">
-                <td><input type="checkbox"></td>
-                <td>Kegiatan 1</td>
-                <td>{{ $petugas->Pengawas }}</td>
+                <td>{{ $index + 1 }}</td> <!-- Menampilkan nomor urut -->
+                <td>{{ $item->kegiatan_name }}</td> <!-- Menampilkan nama kegiatan -->
+                <td>{{ $item->Pengawas }}</td> <!-- Menampilkan Pengawas -->
+               
                 <td><select
                     class="form-select bg-dark text-white"
                     onchange="updateSubRowPeriod(this)">
@@ -134,7 +133,7 @@
                     </div>
                 </td>
             </tr>
-
+            
             <!-- Subrow (Hidden by Default) -->
             <tr class="sub-row" style="display: none;">
                 <td colspan="6" class="bg-secondary">
@@ -156,32 +155,13 @@
                             <td>1 Jam 16 Menit 43 Detik</td>
                             <td>1</td>
                         </tr>
-                        <tr>
-                            <td>Responden B</td>
-                            <td class="subrow-period"></td>
-                            <td>25 Juni 2024</td>
-                            <td>1 Jam 16 Menit 43 Detik</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Responden C</td>
-                            <td class="subrow-period"></td>
-                            <td>25 Juni 2024</td>
-                            <td>1 Jam 16 Menit 43 Detik</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>Responden D</td>
-                            <td class="subrow-period"></td>
-                            <td>25 Juni 2024</td>
-                            <td>1 Jam 16 Menit 43 Detik</td>
-                            <td>4</td>
-                        </tr>
                     </table>
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
+    
 </div>
 
             </div>
@@ -201,11 +181,11 @@
         </div>
     </div>
     /* Ikon dropdown */
-<style> .arrow-icon {
+<style> 
+.arrow-icon {
     transition: transform 0.3s ease;
     display: inline-block;
 }
-
 .rotate {
     transform: rotate(180deg);
 }

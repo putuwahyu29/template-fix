@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Pengawasan1;
 use App\Models\tbaru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Tracking; 
+use App\Models\plotingpetugas;
+use App\Models\masterkegiatan;
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
 use App\Models\daftarpetugas;
@@ -399,9 +402,32 @@ class RealtimetableController extends Controller
         return view('admin.pages.realtimetable.trackings', compact('trackings','breadcrumbs'));
     }
 
-    public function detailpetugas($id)
+//     public function detailpetugas($id)
+// {
+//     // Ambil data petugas berdasarkan ID
+//     $petugas = daftarpetugas::with(['datakabkot', 'loginpetugas'])->find($id);
+
+//     // Query data kegiatan
+//     $masterkegiatan = MasterKegiatan::all();
+
+//     // Jika data tidak ditemukan, tampilkan error 404
+//     if (!$petugas) {
+//         abort(404, 'Data petugas tidak ditemukan.');
+//     }
+
+//     // Breadcrumbs untuk halaman
+//     $breadcrumbs = array_merge($this->mainBreadcrumbs, [
+//         'Daftar Petugas' => route('daftarpetugas'),
+//         'Detail Petugas' => null,
+//     ]);
+
+//     // Tampilkan halaman detail
+//     return view('admin.pages.realtimetable.daftarpetugas.detail', compact('breadcrumbs', 'petugas'));
+// }
+
+public function detailpetugas($id)
 {
-    // Ambil data petugas berdasarkan ID
+    // Ambil data petugas berdasarkan ID dengan relasi terkait
     $petugas = daftarpetugas::with(['datakabkot', 'loginpetugas'])->find($id);
 
     // Jika data tidak ditemukan, tampilkan error 404
@@ -409,15 +435,39 @@ class RealtimetableController extends Controller
         abort(404, 'Data petugas tidak ditemukan.');
     }
 
+    // Ambil semua kegiatan yang diikuti petugas terkait
+    $kegiatan = PlotingPetugas::query()
+        ->join('master_kegiatan', 'ploting_petugas.kode_kegiatan', '=', 'master_kegiatan.kode_kegiatan')
+        ->join('profil_petugas', 'ploting_petugas.kode_petugas', '=', 'profil_petugas.kode_petugas')
+        ->where('ploting_petugas.kode_petugas', $petugas->kode_petugas)
+        ->distinct() // Hindari duplikasi data
+        ->select('ploting_petugas.*', 'master_kegiatan.kegiatan_name', 'profil_petugas.Pengawas')
+        ->groupBy('ploting_petugas.kode_kegiatan')
+        ->get();
+
+    // Fetch progress berdasarkan tabel ploting dan monitoring
+
+
+    // Fetch responden per survei
+
+
+    // Fetch data PML (Pengawas) berdasarkan petugas
+    $pml = daftarpetugas::where('id', $id)->pluck('Pengawas')->first();  // Ambil Pengawas pertama
+    // $kegiatan = $query1->paginate(10);
+
     // Breadcrumbs untuk halaman
     $breadcrumbs = array_merge($this->mainBreadcrumbs, [
         'Daftar Petugas' => route('daftarpetugas'),
         'Detail Petugas' => null,
     ]);
 
-    // Tampilkan halaman detail
-    return view('admin.pages.realtimetable.daftarpetugas.detail', compact('breadcrumbs', 'petugas'));
+    // Tampilkan halaman detail dengan data yang dibutuhkan
+    return view('admin.pages.realtimetable.daftarpetugas.detail', 
+    compact('breadcrumbs', 'petugas', 'pml', 'kegiatan'));
 }
+
+
+
 
     public function condelPetugas($id)
 {
