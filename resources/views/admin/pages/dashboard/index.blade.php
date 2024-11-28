@@ -28,13 +28,13 @@
             </div>
         </div>
         <!-- Total Revenue -->
-        <div class="col-12 col-lg-4 order-2 order-md-3 order-lg-2 mb-4">
-            <div class="card my-2">
-                <h5 class="mt-3 mx-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
-                <canvas id="statusChart" width="100" height="25" class="mx-4 me-4 my-5"></canvas>
-            </div>
+        <div class="col-12 col-lg-4 order-2 order-md-3 order-lg-2">
             <div class="card">
-                        <div class="card-body">
+                <h5 class="mt-3 mx-3 text-center">Persentase Responden Berdasarkan Status Pendataan</h5>
+                <canvas id="statusChart" width="100" height="25" class="mx-4 me-4 my-3"></canvas>
+            </div>
+            <div class="card my-4">
+                        <div class="card-body"style="height: 180px">
                             <span class="d-block mb-1 text-center">Rasio Jumlah Responden dengan Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
                             <h1 class="card-title mt-2 mb-2 text-center">{{ number_format($totalRespondenPerStatus / $totalPetugasSHP, 2) }}</h1>
                         </div>
@@ -47,7 +47,7 @@
                     <div class="card">
                         <div class="card-body" style="height: 170px">
                             <span class="d-block mb-1 text-center">Jumlah Petugas {{ $req_kabkot ? $req_kabkot->kabkot_name : 'Semua Kabupaten/Kota di Jawa Timur' }}</span>
-                            <h1 class="card-title text-nowrap mb-2 my-3 text-center">{{ $totalPetugasSHP }}</h1>
+                            <h1 class="card-title text-nowrap mb-2 my-2 text-center">{{ $totalPetugasSHP }}</h1>
                         </div>
                     </div>
                 </div>
@@ -86,10 +86,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mb-4">
+                <div class="col-12 mb-4">                    
                     <div class="card h-100 text-center">
-                        <p class="mt-3">Pencapaian Target Pendataan</p>
-                        <div class="mx-5" id="profileReportChart"></div>
+                    <div class="row g-1">
+                        <h4 class="mt-3">Pencapaian Target Pendataan</h4>
+                        <div class="col-8">
+                            <canvas id="targetChart" width="100" height="50" class="mx-2"></canvas>
+                        </div>
+                        <div class="col-4">
+                            <form action="{{ route('dashboard') }}" method="GET" class="d-flex align-items-center my-5">
+                                <div class="form-group mx-2 my-1">
+                                    <input type="text" id="date_range" name="date_range" class="form-control" placeholder="Rentang Pendataan" value="{{ request('date_range') }}" style="background-color: rgba(0, 0, 0, 0);">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-3">Search</button>
+                            </form>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -107,6 +119,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
     <script>
         // Pie Chart Berdasarkan Status Pendataan SHP
         var ctx1 = document.getElementById('statusChart').getContext('2d');
@@ -143,39 +157,52 @@
         plugins: [ChartDataLabels]
     });
 
-        // Pie Chart Berdasarkan Status Pendataan SHPB
-        var ctx1 = document.getElementById('statusChartshpb').getContext('2d');
-        var statusChartshpb = new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: {!! json_encode($chartData2['labels']) !!},
-                datasets: [{
-                    data: {!! json_encode($chartData2['data']) !!},
-                    backgroundColor: ['#AED59D','#FF7676', '#F7C98F', '#E2DAD6']
-                }]
-            },
-            options: {
+
+    // Bar Chart Berdasarkan Kategori SHPB
+    const ctx2 = document.getElementById('targetChart').getContext('2d');
+    const progress = @json($progress); // Pastikan variabel progress dari PHP tersedia di JavaScript
+    const target = @json($target); // Target progress berdasarkan tanggal
+
+    const chart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Progress'], // Label untuk bar
+            datasets: [{
+                label: 'Persentase Progress',
+                data: [progress], // Data dari controller
+                backgroundColor: 'rgba(75, 192, 192, 0.6)', // Warna bar
+                borderColor: 'rgba(75, 192, 192, 1)', // Warna border
+                borderWidth: 1,
+            }]
+        },
+        options: {
             plugins: {
-                legend: {
-                    display: false // Menghilangkan legenda di luar
-                },
-                datalabels: {
-                    color: ['#576B80','#576B80', '#576B80', '#576B80'],
-                    formatter: (value, context) => {
-                        // Menghitung total data
-                        let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-                        // Menghitung persentase
-                        let percentage = ((value / total) * 100).toFixed(0);
-                        return `${percentage}% ${context.chart.data.labels[context.dataIndex]}`; // Menampilkan label dan persentase
-                    },
-                    font: {
-                        weight: 'bold',
-                        size: 12
+                annotation: {
+                    annotations: {
+                        horizontalLine: {
+                            type: 'line',
+                            yMin: 30, // Garis di y=50
+                            yMax: 30, // Tetap di y=50
+                            borderColor: 'blue', // Warna garis
+                            borderWidth: 2, // Ketebalan garis
+                            label: {
+                                enabled: true,
+                                content: 'Target 50%', // Label garis
+                                position: 'center', // Posisi label di tengah
+                                backgroundColor: 'rgba(0, 255, 0, 0.2)', // Warna latar label
+                                color: 'red', // Warna teks label
+                            }
+                        }
                     }
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100 // Skala maksimal tetap 100
+                }
             }
-        },
-        plugins: [ChartDataLabels]
+        }
     });
     
     flatpickr("#date_range", {

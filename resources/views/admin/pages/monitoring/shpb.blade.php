@@ -100,7 +100,7 @@
         plugins: [ChartDataLabels]
     });
 
-        // Pie Chart Berdasarkan Kategori SHPB
+        // Bar Chart Berdasarkan Kategori SHPB
         var ctx2 = document.getElementById('kategoriChart').getContext('2d');
         var kategoriChart = new Chart(ctx2, {
             type: 'bar',

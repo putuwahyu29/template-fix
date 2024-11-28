@@ -12,6 +12,8 @@ use App\Models\mastershpb;
 use App\Models\daftarpetugas;
 use App\Models\KategoriLapanganUsaha;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class DashboardController extends Controller
 {
@@ -60,6 +62,33 @@ class DashboardController extends Controller
             ? round(($totalRespondenStatus12 / $totalRespondenPerStatus) * 100, 2) 
             : 0; // Pastikan tidak membagi dengan nol
             
+            $chartDatatarget = [
+                'labels' => $data->pluck('statuspendataan.status_pendataan')->map(function ($label) {
+                    return $label ?? '-'; // Tampilkan '-' jika null
+                })->toArray(),
+                'data' => $data->pluck('count')->toArray()
+            ];
+
+            // Tangkap rentang tanggal
+            $dateRange = $request->input('date_range');
+            $days = 0; // Default jika rentang tanggal tidak ada
+
+            if ($dateRange) {
+                // Pisahkan tanggal (dengan asumsi formatnya: "YYYY-MM-DD to YYYY-MM-DD")
+                $dates = explode(' to ', $dateRange);
+                if (count($dates) === 2) {
+                    $startDate = Carbon::parse($dates[0]);
+                    $endDate = Carbon::parse($dates[1]);
+
+                    // Hitung jumlah hari
+                    $days = $endDate->diffInDays($startDate) + 1; // Tambahkan 1 agar inklusif
+                }
+            }
+
+            // Hitung persentase berdasarkan formula
+            $target = $days > 0 ? (10 / $days) * 100 : 0; 
+            //dd($target);
+
             //$kode_kabkot = $request->input('kode_kabkot', null);
             // Buat query dengan filter berdasarkan kode_kabkot
             $query2 = mastershpb::with('statuspendataan','datakabkot')
@@ -105,6 +134,7 @@ class DashboardController extends Controller
         compact('chartData', 'kode_kabkot', 
         'totalRespondenPerStatus','totalRespondenStatus12' , 
         'req_kabkot','datakabkot','progress',
-        'totalPetugasSHP','shpbprogress','totalRespondenPerStatusshpb','totalRespondenStatus12shpb','totalPetugasSHPB','chartData2'));
+        'totalPetugasSHP','shpbprogress','totalRespondenPerStatusshpb','totalRespondenStatus12shpb',
+        'totalPetugasSHPB','chartData2','chartDatatarget','target'));
     }
 }
