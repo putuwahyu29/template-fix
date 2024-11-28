@@ -111,13 +111,13 @@
                 <td><select
                     class="form-select bg-dark text-white"
                     onchange="updateSubRowPeriod(this)">
-                    <option value="1">Tahun</option>
-                    <option value="2">Semester</option>
-                    <option value="3">Caturwulan</option>
-                    <option value="4">Triwulan</option>
-                    <option value="5">Bulanan</option>
-                    <option value="6">Dua Minggu</option>
-                    <option value="7">Minggu</option>
+                    <option value="Tahun 2024">Tahun</option>
+                    <option value="Semester Ganjil">Semester</option>
+                    <option value="Caturwulan 1">Caturwulan</option>
+                    <option value="Triwulan 1">Triwulan</option>
+                    <option value="Bulan Januari">Bulanan</option>
+                    <option value="Dua Mingguan">Dua Minggu</option>
+                    <option value="Mingguan">Minggu</option>
                 </select></td>
                 <td>
                     <div class="progress" style="height: 10px; border: 1px solid white;">
@@ -135,31 +135,59 @@
             </tr>
             
             <!-- Subrow (Hidden by Default) -->
-            <tr class="sub-row" style="display: none;">
-                <td colspan="6" class="bg-secondary">
-                    <strong>Detail Informasi:</strong>
-                    <table class="table table-dark table-hover align-middle">
-        <thead>
-            <tr>
-                <th scope="col">Responden</th>
-                <th scope="col">Periode</th>
-                <th scope="col">Tanggal Mencacah</th>
-                <th scope="col">Waktu Mencacah</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
+@foreach ($kegiatan as $keg)
+<tr class="sub-row" style="display: none;">
+    <td colspan="6" class="bg-secondary">
+        <strong>Detail Informasi:</strong>
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Responden</th>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Tanggal Mencacah</th>
+                    <th scope="col">Waktu Mencacah</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ($keg->kode_kegiatan == 1001) <!-- Untuk SHP -->
+                    @forelse ($respondenSHP as $resp)
                         <tr>
-                            <td>Responden A</td>
+                            <td>{{ $resp->nama_perusahaan ?? 'N/A' }}</td>
                             <td class="subrow-period"></td>
-                            <td>25 Juni 2024</td>
-                            <td>1 Jam 16 Menit 43 Detik</td>
-                            <td>1</td>
+                            <td>{{ $resp->tanggal_mencacah }}</td>
+                            <td>{{ $resp->waktu_mencacah }}</td>
+                            <td>{{ $resp->status }}</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">Tidak ada data responden untuk SHP.</td>
+                        </tr>
+                    @endforelse
+                @elseif ($keg->kode_kegiatan == 1002) <!-- Untuk SHPB -->
+                    @forelse ($respondenSHPB as $resp)
+                        <tr>
+                            <td>{{ $resp->nama_perusahaan ?? 'N/A' }}</td>
+                            <td class="subrow-period"></td>
+                            <td>{{ $resp->tanggal_mencacah }}</td>
+                            <td>{{ $resp->waktu_mencacah }}</td>
+                            <td>{{ $resp->status }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">Tidak ada data responden untuk SHPB.</td>
+                        </tr>
+                    @endforelse
+                @else
+                    <tr>
+                        <td colspan="5">Kode kegiatan tidak dikenali.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </td>
+</tr>
+@endforeach
             @endforeach
         </tbody>
     </table>

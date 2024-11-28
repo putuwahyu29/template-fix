@@ -11,6 +11,7 @@ use App\Models\plotingpetugas;
 use App\Models\masterkegiatan;
 use App\Models\sample2024; 
 use App\Models\Pengawasan; 
+use App\Models\monitoring;
 use App\Models\daftarpetugas;
 use App\Models\loginpetugas; 
 use App\Models\mastershp;
@@ -445,9 +446,65 @@ public function detailpetugas($id)
         ->groupBy('ploting_petugas.kode_kegiatan')
         ->get();
 
-    // Fetch progress berdasarkan tabel ploting dan monitoring
+    
+
+    // Ambil data responden yang terkait dengan SHP (kode_kegiatan 1001)
+$respondenSHP = monitoring::query()
+->join('master_responden', 'monitoring.kode_responden', '=', 'master_responden.kode_responden')
+->leftJoin('responden_shp', function ($join) {
+    $join->on('master_responden.source_table', '=', DB::raw("'responden_shp'"))
+        ->on('master_responden.kode_responden', '=', 'responden_shp.kode_responden');
+})
+->join('status_pendataan', 'monitoring.kode_status', '=', 'status_pendataan.kode_status')
+->select(
+    'monitoring.*',
+    'responden_shp.nama_perusahaan',
+    'status_pendataan.status_pendataan AS status',
+    DB::raw("DATE_FORMAT(monitoring.jam_selesai, '%d %M %Y') AS tanggal_mencacah"),
+    DB::raw("
+        CONCAT(
+            IF(HOUR(monitoring.total_waktu) > 0, CONCAT(HOUR(monitoring.total_waktu), ' Jam '), ''),
+            IF(MINUTE(monitoring.total_waktu) > 0, CONCAT(MINUTE(monitoring.total_waktu), ' Menit '), ''),
+            IF(SECOND(monitoring.total_waktu) > 0, CONCAT(SECOND(monitoring.total_waktu), ' Detik'), '')
+        ) AS waktu_mencacah
+    ")
+)
+->where('monitoring.kode_petugas', $petugas->kode_petugas)
+->where('monitoring.kode_kegiatan', 1001) // Filter hanya untuk SHP
+->orderByRaw("FIELD(status_pendataan.status_pendataan, '1', '2') DESC") // Prioritaskan status 1 dan 2
+->groupBy('responden_shp.nama_perusahaan') // Menghapus duplikat nama perusahaan
+->get();
+
+// Ambil data responden yang terkait dengan SHPB (kode_kegiatan 1002)
+$respondenSHPB = monitoring::query()
+->join('master_responden', 'monitoring.kode_responden', '=', 'master_responden.kode_responden')
+->leftJoin('responden_shpb', function ($join) {
+    $join->on('master_responden.source_table', '=', DB::raw("'responden_shpb'"))
+        ->on('master_responden.kode_responden', '=', 'responden_shpb.kode_responden');
+})
+->join('status_pendataan', 'monitoring.kode_status', '=', 'status_pendataan.kode_status')
+->select(
+    'monitoring.*',
+    'responden_shpb.nama_perusahaan',
+    'status_pendataan.status_pendataan AS status',
+    DB::raw("DATE_FORMAT(monitoring.jam_selesai, '%d %M %Y') AS tanggal_mencacah"),
+    DB::raw("
+        CONCAT(
+            IF(HOUR(monitoring.total_waktu) > 0, CONCAT(HOUR(monitoring.total_waktu), ' Jam '), ''),
+            IF(MINUTE(monitoring.total_waktu) > 0, CONCAT(MINUTE(monitoring.total_waktu), ' Menit '), ''),
+            IF(SECOND(monitoring.total_waktu) > 0, CONCAT(SECOND(monitoring.total_waktu), ' Detik'), '')
+        ) AS waktu_mencacah
+    ")
+)
+->where('monitoring.kode_petugas', $petugas->kode_petugas)
+->where('monitoring.kode_kegiatan', 1002) // Filter hanya untuk SHPB
+->orderByRaw("FIELD(status_pendataan.status_pendataan, '1', '2') DESC") // Prioritaskan status 1 dan 2
+->groupBy('responden_shpb.nama_perusahaan') // Menghapus duplikat nama perusahaan
+->get();
 
 
+
+        
     // Fetch responden per survei
 
 
@@ -462,8 +519,7 @@ public function detailpetugas($id)
     ]);
 
     // Tampilkan halaman detail dengan data yang dibutuhkan
-    return view('admin.pages.realtimetable.daftarpetugas.detail', 
-    compact('breadcrumbs', 'petugas', 'pml', 'kegiatan'));
+    return view('admin.pages.realtimetable.daftarpetugas.detail', compact('breadcrumbs', 'petugas', 'pml', 'kegiatan', 'respondenSHP', 'respondenSHPB'));
 }
 
 

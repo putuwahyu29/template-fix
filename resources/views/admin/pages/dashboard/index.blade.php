@@ -129,7 +129,7 @@
                 datasets: [{
                     data: {!! json_encode($chartData['data']) !!},
                     backgroundColor: ['#AED59D', '#FF7676', '#F7C98F', '#E2DAD6']
-                }]
+                }]        
             }
         });
 
