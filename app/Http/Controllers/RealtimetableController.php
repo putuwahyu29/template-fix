@@ -502,8 +502,6 @@ $respondenSHPB = monitoring::query()
 ->groupBy('responden_shpb.nama_perusahaan') // Menghapus duplikat nama perusahaan
 ->get();
 
-
-
         
     // Fetch responden per survei
 
