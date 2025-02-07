@@ -16,13 +16,13 @@
         'subMenuData' => null,
     ])
 
-@include('admin.components.sidebar.item', [
-        'menuId' => 'menu-pengawasan',
-        'menuText' => 'Pengawasan',
-        'menuUrl' => route('pengawasan'),
-        'menuIcon' => 'bx bxs-binoculars',
-        'subMenuData' => null,
-    ])
+{{--@include('admin.components.sidebar.item', [--}}
+{{--        'menuId' => 'menu-pengawasan',--}}
+{{--        'menuText' => 'Pengawasan',--}}
+{{--        'menuUrl' => route('pengawasan'),--}}
+{{--        'menuIcon' => 'bx bxs-binoculars',--}}
+{{--        'subMenuData' => null,--}}
+{{--    ])--}}
 
 @include('admin.components.sidebar.item', [
         'menuId' => 'menu-trackings',

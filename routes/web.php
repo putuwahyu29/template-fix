@@ -43,14 +43,14 @@ Route::middleware('auth')->group(function () {
     // NO FUNCTIONALITY JUST FOR SOME DASHBOARD / CRUD PAGES REFERENCE
     // Route::middleware('verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     // Route menu monitoring
     Route::prefix('/monitoring')
         ->middleware('role:ROLE_USER')
         ->group(function () {
     Route::get('shp_b',         [MonitoringController::class, 'shpb'])           ->name('shpb');
     Route::get('SHP',           [MonitoringController::class, 'shp'])            ->name('shp');
-    Route::get('pengawasan',    [MonitoringController::class, 'pengawasan'])     ->name('pengawasan');
+//    Route::get('pengawasan',    [MonitoringController::class, 'pengawasan'])     ->name('pengawasan');
     Route::get('susenas',       [MonitoringController::class, 'susenas'])        ->name('susenas');
     Route::get('seruti',        [MonitoringController::class, 'seruti'])         ->name('seruti');
     Route::get('sakernas',      [MonitoringController::class, 'sakernas'])       ->name('sakernas');
@@ -73,21 +73,21 @@ Route::middleware('auth')->group(function () {
      Route::get('/daftarpetugas/edit/{id}',                 [RealtimetableController::class, 'editPetugas'])    ->name('daftarpetugas.edit');
      Route::get('/daftarpetugas/delete/{id}',               [RealtimetableController::class, 'condelPetugas'])  ->name('daftarpetugas.delete');
      Route::delete('/daftarpetugas/delete/{id}',            [RealtimetableController::class, 'deletePetugas'])  ->name('daftarpetugas.deletePetugas');
-    Route::get('/pengawasans',                              [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
+//    Route::get('/pengawasans',                              [RealtimetableController::class, 'pengawasans'])    ->name('pengawasans');
     Route::get('/pengawasan1',                              [RealtimetableController::class, 'pengawasan1'])    ->name('pengawasan1');
     Route::get('/sampel2024',                               [RealtimetableController::class, 'sampel2024'])     ->name('sampel2024');
     Route::get('/tbaru',                                    [RealtimetableController::class, 'tbaru'])          ->name('tbaru');
-    Route::get('/trackings',                                [RealtimetableController::class, 'trackings'])      ->name('trackings');
+//    Route::get('/trackings',                                [RealtimetableController::class, 'trackings'])      ->name('trackings'); dinonaktifkan
         });
 
     // Route menu Realtime Table
-    Route::prefix('/menu-tambahan')
-        ->middleware('role:ROLE_USER')
-        ->group(function () {
-    Route::get('/plot',                                   [MenutambahanController::class, 'plot'])          ->name('plot');
-    Route::get('/ringkasan',                              [MenutambahanController::class, 'ringkasan'])     ->name('ringkasan');
-});
-    
+//    Route::prefix('/menu-tambahan')
+//        ->middleware('role:ROLE_USER')
+//        ->group(function () {
+//    Route::get('/plot',                                   [MenutambahanController::class, 'plot'])          ->name('plot');
+//    Route::get('/ringkasan',                              [MenutambahanController::class, 'ringkasan'])     ->name('ringkasan');
+//});
+
     //SAMPLE UI
     Route::prefix('/sample')
         ->middleware('role:ROLE_USER')
@@ -102,10 +102,10 @@ Route::middleware('auth')->group(function () {
 
 
     //This One is for Demo Middleware Routing, so that only who has role can access it
-    Route::get('/admin-page',           [AdminController::class, 'index'])      ->name('admin-page')        ->middleware('role:ROLE_ADMIN');
-    Route::get('/operator-page',        [OperatorController::class, 'index'])   ->name('operator-page')     ->middleware('role:ROLE_OPERATOR');
-    Route::get('/supervisor-page',      [SupervisorController::class, 'index']) ->name('supervisor-page')   ->middleware('role:ROLE_SUPERVISOR');
-    Route::get('/user-page',            [UserController::class, 'userOnlyPage'])->name('user-page')         ->middleware('role:ROLE_USER');
+//    Route::get('/admin-page',           [AdminController::class, 'index'])      ->name('admin-page')        ->middleware('role:ROLE_ADMIN');
+//    Route::get('/operator-page',        [OperatorController::class, 'index'])   ->name('operator-page')     ->middleware('role:ROLE_OPERATOR');
+//    Route::get('/supervisor-page',      [SupervisorController::class, 'index']) ->name('supervisor-page')   ->middleware('role:ROLE_SUPERVISOR');
+//    Route::get('/user-page',            [UserController::class, 'userOnlyPage'])->name('user-page')         ->middleware('role:ROLE_USER');
 
     // Only users with the 'ROLE_ADMIN' can access this route group
     Route::prefix('/admin')
@@ -136,13 +136,13 @@ Route::middleware('auth')->group(function () {
         });
 
 
-    Route::prefix('/demo')
-        ->middleware('role:ROLE_USER')
-        ->group(function () {
-            // Only users which has the 'ROLE_USER'can access this route
-            Route::get('/', [DemoController::class, 'index'])->name('demo');
-            Route::get('/print', [DemoController::class, 'print'])->name('demo.print');
-        });
+//    Route::prefix('/demo')
+//        ->middleware('role:ROLE_USER')
+//        ->group(function () {
+//            // Only users which has the 'ROLE_USER'can access this route
+//            Route::get('/', [DemoController::class, 'index'])->name('demo');
+//            Route::get('/print', [DemoController::class, 'print'])->name('demo.print');
+//        });
 });
 
 

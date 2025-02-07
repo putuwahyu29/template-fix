@@ -20,17 +20,17 @@
         'menuId' => 'menu-daftarpetugas',
         'menuText' => 'Daftar Petugas',
         'menuUrl' => route('daftarpetugas'),
-        'menuIcon' => 'bx bx-list-ul', 
+        'menuIcon' => 'bx bx-list-ul',
         'subMenuData' => null,
     ])
 
-@include('admin.components.sidebar.item', [
-        'menuId' => 'menu-pengawasans',
-        'menuText' => 'Pengawasan',
-        'menuUrl' => route('pengawasans'),
-        'menuIcon' => 'bx bxs-binoculars',
-        'subMenuData' => null,
-    ])
+{{--@include('admin.components.sidebar.item', [--}}
+{{--        'menuId' => 'menu-pengawasans',--}}
+{{--        'menuText' => 'Pengawasan',--}}
+{{--        'menuUrl' => route('pengawasans'),--}}
+{{--        'menuIcon' => 'bx bxs-binoculars',--}}
+{{--        'subMenuData' => null,--}}
+{{--    ])--}}
 
 <!-- @include('admin.components.sidebar.item', [
         'menuId' => 'menu-pengawasan1',
@@ -56,10 +56,10 @@
         'subMenuData' => null,
     ]) -->
 
-@include('admin.components.sidebar.item', [
-        'menuId' => 'menu-trackings',
-        'menuText' => 'Tracking',
-        'menuUrl' => route('trackings'),
-        'menuIcon' => 'bx bx-map-pin',
-        'subMenuData' => null,
-    ])
+{{--@include('admin.components.sidebar.item', [--}}
+{{--        'menuId' => 'menu-trackings',--}}
+{{--        'menuText' => 'Tracking',--}}
+{{--        'menuUrl' => route('trackings'),--}}
+{{--        'menuIcon' => 'bx bx-map-pin',--}}
+{{--        'subMenuData' => null,--}}
+{{--    ])--}}
